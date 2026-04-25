@@ -1,0 +1,1396 @@
+<!-- KB CFO Command Center — v3 full rebuild
+     All numbers verified against QBO P&L PDF, Balance Sheet, GL, Dashboard.xlsx, KB_Income.xlsx, Time Doctor CSV.
+     Tab 1: CFO Summary | Tab 2: Monthly P&L
+-->
+<div id="kb-app">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+#kb-app{--bg:#F7F6F5;--card:#fff;--purple:#7B61FF;--ps:#EDE9FF;--pd:#5A3FD9;--navy:#1A1F36;--ink:#2A2F45;--mu:#6B7188;--ln:#E8E6E3;--lns:#F0EEEB;--gr:#2F9E6B;--grs:#E3F5EC;--am:#C98A1A;--ams:#FBF1DC;--rd:#C94A4A;--rds:#FBE5E5;--dk:#10152A;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--bg);margin:0;padding:0;-webkit-font-smoothing:antialiased}
+#kb-app *{box-sizing:border-box}
+#kb-app .mono{font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+
+/* ─── TOPBAR ─── */
+#kb-app .topbar{background:var(--card);border-bottom:1px solid var(--ln);padding:13px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+#kb-app .brand{display:flex;align-items:center;gap:10px}
+#kb-app .brand-mark{width:28px;height:28px;background:#7B61FF33;border-radius:6px;display:grid;place-items:center}
+#kb-app .brand-mark svg{width:18px;height:18px}
+#kb-app .brand-text{font-weight:700;font-size:15px;letter-spacing:-.01em}
+#kb-app .brand-text .bp{color:#A68BFF}
+#kb-app .brand-sub{font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.12em;margin-top:1px}
+#kb-app .status-pills{display:flex;gap:12px;align-items:center;font-size:12px}
+#kb-app .status-pill{display:flex;align-items:center;gap:5px}
+#kb-app .sdot{width:7px;height:7px;border-radius:50%;display:inline-block}
+#kb-app .sdot.green{background:#6EE7A0}
+#kb-app .sdot.amber{background:#F4C842}
+#kb-app .top-btns{display:flex;gap:8px}
+#kb-app .tbtn{padding:7px 14px;border-radius:7px;font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;border:none;transition:opacity .15s}
+#kb-app .tbtn.primary{background:var(--purple);color:#fff}
+#kb-app .tbtn.ghost{background:transparent;color:var(--mu);border:1px solid var(--ln)}
+#kb-app .tbtn:hover{opacity:.85}
+
+/* ─── SOURCE BAR ─── */
+#kb-app .srcbar{background:var(--card);border-bottom:1px solid var(--ln);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#kb-app .src-chips{display:flex;gap:10px;align-items:center;font-size:12px}
+#kb-app .src-chip{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:7px;border:1px solid var(--ln);font-size:11px;font-weight:500}
+#kb-app .src-chip .ci{width:18px;height:18px;border-radius:4px;display:grid;place-items:center;font-size:9px;font-weight:700;color:#fff}
+#kb-app .src-chip .ci.qbo{background:#2DA771}
+#kb-app .src-chip .ci.td{background:#F4C842;color:#333}
+#kb-app .src-date{color:var(--mu);font-size:10px}
+#kb-app .src-warn{color:var(--am);font-size:11px;cursor:pointer}
+#kb-app .month-pills{display:inline-flex;background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:3px}
+#kb-app .mpill{padding:5px 12px;border-radius:6px;font-size:11px;font-weight:500;color:var(--mu);cursor:pointer;border:none;background:transparent;font-family:inherit;transition:all .12s}
+#kb-app .mpill.active{background:var(--navy);color:#fff}
+
+/* ─── TAB NAV ─── */
+#kb-app .tabnav{background:var(--card);border-bottom:1px solid var(--ln);padding:0 28px;display:flex;gap:0}
+#kb-app .tnav{padding:13px 18px;font-size:13px;font-weight:500;color:var(--mu);cursor:pointer;border:none;background:transparent;font-family:inherit;position:relative;border-bottom:2px solid transparent;transition:all .15s}
+#kb-app .tnav.active{color:var(--navy);border-bottom-color:var(--purple)}
+#kb-app .tnav:hover:not(.active){color:var(--ink)}
+#kb-app .alert-badge{background:var(--rd);color:#fff;font-size:10px;font-weight:600;padding:1px 6px;border-radius:8px;margin-left:6px}
+
+/* ─── BANNER ─── */
+#kb-app .banner{background:#FFFBEB;border:1px solid #F4C842;border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px}
+#kb-app .banner-txt{font-size:13px;line-height:1.5}
+#kb-app .banner-txt strong{color:var(--navy)}
+#kb-app .banner-actions{display:flex;gap:12px;white-space:nowrap;font-size:12px;font-weight:500;flex-shrink:0}
+#kb-app .banner-actions a{cursor:pointer;color:var(--ink);text-decoration:none}
+#kb-app .banner-actions a:hover{text-decoration:underline}
+#kb-app .banner-actions .dim{color:var(--mu)}
+
+/* ─── PAGE ─── */
+#kb-app .page{max-width:1300px;margin:0 auto;padding:22px 28px 64px}
+#kb-app .page-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px}
+#kb-app h1{font-size:24px;font-weight:600;margin:0;letter-spacing:-.02em;color:var(--navy)}
+#kb-app .period{font-size:12px;color:var(--mu)}
+#kb-app .src-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--mu);padding:3px 9px;background:var(--bg);border-radius:10px;border:1px solid var(--ln)}
+#kb-app .src-badge .sdot{width:5px;height:5px}
+
+/* ─── KPI CARDS ─── */
+#kb-app .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+#kb-app .kpi{background:var(--card);border:1px solid var(--ln);border-radius:12px;padding:16px 18px;min-width:0}
+#kb-app .kpi-label{font-size:10px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:.09em;margin-bottom:8px}
+#kb-app .kpi-val{font-size:24px;font-weight:500;color:var(--navy);line-height:1.1;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#kb-app .kpi-deltas{display:flex;flex-direction:column;gap:3px}
+#kb-app .delta{font-size:11px;font-weight:500;display:flex;align-items:center;gap:4px}
+#kb-app .delta.up{color:var(--gr)}
+#kb-app .delta.dn{color:var(--rd)}
+#kb-app .delta.flat{color:var(--mu)}
+#kb-app .delta-label{font-size:10px;color:var(--mu);font-weight:400}
+#kb-app .kpi-target{font-size:10px;color:var(--mu);margin-top:4px}
+#kb-app .kpi-target.hit{color:var(--gr)}
+#kb-app .kpi-target.miss{color:var(--rd)}
+
+/* ─── GRID / PANEL ─── */
+#kb-app .grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:14px}
+#kb-app .grid22{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+#kb-app .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+#kb-app .panel{background:var(--card);border:1px solid var(--ln);border-radius:12px;padding:20px 22px}
+#kb-app .panel.no-pad{padding:0;overflow:hidden}
+#kb-app .ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+#kb-app .pt{font-size:13px;font-weight:600;color:var(--navy);letter-spacing:-.005em}
+#kb-app .pt .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--purple);margin-right:7px;vertical-align:middle}
+#kb-app .pn{font-size:11px;color:var(--mu)}
+
+/* ─── CHARTS ─── */
+#kb-app .cw{position:relative}
+#kb-app .cw.h220{height:220px}
+#kb-app .cw.h240{height:240px}
+#kb-app .cw.h260{height:260px}
+
+/* ─── INSIGHTS ─── */
+#kb-app .insights{display:flex;flex-direction:column;gap:10px}
+#kb-app .insight{padding:11px 13px;border-radius:8px;font-size:12.5px;line-height:1.5;border-left:3px solid var(--ln);background:#FAFAF9}
+#kb-app .insight.good{border-left-color:var(--gr);background:var(--grs)}
+#kb-app .insight.watch{border-left-color:var(--am);background:var(--ams)}
+#kb-app .insight strong{font-weight:600;color:var(--navy)}
+
+/* ─── CLIENT LIST ─── */
+#kb-app .clist-row{display:grid;grid-template-columns:18px 1fr auto;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--ln);font-size:12.5px}
+#kb-app .clist-row:last-child{border-bottom:none}
+#kb-app .clist-rank{font-size:10px;color:var(--mu);font-weight:500}
+
+/* ─── PRIORITIES ─── */
+#kb-app .pris{display:flex;flex-direction:column;gap:7px}
+#kb-app .pri{display:grid;grid-template-columns:auto 1fr;gap:9px;align-items:flex-start;padding:9px 11px;background:#FAFAF9;border-radius:7px;font-size:12.5px;line-height:1.4}
+#kb-app .pill{font-size:9px;font-weight:600;padding:2px 7px;border-radius:8px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;margin-top:2px}
+#kb-app .pill.red{background:var(--rds);color:var(--rd)}
+#kb-app .pill.amber{background:var(--ams);color:var(--am)}
+#kb-app .pill.green{background:var(--grs);color:var(--gr)}
+
+/* ─── PROGRESS ─── */
+#kb-app .prog-meta{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+#kb-app .prog-val{font-size:20px;font-weight:500;color:var(--navy)}
+#kb-app .prog-bar{height:9px;background:var(--bg);border-radius:5px;overflow:hidden;border:1px solid var(--ln)}
+#kb-app .prog-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--pd));border-radius:4px}
+#kb-app .prog-foot{display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:var(--mu)}
+#kb-app .proj-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--ln)}
+#kb-app .proj-lbl{font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+#kb-app .proj-val{font-size:15px;font-weight:500;color:var(--navy)}
+
+/* ─── ASK CFO ─── */
+#kb-app .ask-wrap{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px}
+#kb-app .ask-in{width:100%;padding:10px 13px;border:1px solid var(--ln);border-radius:8px;font-family:inherit;font-size:13px;background:#FAFAF9;color:var(--ink)}
+#kb-app .ask-in:focus{outline:none;border-color:var(--purple);background:var(--card)}
+#kb-app .ask-send{padding:0 18px;background:var(--purple);color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer}
+#kb-app .ask-send:hover{background:var(--pd)}
+#kb-app .chips{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+#kb-app .chip{font-size:11px;padding:4px 10px;background:var(--ps);color:var(--pd);border-radius:12px;cursor:pointer;border:none;font-family:inherit}
+#kb-app .chip:hover{background:#E0D8FF}
+#kb-app .ask-ans{margin-top:12px;padding:12px 14px;background:#FAFAF9;border-radius:8px;font-size:13px;line-height:1.6;white-space:pre-wrap;color:var(--ink)}
+#kb-app .ask-ans:empty{display:none}
+#kb-app .ask-spin{color:var(--mu);font-style:italic}
+
+/* ─── P&L SUMMARY CARDS ─── */
+#kb-app .pl-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+#kb-app .pl-card{background:var(--card);border:1px solid var(--ln);border-radius:12px;padding:16px 18px}
+#kb-app .pl-card .kpi-label{margin-bottom:8px}
+#kb-app .pl-card .kpi-val{font-size:22px}
+#kb-app .pl-card .pl-sub{font-size:11px;color:var(--mu);margin-top:5px}
+
+/* ─── P&L TABLE ─── */
+#kb-app .tbl-scroll{overflow-x:auto}
+#kb-app .pl-tbl{width:100%;border-collapse:collapse;font-size:12.5px;min-width:1150px}
+#kb-app .pl-tbl thead th{font-size:10px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;text-align:right;padding:12px 10px;background:#FAFAF9;border-bottom:1px solid var(--ln);white-space:nowrap}
+#kb-app .pl-tbl thead th:first-child{text-align:left;padding-left:12px;min-width:0;width:28px}
+#kb-app .pl-tbl thead th:last-child{padding-right:20px;color:var(--pd);font-weight:600}
+#kb-app .pl-tbl tbody td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--lns);color:var(--ink);white-space:nowrap}
+#kb-app .pl-tbl tbody td:first-child{text-align:left;padding-left:12px}
+#kb-app .pl-tbl tbody td:last-child{padding-right:20px;background:rgba(237,233,255,.3);font-weight:500;color:var(--navy)}
+#kb-app .pl-tbl tr.sh td{background:var(--bg);font-weight:600;color:var(--navy);font-size:10px;text-transform:uppercase;letter-spacing:.09em;padding-top:12px;padding-bottom:8px}
+#kb-app .pl-tbl tr.sh td:last-child{background:var(--bg)}
+#kb-app .pl-tbl tr.sub td{background:#FAFAF9;font-weight:500;color:var(--navy);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)}
+#kb-app .pl-tbl tr.sub td:last-child{background:var(--ps)}
+#kb-app .pl-tbl tr.tot td{background:var(--navy);color:#fff;font-weight:600;font-size:13px;border-bottom:none;padding-top:12px;padding-bottom:12px}
+#kb-app .pl-tbl tr.tot td:last-child{background:var(--purple);color:#fff}
+#kb-app .pl-tbl tr.mgn td{background:#FAFAF9;color:var(--mu);font-style:italic;font-size:11.5px}
+#kb-app .pl-tbl tr.mgn td:last-child{background:var(--ps);color:var(--pd);font-weight:500;font-style:normal}
+#kb-app .pl-tbl tr.bud td{color:var(--mu);font-size:11.5px;padding-top:5px;padding-bottom:8px;border-bottom:1px solid var(--ln)}
+#kb-app .pl-tbl tr.bud td:last-child{background:#FAFAF9}
+#kb-app .pl-tbl tr.fut td{color:#C4C2BF}
+#kb-app .pl-tbl .ind{padding-left:36px!important}
+#kb-app .bpill{font-size:9px;font-weight:500;padding:2px 6px;border-radius:6px;font-family:'DM Mono',monospace;display:inline-block}
+#kb-app .bpill.good{background:var(--grs);color:var(--gr)}
+#kb-app .bpill.bad{background:var(--rds);color:var(--rd)}
+#kb-app .bpill.near{background:var(--ams);color:var(--am)}
+
+/* ─── % OF REVENUE TABLE ─── */
+#kb-app .pct-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+#kb-app .pct-tbl th{font-size:10px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;text-align:right;padding:10px 12px;border-bottom:1px solid var(--ln)}
+#kb-app .pct-tbl th:first-child{text-align:left}
+#kb-app .pct-tbl td{padding:8px 12px;text-align:right;border-bottom:1px solid var(--lns);color:var(--ink)}
+#kb-app .pct-tbl td:first-child{text-align:left;color:var(--ink);font-weight:500}
+#kb-app .pct-bar-wrap{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+#kb-app .pct-bar{height:5px;border-radius:3px;background:var(--purple);display:inline-block;min-width:2px}
+
+/* ─── EXPENSE REVIEW ─── */
+#kb-app .exp-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--lns);font-size:13px}
+#kb-app .exp-row:last-child{border-bottom:none}
+#kb-app .exp-name{color:var(--ink)}
+#kb-app .exp-note{font-size:11px;color:var(--mu);margin-top:2px}
+#kb-app .exp-right{display:flex;align-items:center;gap:12px;flex-shrink:0}
+#kb-app .exp-amt{font-weight:500;color:var(--navy)}
+#kb-app .exp-pill{font-size:10px;font-weight:600;padding:3px 9px;border-radius:8px;text-transform:uppercase;letter-spacing:.05em}
+#kb-app .exp-pill.keep{background:var(--grs);color:var(--gr)}
+#kb-app .exp-pill.review{background:var(--rds);color:var(--rd)}
+#kb-app .exp-savings{background:var(--ams);border-radius:10px;padding:12px 16px;margin-top:14px;font-size:13px}
+
+/* ─── TAB PANELS ─── */
+#kb-app .tab-panel{display:none}
+#kb-app .tab-panel.active{display:block}
+
+/* ─── KPI SCORECARD ─── */
+#kb-app .kpi-section-label{font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:.1em;margin:0 0 10px}
+#kb-app .kpi-score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+#kb-app .score-card{background:var(--card);border:1px solid var(--ln);border-radius:12px;padding:16px 18px;min-width:0;position:relative;overflow:hidden}
+#kb-app .score-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0}
+#kb-app .score-card.hit::before{background:var(--gr)}
+#kb-app .score-card.amber::before{background:var(--am)}
+#kb-app .score-card.miss::before{background:var(--rd)}
+#kb-app .sc-label{font-size:10px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px}
+#kb-app .sc-val{font-size:22px;font-weight:500;color:var(--navy);line-height:1.1;margin-bottom:5px}
+#kb-app .sc-target{font-size:11px;color:var(--mu);margin-bottom:6px}
+#kb-app .sc-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:7px;text-transform:uppercase;letter-spacing:.05em}
+#kb-app .sc-badge.hit{background:var(--grs);color:var(--gr)}
+#kb-app .sc-badge.amber{background:var(--ams);color:var(--am)}
+#kb-app .sc-badge.miss{background:var(--rds);color:var(--rd)}
+#kb-app .sc-delta{font-size:11px;color:var(--mu);margin-top:4px}
+/* client table extras */
+#kb-app .cl-pill{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:6px}
+#kb-app .cl-pill.red{background:var(--rds);color:var(--rd)}
+#kb-app .cl-pill.amber{background:var(--ams);color:var(--am)}
+#kb-app .cl-pill.green{background:var(--grs);color:var(--gr)}
+#kb-app .cw.h200{height:200px}
+@media(max-width:960px){#kb-app .kpi-row{grid-template-columns:repeat(2,1fr)}#kb-app .grid2,#kb-app .grid22,#kb-app .grid3{grid-template-columns:1fr}#kb-app .pl-cards{grid-template-columns:repeat(2,1fr)}#kb-app .kpi-score-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<!-- ═══ TOPBAR ═══ -->
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#A68BFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4L12 16"/><path d="M12 10 Q7 8 5 4 Q5 12 12 16"/><path d="M12 10 Q17 8 19 4 Q19 12 12 16"/><path d="M7 18 Q12 20 17 18"/>
+      </svg>
+    </div>
+    <div><div class="brand-text"><span class="bp">K</span>B</div><div class="brand-sub">CFO Dashboard</div></div>
+  </div>
+  <div class="status-pills">
+    <div class="status-pill"><span class="sdot green"></span>QBO connected</div>
+    <div class="status-pill"><span class="sdot amber"></span>Hours: upload needed</div>
+  </div>
+  <div class="top-btns">
+    <button class="tbtn primary" onclick="alert('In Phase 3 (Vercel), this will pull live from QBO.')">↓ Pull from QBO</button>
+    <button class="tbtn ghost" onclick="alert('In Phase 3 (Vercel), this will let you upload Time Doctor CSV, P&L PDF, and other reports.')">Upload Hours CSV</button>
+  </div>
+</div>
+
+<!-- ═══ SOURCE BAR ═══ -->
+<div class="srcbar">
+  <div class="src-chips">
+    <div class="src-chip"><span class="ci qbo">QB</span><div><span style="color:var(--gr);font-weight:600">QuickBooks Online</span><div class="src-date">✓ Synced Apr 19, 2026</div></div></div>
+    <div class="src-chip"><span class="ci td">TD</span><div><span style="font-weight:600">Time Doctor (Hours)</span><div class="src-warn">⚠ Upload needed &nbsp;<span onclick="alert('Upload your Time Doctor CSV to refresh hours data.')" style="text-decoration:underline;cursor:pointer">Upload CSV →</span></div></div></div>
+  </div>
+  <div class="month-pills" id="monthPills">
+    <button class="mpill" data-m="0">Jan</button>
+    <button class="mpill" data-m="1">Feb</button>
+    <button class="mpill" data-m="2">Mar</button>
+    <button class="mpill active" data-m="3">Apr</button>
+    <button class="mpill" data-m="ytd">YTD</button>
+  </div>
+</div>
+
+<!-- ═══ TAB NAV ═══ -->
+<div class="tabnav">
+  <button class="tnav active" data-tab="summary">📊 CFO Summary</button>
+  <button class="tnav" data-tab="pl">💰 P&amp;L</button>
+  <button class="tnav" data-tab="kpi">📈 KPIs <span class="alert-badge">3</span></button>
+  <button class="tnav" data-tab="cf">💵 Cash Flow</button>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TAB 1: CFO SUMMARY
+══════════════════════════════════════════════ -->
+<div class="tab-panel active" data-panel="summary">
+<div class="page">
+
+  <div class="page-head">
+    <h1>CFO Summary</h1>
+    <div class="period"><span class="mono">Jan 1 – Apr 19, 2026</span> &nbsp;·&nbsp; <span class="src-badge"><span class="sdot green"></span>synced to QBO</span></div>
+  </div>
+
+  <!-- Urgent actions banner -->
+  <div class="banner" id="urgentBanner">
+    <div class="banner-txt">
+      <strong>⚠ 2 urgent actions this month</strong><br>
+      RV + palapa not listed on Airbnb — ~$1,050/mo sitting idle. Solo 401(k) still not opened — costing ~$312/mo in avoidable taxes (~$3,750/yr).
+    </div>
+    <div class="banner-actions">
+      <a onclick="document.getElementById('urgentBanner').style.display='none'">Dismiss</a>
+    </div>
+  </div>
+
+  <!-- KPI cards — month-aware -->
+  <div class="kpi-row" id="kpiRow"></div>
+
+  <!-- Row 1: 2025 vs 2026 chart + insights -->
+  <div class="grid2">
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>2025 vs 2026 — Revenue by month</div><div class="pn">side-by-side comparison</div></div>
+      <div class="cw h240"><canvas id="yoyChart"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>CFO insights</div><div class="pn">from the data</div></div>
+      <div class="insights">
+        <div class="insight good"><strong>+46% YoY revenue growth.</strong> Jan–Apr 2026 ($56,064) vs same period 2025 ($37,216). Every single month is ahead of prior year.</div>
+        <div class="insight good"><strong>Delegation working.</strong> CEO client hours dropped from 140 (Jan) to 26.6 (Apr-to-9th) once Kelli started — first month under the 30-hr target.</div>
+        <div class="insight watch"><strong>10 clients below $400/mo</strong> vs target of 5. Raising each by $50 adds ~$500/mo MRR. One email, no new clients needed.</div>
+        <div class="insight watch"><strong>Optimus commissions at $281/mo avg</strong> vs $600 target. Two payments YTD. Formalize the referral agreement to unlock consistent flow.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2: Top clients + priorities -->
+  <div class="grid2">
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>Top 5 recurring clients by MRR</div><div class="pn">April 2026</div></div>
+      <div id="clientList"></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>Priority actions</div><div class="pn">9 open</div></div>
+      <div class="pris" id="priList"></div>
+    </div>
+  </div>
+
+  <!-- Row 3: 4-year history + revenue pacing -->
+  <div class="grid22" style="margin-bottom:14px">
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>4-year revenue history</div><div class="pn">2022 → 2026</div></div>
+      <div class="cw h220"><canvas id="histChart"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>2026 revenue pacing</div><div class="pn">vs $180K stretch target</div></div>
+      <div class="prog-meta">
+        <div><div class="prog-val mono">$56,064</div><div style="font-size:11px;color:var(--mu)">YTD · 30.3% of $180K</div></div>
+        <div style="text-align:right"><div class="prog-val mono" style="color:var(--pd)">$180,000</div><div style="font-size:11px;color:var(--mu)">target</div></div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:30.26%"></div></div>
+      <div class="prog-foot"><span>Jan 1</span><span>Apr 19 — today</span><span>Dec 31</span></div>
+      <div class="proj-row">
+        <div><div class="proj-lbl">Conservative</div><div class="proj-val mono">$164,211</div><div style="font-size:10px;color:var(--mu);margin-top:2px">Jan–Mar ×4 · hits floor</div></div>
+        <div><div class="proj-lbl">Current pace</div><div class="proj-val mono">$179,882</div><div style="font-size:10px;color:var(--mu);margin-top:2px">YTD ÷3.63 ×12 · near stretch</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ask CFO -->
+  <div class="panel">
+    <div class="ph" style="margin-bottom:4px"><div class="pt"><span class="dot"></span>Ask CFO</div><div class="pn">powered by Claude · grounded in your actual data</div></div>
+    <div style="font-size:11px;color:var(--mu)">Ask about trends, scenarios, what to prioritize, or specific numbers.</div>
+    <div class="ask-wrap"><input class="ask-in" id="askIn" type="text" placeholder="e.g. If I raise 5 clients to $400, what happens to annual revenue?"><button class="ask-send" id="askBtn">Ask</button></div>
+    <div class="chips">
+      <button class="chip" data-q="Which three actions would have the biggest impact on net income in the next 90 days?">Biggest 90-day wins</button>
+      <button class="chip" data-q="Based on 46% YoY growth, what revenue target is realistic for full-year 2026?">Realistic 2026 target</button>
+      <button class="chip" data-q="Kelli started in April. How should I ramp her hours to hit 60% AM delegation while keeping CEO hours under 30?">Plan Kelli ramp</button>
+      <button class="chip" data-q="What's my real owner take-home (salary + distributions) and is the cash flow sustainable at current burn?">Owner take-home</button>
+    </div>
+    <div class="ask-ans" id="askAns"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TAB 2: MONTHLY P&L
+══════════════════════════════════════════════ -->
+<div class="tab-panel" data-panel="pl">
+<div class="page">
+
+  <div class="page-head">
+    <h1>Monthly P&amp;L</h1>
+    <div class="period">YTD through <span class="mono">Apr 19, 2026</span> &nbsp;·&nbsp; <span class="src-badge"><span class="sdot green"></span>tied to QBO PDF to the penny</span></div>
+  </div>
+
+  <!-- 4 summary cards -->
+  <div class="pl-cards">
+    <div class="pl-card"><div class="kpi-label">Revenue YTD</div><div class="kpi-val mono">$56,064</div><div class="pl-sub">vs $60K budget &nbsp;·&nbsp; <span style="color:var(--rd)">−$5,536</span></div><div class="pl-sub" style="margin-top:3px">vs $37,216 same period '25 &nbsp;·&nbsp; <span style="color:var(--gr)">+46%</span></div></div>
+    <div class="pl-card"><div class="kpi-label">Gross Profit YTD</div><div class="kpi-val mono">$47,612</div><div class="pl-sub"><span class="mono">87.4%</span> margin &nbsp;·&nbsp; target 85% <span style="color:var(--gr)">✓</span></div></div>
+    <div class="pl-card"><div class="kpi-label">OpEx + Payroll YTD</div><div class="kpi-val mono">$17,020</div><div class="pl-sub">vs $16,160 budget &nbsp;·&nbsp; <span style="color:var(--am)">+$860</span></div></div>
+    <div class="pl-card"><div class="kpi-label">Net Income YTD</div><div class="kpi-val mono">$30,593</div><div class="pl-sub"><span class="mono">56.2%</span> margin &nbsp;·&nbsp; target 45% <span style="color:var(--gr)">✓</span></div></div>
+  </div>
+
+  <!-- Rolling 12-month 3-line chart -->
+  <div class="panel" style="margin-bottom:14px">
+    <div class="ph"><div class="pt"><span class="dot"></span>Rolling 12-month trend — Revenue, Bookkeeping MRR &amp; Net Income</div><div class="pn">May 2025 → Apr 2026</div></div>
+    <div class="cw h260"><canvas id="rolling12Chart"></canvas></div>
+  </div>
+
+  <!-- P&L table -->
+  <div class="panel no-pad" style="margin-bottom:14px">
+    <div style="padding:18px 22px 14px;border-bottom:1px solid var(--ln);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div class="pt"><span class="dot"></span>P&amp;L by month · actuals + budget vs actual</div>
+      <div class="pn">All numbers from QBO · budget from Elena's KPI targets</div>
+    </div>
+    <div class="tbl-scroll"><table class="pl-tbl"><thead><tr>
+      <th>Line item</th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr MTD</th>
+      <th>May</th><th>Jun</th><th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th><th>YTD</th>
+    </tr></thead><tbody id="plBody"></tbody></table></div>
+    <div style="padding:10px 22px;background:#FAFAF9;border-top:1px solid var(--ln);font-size:10px;color:var(--mu);display:flex;gap:16px;flex-wrap:wrap">
+      <span><span class="bpill good">GOOD</span> Under budget / on target</span>
+      <span><span class="bpill near">NEAR</span> Within 5%</span>
+      <span><span class="bpill bad">OVER</span> Over budget — watch</span>
+      <span style="margin-left:auto">Future months blank — upload next P&amp;L to fill</span>
+    </div>
+  </div>
+
+  <!-- Charts row -->
+  <div class="grid22" style="margin-bottom:14px">
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>Gross &amp; Net margin trend</div><div class="pn">12 months</div></div>
+      <div class="cw h240"><canvas id="marginChart"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>Cost breakdown</div><div class="pn">YTD 2026</div></div>
+      <div class="cw h240"><canvas id="pieChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- % of Revenue + Expense Review -->
+  <div class="grid22" style="margin-bottom:14px">
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>% of revenue report</div><div class="pn">YTD 2026</div></div>
+      <table class="pct-tbl"><thead><tr><th>Expense category</th><th>YTD $</th><th>% of Rev</th><th style="text-align:right;padding-right:0">bar</th></tr></thead>
+      <tbody id="pctBody"></tbody></table>
+    </div>
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>Expense review</div><div class="pn">keep · review</div></div>
+      <div id="expReview"></div>
+    </div>
+  </div>
+
+  <!-- Cost stack by month -->
+  <div class="panel">
+    <div class="ph"><div class="pt"><span class="dot"></span>Monthly cost stack</div><div class="pn">COGS + OpEx + Payroll</div></div>
+    <div class="cw h220"><canvas id="stackChart"></canvas></div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TAB 3: KPI SCORECARD
+══════════════════════════════════════════════ -->
+<div class="tab-panel" data-panel="kpi">
+<div class="page">
+  <div class="page-head">
+    <h1>KPI Scorecard</h1>
+    <div class="period"><span class="mono">Jan 1 – Apr 19, 2026</span> &nbsp;·&nbsp; <span class="src-badge"><span class="sdot green"></span>verified to source</span></div>
+  </div>
+
+  <div class="kpi-section-label">📊 Financial KPIs</div>
+  <div class="kpi-score-grid" id="finKpis"></div>
+
+  <div class="kpi-section-label">📈 Sales &amp; Growth</div>
+  <div class="kpi-score-grid" id="salesKpis"></div>
+
+  <div class="panel" style="margin-bottom:20px">
+    <div class="ph"><div class="pt"><span class="dot"></span>Monthly revenue vs $15K target</div><div class="pn">2026</div></div>
+    <div class="cw h200"><canvas id="kpiRevChart"></canvas></div>
+  </div>
+
+  <div class="kpi-section-label">👥 Team &amp; Hours</div>
+  <div class="kpi-score-grid" id="teamKpis"></div>
+
+  <div class="grid22" style="margin-bottom:20px">
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>CEO client hours — monthly trend</div><div class="pn">target &lt;30/mo</div></div>
+      <div class="cw h200"><canvas id="ceoHrsChart"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>Hours by team member</div><div class="pn">client hours only</div></div>
+      <div class="cw h200"><canvas id="hoursStackChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="kpi-section-label">🏢 Client Health</div>
+  <div class="kpi-score-grid" id="clientKpis"></div>
+
+  <!-- April table -->
+  <div style="margin-bottom:6px;font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:.1em">Last month — April 2026</div>
+  <div class="panel no-pad" style="margin-bottom:24px">
+    <div class="tbl-scroll">
+      <table class="pl-tbl">
+        <thead><tr>
+          <th style="text-align:left;padding-left:12px;width:28px">#</th>
+          <th style="text-align:left">Client</th>
+          <th>Revenue</th>
+          <th>Bookkeeper hrs</th>
+          <th>AM hrs</th>
+          <th>CEO hrs</th>
+          <th>Total hrs</th>
+          <th>$/hr</th>
+          <th>Margin%</th>
+        </tr></thead>
+        <tbody id="aprBody"></tbody>
+        <tfoot id="aprFoot"></tfoot>
+      </table>
+    </div>
+    <div style="padding:6px 14px;background:#FAFAF9;border-top:1px solid var(--ln);font-size:11px;color:var(--mu)">
+      Bookkeeper hrs = Rowena (TD) + Michelle &amp; Rachel (Jan only, no TD — cost allocated proportionally). Margin = (Revenue − team cost) ÷ Revenue.
+    </div>
+  </div>
+
+  <!-- YTD table -->
+  <div style="margin-bottom:6px;font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:.1em">Year to date — Jan 1 → Apr 2026</div>
+  <div class="panel no-pad" style="margin-bottom:14px">
+    <div class="tbl-scroll">
+      <table class="pl-tbl">
+        <thead><tr>
+          <th style="text-align:left;padding-left:12px;width:28px">#</th>
+          <th style="text-align:left">Client</th>
+          <th>Revenue</th>
+          <th>Bookkeeper hrs</th>
+          <th>AM hrs</th>
+          <th>CEO hrs</th>
+          <th>Total hrs</th>
+          <th>Team cost</th>
+          <th>Margin%</th>
+          <th>CEO $/hr</th>
+        </tr></thead>
+        <tbody id="ytdBody"></tbody>
+        <tfoot id="ytdFoot"></tfoot>
+      </table>
+    </div>
+    <div style="padding:6px 14px;background:#FAFAF9;border-top:1px solid var(--ln);font-size:11px;color:var(--mu)">
+      CEO $/hr = (YTD Revenue − team cost) ÷ CEO YTD hrs. Team cost includes all bookkeeper + AM payments, allocated by hours.
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TAB 4: CASH FLOW PROJECTION
+══════════════════════════════════════════════ -->
+<div class="tab-panel" data-panel="cf">
+<div class="page">
+  <div class="page-head">
+    <h1>Cash Flow Projection</h1>
+    <div class="period">Starting <span class="mono">Apr 19, 2026</span> · 6-month forward forecast + scenario analysis</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
+    <div class="kpi"><div class="kpi-label">Cash on hand</div><div class="kpi-val mono">$29,848</div><div class="kpi-target hit">Chase $28,941 + Wise $927</div></div>
+    <div class="kpi"><div class="kpi-label">Monthly burn rate</div><div class="kpi-val mono">$6,948</div><div class="kpi-target">Payroll + contractors + OpEx</div></div>
+    <div class="kpi"><div class="kpi-label">Months runway</div><div class="kpi-val mono">4.3 mo</div><div class="kpi-target hit">At zero revenue (safety check)</div></div>
+    <div class="kpi"><div class="kpi-label">Net cash/mo (base)</div><div class="kpi-val mono">+$4,637</div><div class="kpi-target hit">MRR only, no extras</div></div>
+  </div>
+  <div class="panel" style="margin-bottom:16px">
+    <div class="ph"><div class="pt"><span class="dot"></span>Projection assumptions</div><div class="pn">drag sliders to model scenarios — chart updates live</div></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+      <div>
+        <div style="font-size:11px;color:var(--mu);margin-bottom:6px">Monthly MRR growth ($)</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input type="range" id="mrrGrowth" min="0" max="2000" step="50" value="450" style="flex:1">
+          <span class="mono" id="mrrGrowthVal" style="font-size:13px;min-width:52px;color:var(--navy);text-align:right">+$450</span>
+        </div>
+        <div style="font-size:11px;color:var(--mu);margin-top:3px">≈ 1 new client/mo at $450 avg</div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--mu);margin-bottom:6px">Monthly S-Corp distribution ($)</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input type="range" id="distrib" min="0" max="6000" step="500" value="3000" style="flex:1">
+          <span class="mono" id="distribVal" style="font-size:13px;min-width:52px;color:var(--navy);text-align:right">$3,000</span>
+        </div>
+        <div style="font-size:11px;color:var(--mu);margin-top:3px">Target personal distribution</div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--mu);margin-bottom:6px">Monthly other revenue ($)</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input type="range" id="cleanupSlider" min="0" max="5000" step="100" value="500" style="flex:1">
+          <span class="mono" id="cleanupVal" style="font-size:13px;min-width:52px;color:var(--navy);text-align:right">$500</span>
+        </div>
+        <div style="font-size:11px;color:var(--mu);margin-top:3px">Cleanup + Optimus avg estimate</div>
+      </div>
+    </div>
+  </div>
+  <div class="panel" style="margin-bottom:16px">
+    <div class="ph"><div class="pt"><span class="dot"></span>6-month cash forecast — May → Oct 2026</div><div class="pn" id="cfSubtitle">base scenario</div></div>
+    <div style="position:relative;height:260px"><canvas id="cfChart"></canvas></div>
+  </div>
+  <div class="panel no-pad" style="margin-bottom:16px">
+    <div style="padding:16px 22px 12px;border-bottom:1px solid var(--ln)">
+      <div class="pt"><span class="dot"></span>Monthly detail</div>
+    </div>
+    <div class="tbl-scroll">
+      <table class="pl-tbl">
+        <thead><tr>
+          <th style="text-align:left;padding-left:20px">Month</th>
+          <th>MRR</th><th>Other rev</th><th>Total in</th>
+          <th>Contractors</th><th>Payroll</th><th>OpEx</th><th>Distribution</th><th>Total out</th>
+          <th>Net</th><th style="color:var(--pd)">Cash balance</th>
+        </tr></thead>
+        <tbody id="cfBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="grid22">
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>Scenario comparison — Oct 2026 ending cash</div><div class="pn">4 scenarios</div></div>
+      <div style="position:relative;height:220px"><canvas id="scenarioChart"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div class="pt"><span class="dot"></span>Key cash flow levers</div><div class="pn">ranked by impact</div></div>
+      <div style="display:flex;flex-direction:column;gap:0" id="levers"></div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<script>
+(function(){
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const AM = 4; // actual months
+
+const D25 = {
+  rev:[8136,10455,12007,10449,7990,11460,9290,8692,10192,9293,10257,15843],
+  net:[6299,9058,6645,6257,4608,7705,5843,5236,7247,7037,5454,12103],
+  mrr:[7800,7950,7650,7850,7850,7850,7850,7850,8000,8250,8050,9200],
+  gp:[7287,10114,8132,8061,5719,9802,7752,6676,8840,8085,8528,13781],
+};
+
+const PL = {
+  'Bookkeeping Services':          [10085,10785,11585,11585],
+  'Cleanup Services':              [ 7165,  775,    0, 2800],
+  'Commission Income':             [    0,  536,    0,  587],
+  'Gusto Income':                  [42.60,40.80,38.40,39.60],
+  'Client Subscriptions':          [273.35,323.88,245,270],
+  'Contractors — Account Manager': [1130,    0,    0, 533.75],
+  'Contractors — Rowena':          [1758.19,814.15,957.35,546.29],
+  'Advertising & Marketing':       [331.14,258.18,367.56,25],
+  'Bank Charges & Fees':           [73.61,58.32,30.88,50.41],
+  'Business Consulting':           [695,695,695,695],
+  'Car & Truck':                   [0,0,48.37,0],
+  'Insurance':                     [34.25,34.25,34.26,29.99],
+  'Office Supplies & Software':    [378.73,176.07,1238.28,242.86],
+  'QuickBooks Payments Fees':      [103.89,113.75,104.64,94.61],
+  'Taxes & Licenses':              [0,0,0,102.69],
+  'Travel':                        [0,0,650.16,0],
+  'Utilities':                     [248,251,205,0],
+  'Payroll Taxes (Employer)':      [240,240,240,234],
+  'Payroll Wages (Elena)':         [2000,2000,2000,2000],
+};
+const IK=['Bookkeeping Services','Cleanup Services','Commission Income','Gusto Income'];
+const CK=['Client Subscriptions','Contractors — Account Manager','Contractors — Rowena'];
+const OK=['Advertising & Marketing','Bank Charges & Fees','Business Consulting','Car & Truck','Insurance','Office Supplies & Software','QuickBooks Payments Fees','Taxes & Licenses','Travel','Utilities'];
+const PK=['Payroll Taxes (Employer)','Payroll Wages (Elena)'];
+
+const sk=(keys,mi)=>keys.reduce((a,k)=>a+(PL[k]?.[mi]??0),0);
+const mRev =Array(12).fill(null).map((_,i)=>i<AM?sk(IK,i):null);
+const mCogs=Array(12).fill(null).map((_,i)=>i<AM?sk(CK,i):null);
+const mOpex=Array(12).fill(null).map((_,i)=>i<AM?sk(OK,i):null);
+const mPay =Array(12).fill(null).map((_,i)=>i<AM?sk(PK,i):null);
+const mGP  =mRev.map((r,i)=>r==null?null:r-mCogs[i]);
+const mNet =mRev.map((r,i)=>r==null?null:r-mCogs[i]-mOpex[i]-mPay[i]);
+const ytd=a=>a.slice(0,AM).reduce((s,v)=>s+(v||0),0);
+const ytdRev=ytd(mRev),ytdCogs=ytd(mCogs),ytdOpex=ytd(mOpex),ytdPay=ytd(mPay);
+const ytdGP=ytdRev-ytdCogs,ytdNet=ytdRev-ytdCogs-ytdOpex-ytdPay;
+const BUDGET={rev:15000,cogs:1900,opex:1800,pay:2240};
+BUDGET.net=BUDGET.rev-BUDGET.cogs-BUDGET.opex-BUDGET.pay;
+
+let activeMon = 3; // Apr by default
+
+const kpiData = {
+  mrr: {label:'Monthly Revenue',vals:[17293,12137,11623,15012],prior25:[8136,10455,12007,10449],ytdVal:()=>'$56,064',target:'$15,000+/mo',hitFn:v=>v>=15000},
+  net: {label:'Net Income',vals:[10026,7172,4807,10187],prior25:[6299,9058,6645,6257],ytdVal:()=>ytdNet,target:'$6,000+/mo',hitFn:v=>v>=6000},
+  gm:  {label:'Gross Margin',vals:[81.7,90.6,89.7,89.9],prior25:[89.5,96.8,67.7,77.2],ytdVal:()=>87.4,isPercent:true,target:'85%+',hitFn:v=>v>=85},
+  clients:{label:'Active Recurring',vals:[20,22,23,24],prior25:[18,18,18,19],ytdVal:()=>24,target:'28 by Dec',hitFn:v=>v>=28},
+  ceoHrs:{label:'CEO Client Hrs',vals:[140.1,53.1,68.6,26.6],prior25:[null,null,null,null],ytdVal:()=>null,target:'<30/mo',hitFn:v=>v<30},
+};
+
+function renderKpiCards(mon){
+  const isYtd=mon==='ytd';
+  const idx=isYtd?3:mon;
+  const el=document.getElementById('kpiRow');
+  const mLabel=isYtd?'YTD':MONTHS[idx];
+  const keys=['mrr','net','gm','clients','ceoHrs'];
+  el.innerHTML=keys.map(k=>{
+    const d=kpiData[k];
+    const cur=isYtd&&k==='gm'?87.4:isYtd&&k==='net'?ytdNet:isYtd&&k==='mrr'?11585:isYtd&&k==='clients'?23:d.vals[idx];
+    const prev=idx>0?d.vals[idx-1]:null;
+    const p25=d.prior25?.[idx];
+    const fmt=v=>v==null?'—':d.isPercent?v.toFixed(1)+'%':k==='clients'?String(Math.round(v)):'$'+Math.round(v).toLocaleString();
+    const delta=(a,b,inv)=>{
+      if(a==null||b==null)return '';
+      const d=a-b,cls=inv?(d<0?'up':d>0?'dn':'flat'):(d>0?'up':d<0?'dn':'flat');
+      const sign=d>=0?'▲':'▼';
+      return `<div class="delta ${cls}">${sign} ${fmt(Math.abs(d))} <span class="delta-label">vs ${mLabel==='YTD'?'budget':'prior mo'}</span></div>`;
+    };
+    const yoy=p25!=null?`<div class="delta ${cur>=p25?'up':'dn'}">${cur>=p25?'▲':'▼'} ${fmt(Math.abs(cur-p25))} <span class="delta-label">vs ${mLabel} '25</span></div>`:'';
+    const hit=d.hitFn(cur);
+    return `<div class="kpi">
+      <div class="kpi-label">${d.label}</div>
+      <div class="kpi-val mono">${fmt(cur)}</div>
+      <div class="kpi-deltas">
+        ${delta(cur,prev,k==='ceoHrs')}
+        ${yoy}
+      </div>
+      <div class="kpi-target ${hit?'hit':'miss'}">${d.target} ${hit?'✓':'✗'}</div>
+    </div>`;
+  }).join('');
+}
+renderKpiCards(3);
+
+document.getElementById('monthPills').addEventListener('click',e=>{
+  const btn=e.target.closest('.mpill');
+  if(!btn)return;
+  document.querySelectorAll('.mpill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const m=btn.dataset.m;
+  activeMon=m==='ytd'?'ytd':parseInt(m);
+  renderKpiCards(activeMon);
+});
+
+const clients=[
+  ['SEC',1000],['DP Products',950],
+  ['LJS',900],['FF',800],
+  ['SGN',650],['AB',650],
+];
+document.getElementById('clientList').innerHTML=clients.slice(0,5).map(([n,a],i)=>`
+  <div class="clist-row">
+    <span class="clist-rank mono">${String(i+1).padStart(2,'0')}</span>
+    <span>${n}</span>
+    <span class="mono" style="font-weight:500;color:var(--navy)">$${a.toLocaleString()}</span>
+  </div>`).join('');
+
+const pris=[
+  ['red','Open Solo 401(k) at Fidelity. Free, saves ~$3,750/yr in taxes. Do it today.'],
+  ['red','List RV + palapa on Airbnb now. $0 cost, ~$1,050/mo sitting idle.'],
+  ['red','Finish Nicaragua casita ($5K) then list. Recurring Airbnb income.'],
+  ['amber','Set up $3,000/mo S-Corp distribution. Stop ad-hoc Zelle pattern in the GL.'],
+  ['amber','Move Audible, Amazon Prime, Apple TV off business card. IRS audit risk.'],
+  ['amber','Add $583/mo Roth IRA auto-contribution. Hits $7K annual max on autopilot.'],
+  ['green','Raise 10 clients under $400 to $400 min. +$500/mo MRR, one pricing email.'],
+  ['green','Formalize Optimus Tax referral in writing. Get commission to $600+/mo.'],
+  ['green','Fund Nicaragua casitas from distributions ($50K each, no debt).'],
+];
+document.getElementById('priList').innerHTML=pris.map(([lvl,txt])=>`
+  <div class="pri">
+    <span class="pill ${lvl}">${lvl==='red'?'Now':lvl==='amber'?'Q2':'2026'}</span>
+    <span>${txt}</span>
+  </div>`).join('');
+
+const CP={
+  plugins:{
+    legend:{position:'bottom',labels:{font:{family:'DM Sans',size:11},color:'#6B7188',boxWidth:9,boxHeight:9,padding:12,usePointStyle:true,pointStyle:'rectRounded'}},
+    tooltip:{backgroundColor:'#1A1F36',titleFont:{family:'DM Sans',size:12,weight:'600'},bodyFont:{family:'DM Mono',size:12},padding:9,cornerRadius:5}
+  }
+};
+
+const yoyLbls=MONTHS.map((m,i)=>{
+  if(i<AM)return m+' \'26';
+  return m;
+});
+new Chart(document.getElementById('yoyChart'),{
+  type:'bar',
+  data:{
+    labels:MONTHS,
+    datasets:[
+      {label:'2025 Revenue',data:D25.rev,backgroundColor:'#9DA3AE',borderRadius:4,barPercentage:.85,categoryPercentage:.7},
+      {label:'2026 Revenue',data:[...mRev.slice(0,AM),...Array(8).fill(null)],backgroundColor:'#7B61FF',borderRadius:4,barPercentage:.85,categoryPercentage:.7},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{...CP.plugins,tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: $${(ctx.parsed.y||0).toLocaleString(undefined,{maximumFractionDigits:0})}`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#6B7188'}},
+      y:{beginAtZero:true,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},
+         ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(0)+'k',padding:6}}
+    }
+  }
+});
+
+const histYears=['2022','2023','2024','2025','2026\n(cons.)'];
+const histVals=[20303,37935,80535,121844,164211];
+const histGrowth=[null,87,112,51,35];
+new Chart(document.getElementById('histChart'),{
+  type:'bar',
+  data:{
+    labels:histYears,
+    datasets:[{
+      label:'Annual Revenue',
+      data:histVals,
+      backgroundColor:['#B5D4F4','#85B7EB','#378ADD','#185FA5','#7B61FF'],
+      borderRadius:6,barThickness:40,
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{...CP.plugins,
+      legend:{display:false},
+      tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`Revenue: $${ctx.parsed.y.toLocaleString(undefined,{maximumFractionDigits:0})}`}},
+      datalabels:undefined
+    },
+    scales:{
+      x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#6B7188'}},
+      y:{beginAtZero:true,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},
+         ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(0)+'k',padding:6}}
+    }
+  }
+});
+
+const r12Labels=['May \'25','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan \'26','Feb','Mar','Apr'];
+const r12Rev =[7990,11460,9290,8692,10192,9293,10257,15843,17293,12137,11623,15012];
+const r12MRR =[7850,7850,7850,7850,8000,8250,8050,9200,10085,10785,11585,11585];
+const r12Net =[4608,7705,5843,5236,7247,7037,5454,12103,10026,7172,4807,10187];
+new Chart(document.getElementById('rolling12Chart'),{
+  type:'line',
+  data:{
+    labels:r12Labels,
+    datasets:[
+      {label:'Total Revenue',data:r12Rev,borderColor:'#7B61FF',backgroundColor:'rgba(123,97,255,.07)',borderWidth:2.5,tension:.3,pointRadius:4,pointBackgroundColor:'#7B61FF',fill:true},
+      {label:'Bookkeeping MRR',data:r12MRR,borderColor:'#0F6E56',backgroundColor:'transparent',borderWidth:2,tension:.3,pointRadius:3,pointBackgroundColor:'#0F6E56',borderDash:[5,3]},
+      {label:'Net Income',data:r12Net,borderColor:'#BA7517',backgroundColor:'rgba(186,117,23,.07)',borderWidth:2.5,tension:.3,pointRadius:4,pointBackgroundColor:'#BA7517',fill:true},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{...CP.plugins,tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString(undefined,{maximumFractionDigits:0})}`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#6B7188'}},
+      y:{beginAtZero:true,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},
+         ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(0)+'k',padding:6}}
+    }
+  }
+});
+
+const r12GM=r12Rev.map((r,i)=>{
+  const cogs=[D25.rev[4]-D25.net[4]-(D25.rev[4]-D25.gp[4]),0,0,0,0,0,0,0];// approx
+  if(i<8){const gp=D25.gp[i+4];return gp/r*100;}
+  const i26=i-8;return mGP[i26]/mRev[i26]*100;
+});
+const r12NM=r12Rev.map((r,i)=>{
+  if(i<8)return D25.net[i+4]/r*100;
+  const i26=i-8;return mNet[i26]/mRev[i26]*100;
+});
+new Chart(document.getElementById('marginChart'),{
+  type:'line',
+  data:{
+    labels:r12Labels,
+    datasets:[
+      {label:'Gross Margin %',data:r12GM,borderColor:'#7B61FF',backgroundColor:'rgba(123,97,255,.07)',borderWidth:2.5,tension:.3,pointRadius:3,fill:true},
+      {label:'Net Margin %',data:r12NM,borderColor:'#0F6E56',backgroundColor:'transparent',borderWidth:2.5,tension:.3,pointRadius:3,borderDash:[4,3]},
+      {label:'GM target 85%',data:Array(12).fill(85),borderColor:'#B4B2A9',borderWidth:1,borderDash:[2,4],pointRadius:0,fill:false},
+      {label:'NM target 45%',data:Array(12).fill(45),borderColor:'#B4B2A9',borderWidth:1,borderDash:[2,4],pointRadius:0,fill:false},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{...CP.plugins,tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#6B7188'}},
+      y:{beginAtZero:true,max:105,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},
+         ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>v+'%',padding:6}}
+    }
+  }
+});
+
+new Chart(document.getElementById('pieChart'),{
+  type:'doughnut',
+  data:{
+    labels:['Contractors','Business Consulting','Office & Software','Advertising','QuickBooks Fees','Payroll Taxes','Utilities','Insurance','Other'],
+    datasets:[{
+      data:[5739.73,2780,2035.94,981.88,416.89,954,704,132.75,306],
+      backgroundColor:['#1D9E75','#D85A30','#BA7517','#378ADD','#639922','#D4537E','#888780','#E24B4A','#7B61FF'],
+      borderWidth:2,borderColor:'#fff',
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,cutout:'62%',
+    plugins:{...CP.plugins,
+      legend:{position:'right',labels:{font:{family:'DM Sans',size:11},color:'#6B7188',boxWidth:9,boxHeight:9,padding:8,usePointStyle:true}},
+      tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`${ctx.label}: $${ctx.parsed.toLocaleString(undefined,{maximumFractionDigits:0})} (${(ctx.parsed/ytdRev*100).toFixed(1)}%)`}}
+    }
+  }
+});
+
+new Chart(document.getElementById('stackChart'),{
+  type:'bar',
+  data:{
+    labels:['Jan','Feb','Mar','Apr'],
+    datasets:[
+      {label:'COGS',data:mCogs.slice(0,AM),backgroundColor:'#1D9E75',stack:'c',borderRadius:4},
+      {label:'OpEx',data:mOpex.slice(0,AM),backgroundColor:'#D85A30',stack:'c',borderRadius:4},
+      {label:'Payroll',data:mPay.slice(0,AM),backgroundColor:'#888780',stack:'c',borderRadius:4},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{...CP.plugins,tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString(undefined,{maximumFractionDigits:0})}`}}},
+    scales:{
+      x:{stacked:true,grid:{display:false},ticks:{font:{family:'DM Sans',size:12},color:'#6B7188'}},
+      y:{stacked:true,beginAtZero:true,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},
+         ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(1)+'k',padding:6}}
+    }
+  }
+});
+
+const fmt=v=>v==null?'—':'$'+Math.round(v).toLocaleString();
+function rowLine(label,key,cls=''){
+  const vals=Array(12).fill(null).map((_,i)=>i<AM?(PL[key]?.[i]??0):null);
+  const t=vals.slice(0,AM).reduce((a,v)=>a+(v||0),0);
+  let h=`<tr><td class="ind ${cls}">${label}</td>`;
+  for(let i=0;i<12;i++)h+=i<AM?`<td class="mono">${fmt(vals[i])}</td>`:`<td class="fut">—</td>`;
+  return h+`<td class="mono">${fmt(t)}</td></tr>`;
+}
+function rowSub(label,vals){
+  const t=vals.slice(0,AM).reduce((a,v)=>a+(v||0),0);
+  let h=`<tr class="sub"><td>${label}</td>`;
+  for(let i=0;i<12;i++)h+=i<AM?`<td class="mono">${fmt(vals[i])}</td>`:`<td>—</td>`;
+  return h+`<td class="mono">${fmt(t)}</td></tr>`;
+}
+function rowTot(label,vals){
+  const t=vals.slice(0,AM).reduce((a,v)=>a+(v||0),0);
+  let h=`<tr class="tot"><td>${label}</td>`;
+  for(let i=0;i<12;i++)h+=i<AM?`<td class="mono">${fmt(vals[i])}</td>`:`<td>—</td>`;
+  return h+`<td class="mono">${fmt(t)}</td></tr>`;
+}
+function rowMgn(label,vals,ytdV){
+  let h=`<tr class="mgn"><td>${label}</td>`;
+  for(let i=0;i<12;i++){
+    h+=i<AM&&vals[i]!=null?`<td class="mono">${vals[i].toFixed(1)}%</td>`:`<td>—</td>`;
+  }
+  return h+`<td class="mono">${ytdV.toFixed(1)}%</td></tr>`;
+}
+function rowBud(label,ytdAct,budMo,isExp){
+  const budYtd=budMo*AM,diff=ytdAct-budYtd;
+  const pct=Math.abs(diff/budYtd);
+  const good=isExp?diff<0:diff>=0;
+  const cls=pct<.05?'near':good?'good':'bad';
+  let h=`<tr class="bud"><td class="ind" style="color:var(--mu)">Budget: ${label}</td>`;
+  for(let i=0;i<12;i++)h+=i<AM?`<td class="mono" style="color:var(--mu)">${fmt(budMo)}</td>`:`<td>—</td>`;
+  const sign=diff>=0?'+':'−';
+  return h+`<td><span class="bpill ${cls}">${sign}${fmt(Math.abs(diff))}</span></td></tr>`;
+}
+const sh=l=>`<tr class="sh"><td colspan="14">${l}</td></tr>`;
+const gmPct=mRev.map((r,i)=>r?mGP[i]/r*100:null);
+const nmPct=mRev.map((r,i)=>r?mNet[i]/r*100:null);
+let tbl='';
+tbl+=sh('Income');
+IK.forEach(k=>tbl+=rowLine(k,k));
+tbl+=rowSub('Total Revenue',mRev);tbl+=rowBud('Revenue',ytdRev,BUDGET.rev,false);
+tbl+=sh('Cost of Goods Sold');
+CK.forEach(k=>tbl+=rowLine(k,k));
+tbl+=rowSub('Total COGS',mCogs);tbl+=rowBud('COGS',ytdCogs,BUDGET.cogs,true);
+tbl+=rowSub('Gross Profit',mGP);
+tbl+=rowMgn('Gross Margin %',gmPct,ytdGP/ytdRev*100);
+tbl+=sh('Operating Expenses');
+OK.forEach(k=>tbl+=rowLine(k,k));
+tbl+=rowSub('Total OpEx',mOpex);tbl+=rowBud('OpEx',ytdOpex,BUDGET.opex,true);
+tbl+=sh('Payroll');
+PK.forEach(k=>tbl+=rowLine(k,k));
+tbl+=rowSub('Total Payroll',mPay);
+tbl+=rowTot('NET INCOME',mNet);
+tbl+=rowMgn('Net Margin %',nmPct,ytdNet/ytdRev*100);
+tbl+=rowBud('Net Income',ytdNet,BUDGET.net,false);
+document.getElementById('plBody').innerHTML=tbl;
+
+const pctItems=[
+  ['Contractors (COGS)',ytdCogs-sk(CK.filter(k=>k.includes('Subscriptions')),0)-sk(CK.filter(k=>k.includes('Subscriptions')),1)-sk(CK.filter(k=>k.includes('Subscriptions')),2)-sk(CK.filter(k=>k.includes('Subscriptions')),3)],
+  ['Client Subscriptions',Array.from({length:AM},(_,i)=>PL['Client Subscriptions'][i]).reduce((a,v)=>a+v,0)],
+  ['Payroll (Elena W-2)',ytdPay],
+  ['Business Consulting',Array.from({length:AM},(_,i)=>PL['Business Consulting'][i]).reduce((a,v)=>a+v,0)],
+  ['Office & Software',Array.from({length:AM},(_,i)=>PL['Office Supplies & Software'][i]).reduce((a,v)=>a+v,0)],
+  ['Advertising & Marketing',Array.from({length:AM},(_,i)=>PL['Advertising & Marketing'][i]).reduce((a,v)=>a+v,0)],
+  ['Utilities (Starlink+Phone)',Array.from({length:AM},(_,i)=>PL['Utilities'][i]).reduce((a,v)=>a+v,0)],
+  ['QB Payments Fees',Array.from({length:AM},(_,i)=>PL['QuickBooks Payments Fees'][i]).reduce((a,v)=>a+v,0)],
+  ['Insurance',Array.from({length:AM},(_,i)=>PL['Insurance'][i]).reduce((a,v)=>a+v,0)],
+  ['Travel',Array.from({length:AM},(_,i)=>PL['Travel'][i]).reduce((a,v)=>a+v,0)],
+  ['Bank Charges',Array.from({length:AM},(_,i)=>PL['Bank Charges & Fees'][i]).reduce((a,v)=>a+v,0)],
+].sort((a,b)=>b[1]-a[1]);
+const maxPct=Math.max(...pctItems.map(([,v])=>v/ytdRev*100));
+document.getElementById('pctBody').innerHTML=pctItems.map(([name,val])=>{
+  const pct=val/ytdRev*100;
+  const w=Math.round(pct/maxPct*80);
+  return `<tr><td>${name}</td><td class="mono">$${Math.round(val).toLocaleString()}</td>
+    <td class="mono">${pct.toFixed(1)}%</td>
+    <td><div class="pct-bar-wrap"><div class="pct-bar" style="width:${w}px"></div></div></td></tr>`;
+}).join('');
+
+const exps=[
+  {name:'Thumbtack ads',mo:225,status:'keep',note:'Primary lead source, $225/mo avg'},
+  {name:'Double (client mgmt)',mo:270,status:'keep',note:'Client subscriptions COGS'},
+  {name:'Workflow Queen coaching',mo:695,status:'review',note:'$695/mo — evaluate ROI'},
+  {name:'Starlink internet',mo:165,status:'keep',note:'Business-essential'},
+  {name:'Payroll (Elena salary)',mo:2000,status:'keep',note:'W-2 salary'},
+  {name:'Google Workspace',mo:40,status:'keep',note:'Essential comms + docs'},
+  {name:'AI Tools (ChatGPT+Fathom+Claude)',mo:63,status:'keep',note:'Core productivity tools'},
+  {name:'Canva',mo:55,status:'keep',note:'Design for marketing'},
+  {name:'Time Doctor',mo:59,status:'review',note:'Only 1 GL entry — verify still active'},
+  {name:'QB Payments fees',mo:104,status:'keep',note:'Processing cost of revenue'},
+  {name:'Anytime Mailbox',mo:15,status:'keep',note:'Virtual address — needed'},
+  {name:'Porkbun (domains)',mo:17,status:'keep',note:'Domain renewals'},
+  {name:'Insurance (BiBerk)',mo:33,status:'keep',note:'E&O / business insurance'},
+  {name:'Craigslist ads',mo:5,status:'keep',note:'Minimal lead gen spend'},
+  {name:'Track1099',mo:19,status:'keep',note:'1099 filing — seasonal'},
+  {name:'Online Jobs PH',mo:99,status:'review',note:'Hiring tool — ongoing or one-time?'},
+  {name:'Audible',mo:15,status:'review',note:'⚠ Personal use on business card (IRS risk)'},
+  {name:'Amazon Prime',mo:7,status:'review',note:'⚠ Personal use on business card (IRS risk)'},
+  {name:'Apple TV',mo:11,status:'review',note:'⚠ Personal use on business card (IRS risk)'},
+];
+const reviewTotal=exps.filter(e=>e.status==='review').reduce((a,e)=>a+e.mo,0);
+const personalRisk=15+7+11;
+document.getElementById('expReview').innerHTML=
+  exps.map(e=>`<div class="exp-row">
+    <div><div class="exp-name">${e.name}</div><div class="exp-note">${e.note}</div></div>
+    <div class="exp-right">
+      <span class="exp-amt mono">$${e.mo}/mo</span>
+      <span class="exp-pill ${e.status}">${e.status}</span>
+    </div>
+  </div>`).join('')+
+  `<div class="exp-savings">
+    <strong>💡 Savings opportunity:</strong> Items marked "review" total <strong>$${reviewTotal}/mo</strong> (~$${(reviewTotal*12).toLocaleString()}/yr).
+    Even just moving the <strong>3 personal items</strong> (Audible + Prime + Apple TV = $${personalRisk}/mo) off the business card removes IRS audit exposure.
+    Reviewing Workflow Queen ($695/mo) + Online Jobs PH ($99/mo) could free up <strong>$794/mo</strong> if either is no longer delivering clear ROI.
+  </div>`;
+
+let tab3Initialized = false;
+function initTab3(){
+  if(tab3Initialized) return;
+  tab3Initialized = true;
+
+function scoreCard(label, value, target, unit, badge, badgeClass, delta, extraDelta){
+  return `<div class="score-card ${badgeClass}">
+    <div class="sc-label">${label}</div>
+    <div class="sc-val mono">${value}</div>
+    <div class="sc-target">Target: ${target}</div>
+    <span class="sc-badge ${badgeClass}">${badgeClass==='hit'?'✓ On target':badgeClass==='amber'?'⚠ Watch':'✗ Off target'} ${badge}</span>
+    ${delta?`<div class="sc-delta">${delta}</div>`:''}
+    ${extraDelta?`<div class="sc-delta">${extraDelta}</div>`:''}
+  </div>`;
+}
+
+document.getElementById('finKpis').innerHTML =
+  scoreCard('Revenue YTD','$56,064','$15K/mo ($60K 4-mo budget)','','',
+    56064<60000?'miss':'hit',
+    'vs budget: −$5,536','+46% vs same period 2025') +
+  scoreCard('Net Income YTD','$32,193','$6,000+/mo','','','hit',
+    'vs $24K 4-mo budget: +$6,593','+38% vs Apr 2025') +
+  scoreCard('Gross Margin','87.4%','85%+','','','hit',
+    'Feb–Apr all above 89%','Jan dip (81.7%) = cleanup labor') +
+  scoreCard('Net Margin','56.2%','45%+','','','hit',
+    'Comfortably above target','Mar dip (41.4%) = travel + March OpEx');
+
+document.getElementById('salesKpis').innerHTML =
+  scoreCard('MRR (Bookkeeping)','$11,585','$15,000+/mo','','','miss',
+    '+$3,735 vs Apr 2025 (+48%)','10 clients below $400 — pricing opportunity') +
+  scoreCard('Active Clients','24 / 28','28 by Dec 2026','','','amber',
+    '+5 since Jan · need +4 more by Dec · TFG added Apr','Churn: 1 lost YTD (CYD)') +
+  scoreCard('Monthly Churn','1.14%','Under 3%/mo','','','hit',
+    '1 client lost (CYD)','Well within 3% ceiling') +
+  scoreCard('Advertising ROI','9.3×','Maximize cleanup leads','','','hit',
+    '$9,140 cleanup rev ÷ $982 ad spend','Jan 21.6× · Feb 3.0× · Mar 0× · Apr 48×');
+
+new Chart(document.getElementById('kpiRevChart'),{
+  type:'bar',
+  data:{
+    labels:['Jan','Feb','Mar','Apr'],
+    datasets:[
+      {label:'Revenue',data:[17293,12137,11623,15012],backgroundColor:['#7B61FF','#7B61FF','#7B61FF','#7B61FF'],borderRadius:5,barThickness:32},
+      {label:'$15K target',data:[15000,15000,15000,15000],type:'line',borderColor:'#E24B4A',borderWidth:1.5,borderDash:[4,3],pointRadius:0,fill:false,tension:0},
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{...CP.plugins,tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: $${(ctx.parsed.y||0).toLocaleString(undefined,{maximumFractionDigits:0})}`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#6B7188'}},
+      y:{beginAtZero:true,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},
+         ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(0)+'k',padding:6}}
+    }
+  }
+});
+
+
+document.getElementById('teamKpis').innerHTML =
+  scoreCard('CEO Client Hrs (Apr)','26.6','Under 30/mo','','','hit',
+    'Jan 140 → Feb 53 → Mar 69 → Apr 26.6','First month under target — delegation working') +
+  scoreCard('AM Delegation (Apr)','19.6%','60%+ of client hrs','','','miss',
+    'Kelli: 20.8h of 106.3h total · Week 1 only','Steady state ~$2K/mo · ~$1K Apr payment pending') +
+  scoreCard('Rowena (Bookkeeper)','66h (Apr)','Steady state','','','hit',
+    'Jan 133 · Feb 70 · Mar 94 · Apr 66','~$950/mo contractor cost');
+
+new Chart(document.getElementById('ceoHrsChart'),{
+  type:'line',
+  data:{
+    labels:['Jan','Feb','Mar','Apr (to 9th)'],
+    datasets:[
+      {label:'CEO client hrs',data:[140.1,53.1,68.6,26.6],borderColor:'#7B61FF',backgroundColor:'rgba(123,97,255,.08)',borderWidth:2.5,tension:.3,pointRadius:5,pointBackgroundColor:'#7B61FF',fill:true},
+      {label:'30hr target',data:[30,30,30,30],borderColor:'#E24B4A',borderWidth:1.5,borderDash:[4,3],pointRadius:0,fill:false,tension:0},
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{...CP.plugins,tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}h`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#6B7188'}},
+      y:{beginAtZero:true,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},
+         ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>v+'h',padding:6}}
+    }
+  }
+});
+
+new Chart(document.getElementById('hoursStackChart'),{
+  type:'bar',
+  data:{
+    labels:['Jan','Feb','Mar','Apr (to 9th)'],
+    datasets:[
+      {label:'Elena (CEO)',data:[140.1,53.1,68.6,26.6],backgroundColor:'#7B61FF',stack:'h',borderRadius:4},
+      {label:'Rowena',data:[133.1,69.9,93.9,59.0],backgroundColor:'#1D9E75',stack:'h',borderRadius:4},
+      {label:'Kelli (AM)',data:[0,0,0,20.8],backgroundColor:'#BA7517',stack:'h',borderRadius:4},
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{...CP.plugins,tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}h`}}},
+    scales:{
+      x:{stacked:true,grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#6B7188'}},
+      y:{stacked:true,beginAtZero:true,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},
+         ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>v+'h',padding:6}}
+    }
+  }
+});
+
+document.getElementById('clientKpis').innerHTML =
+  scoreCard('Active Recurring','23','28 by Dec 2026','','','amber',
+    'Net +3 since Jan (added AZ Gallery, Alexei ×2)','Need +5 more by Dec — on pace if sales hold') +
+  scoreCard('Clients below $400','10','Under 5','','','miss',
+    'Chicago SMA $385 · JHW $370 · PF $350...','Raise each $50 = +$500/mo MRR') +
+  scoreCard('Monthly Churn','1.14%','Under 3%','','','hit',
+    '1 lost YTD: CYD (Feb→Mar)','Well within target ceiling') +
+  scoreCard('Avg MRR per Client','$504','$535+ (for $15K at 28 clients)','','','amber',
+    'Current: $11,585 ÷ 23 clients','Pricing the 10 under-$400 clients gets you closer');
+
+const clients = [
+  {code:'ABFA',n:'AB LLC', mrr:650,  ar:1.9, ak:1.6, ae:8.2,  yr:1300, yr_r:1.88, yr_k:1.58, yr_e:10.06},
+  {code:'ALEX',n:'AB (2)',  mrr:650,  ar:2.1, ak:0.0, ae:0.0,  yr:1300, yr_r:1.87, yr_k:0.02, yr_e:1.86},
+  {code:'ARC', n:'AC',               mrr:525,  ar:2.5, ak:1.2, ae:0.4,  yr:2100, yr_r:3.56, yr_k:1.23, yr_e:1.42},
+  {code:'AZG', n:'AZG',                 mrr:550,  ar:0.5, ak:0.0, ae:6.9,  yr:1100, yr_r:0.72, yr_k:0.00, yr_e:8.43},
+  {code:'BBBG',n:'BBG',            mrr:350,  ar:0.5, ak:0.0, ae:0.0,  yr:1400, yr_r:1.52, yr_k:0.00, yr_e:1.22},
+  {code:'CCDD',n:'CCI',          mrr:300,  ar:2.0, ak:1.0, ae:0.0,  yr:1200, yr_r:2.40, yr_k:0.95, yr_e:0.13},
+  {code:'CPR', n:'CPR',           mrr:250,  ar:1.6, ak:0.0, ae:0.9,  yr:750,  yr_r:1.65, yr_k:0.00, yr_e:1.55},
+  {code:'CR',  n:'CR',                        mrr:300,  ar:1.6, ak:0.8, ae:0.0,  yr:1200, yr_r:1.47, yr_k:0.78, yr_e:0.26},
+  {code:'CRML',n:'CRL',                      mrr:400,  ar:3.4, ak:2.1, ae:0.1,  yr:1600, yr_r:3.56, yr_k:2.08, yr_e:2.24},
+  {code:'CSMA',n:'CSM',  mrr:385,  ar:2.3, ak:1.0, ae:0.0,  yr:1540, yr_r:3.91, yr_k:1.00, yr_e:3.11},
+  {code:'DP',  n:'DP',                      mrr:950,  ar:3.6, ak:2.1, ae:0.0,  yr:3800, yr_r:5.32, yr_k:2.08, yr_e:2.75},
+  {code:'FF',  n:'FF',            mrr:800,  ar:1.1, ak:0.7, ae:2.2,  yr:2400, yr_r:2.14, yr_k:0.73, yr_e:8.94},
+  {code:'HEV', n:'HEV',               mrr:600,  ar:1.9, ak:0.0, ae:0.0,  yr:2400, yr_r:5.41, yr_k:0.00, yr_e:9.52},
+  {code:'HYD', n:'HYD',                 mrr:400,  ar:1.2, ak:1.0, ae:0.0,  yr:1600, yr_r:1.87, yr_k:0.98, yr_e:3.27},
+  {code:'JHW', n:'JHW',                     mrr:370,  ar:0.8, ak:0.0, ae:0.0,  yr:1480, yr_r:1.04, yr_k:0.00, yr_e:1.17},
+  {code:'LCAT',n:'LCT',                    mrr:350,  ar:2.7, ak:2.1, ae:0.0,  yr:1400, yr_r:3.62, yr_k:2.13, yr_e:3.69},
+  {code:'LJK', n:'LJK',        mrr:575,  ar:3.1, ak:1.8, ae:0.5,  yr:1725, yr_r:3.82, yr_k:1.80, yr_e:1.17},
+  {code:'LJS', n:'LJS',              mrr:900,  ar:5.1, ak:0.9, ae:0.0,  yr:3600, yr_r:6.49, yr_k:0.88, yr_e:5.16},
+  {code:'MYU', n:'MYU',                mrr:420,  ar:3.1, ak:0.8, ae:0.0,  yr:1680, yr_r:4.05, yr_k:0.80, yr_e:1.66},
+  {code:'PF',  n:'PF',                       mrr:350,  ar:6.0, ak:1.6, ae:0.0,  yr:1050, yr_r:6.75, yr_k:1.55, yr_e:3.26},
+  {code:'SFN', n:'SFN',             mrr:210,  ar:2.5, ak:0.6, ae:0.0,  yr:840,  yr_r:2.68, yr_k:0.62, yr_e:0.28},
+  {code:'SGNR',n:'SGN',                       mrr:650,  ar:7.3, ak:0.5, ae:0.0,  yr:2600, yr_r:5.38, yr_k:0.48, yr_e:4.99},
+  {code:'SHG', n:'SHG',                         mrr:300,  ar:0.9, ak:1.0, ae:0.0,  yr:1200, yr_r:0.83, yr_k:1.03, yr_e:0.37},
+];
+const TDATA=[{"code": "ABFA", "name": "ABFA", "apr_rev": 1300, "apr_bk": 4.35, "apr_kel": 1.59, "apr_ele": 8.26, "apr_tot": 14.2, "apr_eff": 91.55, "apr_cost": 73.16, "apr_profit": 1226.84, "apr_margin": 94.4, "ytd_rev": 2600, "ytd_bk": 7.91, "ytd_kel": 1.59, "ytd_ele": 23.98, "ytd_tot": 33.48, "ytd_cost": 134.94, "ytd_profit": 2465.06, "ytd_margin": 94.8, "elena_rate": 102.8, "note": "+cleanup"}, {"code": "ARC", "name": "ARC", "apr_rev": 525, "apr_bk": 2.65, "apr_kel": 1.46, "apr_ele": 4.15, "apr_tot": 8.26, "apr_eff": 63.56, "apr_cost": 55.84, "apr_profit": 469.16, "apr_margin": 89.4, "ytd_rev": 2100, "ytd_bk": 14.65, "ytd_kel": 1.46, "ytd_ele": 9.48, "ytd_tot": 25.59, "ytd_cost": 225.77, "ytd_profit": 1874.23, "ytd_margin": 89.2, "elena_rate": 197.7, "note": null}, {"code": "AZG", "name": "AZG", "apr_rev": 1100, "apr_bk": 0.74, "apr_kel": 0.0, "apr_ele": 6.96, "apr_tot": 7.7, "apr_eff": 142.86, "apr_cost": 6.24, "apr_profit": 1093.76, "apr_margin": 99.4, "ytd_rev": 1650, "ytd_bk": 1.72, "ytd_kel": 0.0, "ytd_ele": 16.99, "ytd_tot": 18.71, "ytd_cost": 16.06, "ytd_profit": 1633.94, "ytd_margin": 99.0, "elena_rate": 96.17, "note": "+cleanup"}, {"code": "BBBG", "name": "BBBG", "apr_rev": 350, "apr_bk": 0.59, "apr_kel": 0.0, "apr_ele": 0.0, "apr_tot": 0.59, "apr_eff": 593.22, "apr_cost": 4.98, "apr_profit": 345.02, "apr_margin": 98.6, "ytd_rev": 1400, "ytd_bk": 6.35, "ytd_kel": 0.0, "ytd_ele": 2.49, "ytd_tot": 8.84, "ytd_cost": 83.12, "ytd_profit": 1316.88, "ytd_margin": 94.1, "elena_rate": 528.87, "note": null}, {"code": "CCDD", "name": "CCDD", "apr_rev": 300, "apr_bk": 2.24, "apr_kel": 0.95, "apr_ele": 0.0, "apr_tot": 3.19, "apr_eff": 94.04, "apr_cost": 40.68, "apr_profit": 259.32, "apr_margin": 86.4, "ytd_rev": 1200, "ytd_bk": 10.04, "ytd_kel": 0.95, "ytd_ele": 0.15, "ytd_tot": 11.14, "ytd_cost": 152.17, "ytd_profit": 1047.83, "ytd_margin": 87.3, "elena_rate": 6985.53, "note": null}, {"code": "CPR", "name": "CPR", "apr_rev": 250, "apr_bk": 1.64, "apr_kel": 0.0, "apr_ele": 0.88, "apr_tot": 2.52, "apr_eff": 99.21, "apr_cost": 13.83, "apr_profit": 236.17, "apr_margin": 94.5, "ytd_rev": 1950, "ytd_bk": 6.83, "ytd_kel": 0.0, "ytd_ele": 6.3, "ytd_tot": 13.13, "ytd_cost": 79.15, "ytd_profit": 1870.85, "ytd_margin": 95.9, "elena_rate": 296.96, "note": null}, {"code": "CR", "name": "CR", "apr_rev": 300, "apr_bk": 1.93, "apr_kel": 0.79, "apr_ele": 0.0, "apr_tot": 2.72, "apr_eff": 110.29, "apr_cost": 34.4, "apr_profit": 265.6, "apr_margin": 88.5, "ytd_rev": 1200, "ytd_bk": 6.49, "ytd_kel": 0.79, "ytd_ele": 0.81, "ytd_tot": 8.09, "ytd_cost": 99.63, "ytd_profit": 1100.37, "ytd_margin": 91.7, "elena_rate": 1358.48, "note": null}, {"code": "CRML", "name": "CRML", "apr_rev": 400, "apr_bk": 3.42, "apr_kel": 2.09, "apr_ele": 0.05, "apr_tot": 5.56, "apr_eff": 71.94, "apr_cost": 76.78, "apr_profit": 323.22, "apr_margin": 80.8, "ytd_rev": 1600, "ytd_bk": 14.53, "ytd_kel": 2.09, "ytd_ele": 9.06, "ytd_tot": 25.68, "ytd_cost": 232.09, "ytd_profit": 1367.91, "ytd_margin": 85.5, "elena_rate": 150.98, "note": null}, {"code": "CSMA", "name": "CSMA", "apr_rev": 385, "apr_bk": 2.77, "apr_kel": 1.02, "apr_ele": 0.0, "apr_tot": 3.79, "apr_eff": 101.58, "apr_cost": 46.76, "apr_profit": 338.24, "apr_margin": 87.9, "ytd_rev": 1540, "ytd_bk": 16.41, "ytd_kel": 1.02, "ytd_ele": 9.4, "ytd_tot": 26.83, "ytd_cost": 246.67, "ytd_profit": 1293.33, "ytd_margin": 84.0, "elena_rate": 137.59, "note": null}, {"code": "CYD", "name": "CYD", "apr_rev": 0, "apr_bk": 0.0, "apr_kel": 0.0, "apr_ele": 0.0, "apr_tot": 0.0, "apr_eff": null, "apr_cost": 0.0, "apr_profit": 0.0, "apr_margin": 0, "ytd_rev": 800, "ytd_bk": 10.09, "ytd_kel": 0.0, "ytd_ele": 6.76, "ytd_tot": 16.85, "ytd_cost": 193.74, "ytd_profit": 606.26, "ytd_margin": 75.8, "elena_rate": 89.68, "note": null}, {"code": "DP", "name": "DP", "apr_rev": 950, "apr_bk": 3.69, "apr_kel": 3.97, "apr_ele": 0.43, "apr_tot": 8.09, "apr_eff": 117.43, "apr_cost": 122.19, "apr_profit": 827.81, "apr_margin": 87.1, "ytd_rev": 3800, "ytd_bk": 21.68, "ytd_kel": 3.97, "ytd_ele": 8.75, "ytd_tot": 34.4, "ytd_cost": 388.21, "ytd_profit": 3411.79, "ytd_margin": 89.8, "elena_rate": 389.92, "note": null}, {"code": "FF", "name": "FF", "apr_rev": 800, "apr_bk": 1.11, "apr_kel": 0.74, "apr_ele": 2.25, "apr_tot": 4.1, "apr_eff": 195.12, "apr_cost": 26.34, "apr_profit": 773.66, "apr_margin": 96.7, "ytd_rev": 3550, "ytd_bk": 8.75, "ytd_kel": 0.74, "ytd_ele": 35.9, "ytd_tot": 45.39, "ytd_cost": 152.82, "ytd_profit": 3397.18, "ytd_margin": 95.7, "elena_rate": 94.63, "note": null}, {"code": "HEV", "name": "HEV", "apr_rev": 600, "apr_bk": 1.98, "apr_kel": 0.0, "apr_ele": 0.09, "apr_tot": 2.07, "apr_eff": 289.86, "apr_cost": 16.7, "apr_profit": 583.3, "apr_margin": 97.2, "ytd_rev": 2400, "ytd_bk": 22.15, "ytd_kel": 0.0, "ytd_ele": 9.67, "ytd_tot": 31.82, "ytd_cost": 303.79, "ytd_profit": 2096.21, "ytd_margin": 87.3, "elena_rate": 216.77, "note": null}, {"code": "HYD", "name": "HYD", "apr_rev": 400, "apr_bk": 1.22, "apr_kel": 1.0, "apr_ele": 0.0, "apr_tot": 2.22, "apr_eff": 180.18, "apr_cost": 33.23, "apr_profit": 366.77, "apr_margin": 91.7, "ytd_rev": 1600, "ytd_bk": 7.68, "ytd_kel": 1.0, "ytd_ele": 9.92, "ytd_tot": 18.6, "ytd_cost": 119.19, "ytd_profit": 1480.81, "ytd_margin": 92.6, "elena_rate": 149.28, "note": null}, {"code": "JHW", "name": "JHW", "apr_rev": 370, "apr_bk": 0.85, "apr_kel": 0.0, "apr_ele": 0.0, "apr_tot": 0.85, "apr_eff": 435.29, "apr_cost": 7.17, "apr_profit": 362.83, "apr_margin": 98.1, "ytd_rev": 1480, "ytd_bk": 4.34, "ytd_kel": 0.0, "ytd_ele": 3.54, "ytd_tot": 7.88, "ytd_cost": 62.56, "ytd_profit": 1417.44, "ytd_margin": 95.8, "elena_rate": 400.41, "note": null}, {"code": "LCAT", "name": "LCAT", "apr_rev": 350, "apr_bk": 2.79, "apr_kel": 2.14, "apr_ele": 0.0, "apr_tot": 4.93, "apr_eff": 70.99, "apr_cost": 72.62, "apr_profit": 277.38, "apr_margin": 79.3, "ytd_rev": 1400, "ytd_bk": 14.95, "ytd_kel": 2.14, "ytd_ele": 11.19, "ytd_tot": 28.28, "ytd_cost": 235.21, "ytd_profit": 1164.79, "ytd_margin": 83.2, "elena_rate": 104.09, "note": null}, {"code": "LJK", "name": "LJK", "apr_rev": 575, "apr_bk": 3.71, "apr_kel": 1.81, "apr_ele": 0.53, "apr_tot": 6.05, "apr_eff": 95.04, "apr_cost": 72.81, "apr_profit": 502.19, "apr_margin": 87.3, "ytd_rev": 2300, "ytd_bk": 16.23, "ytd_kel": 1.81, "ytd_ele": 4.77, "ytd_tot": 22.81, "ytd_cost": 258.83, "ytd_profit": 2041.17, "ytd_margin": 88.7, "elena_rate": 427.92, "note": null}, {"code": "LJS", "name": "LJS", "apr_rev": 900, "apr_bk": 5.2, "apr_kel": 0.9, "apr_ele": 0.0, "apr_tot": 6.1, "apr_eff": 147.54, "apr_cost": 64.5, "apr_profit": 835.5, "apr_margin": 92.8, "ytd_rev": 3500, "ytd_bk": 26.54, "ytd_kel": 0.9, "ytd_ele": 15.55, "ytd_tot": 42.99, "ytd_cost": 369.77, "ytd_profit": 3130.23, "ytd_margin": 89.4, "elena_rate": 201.3, "note": null}, {"code": "MYU", "name": "MYU", "apr_rev": 420, "apr_bk": 3.28, "apr_kel": 0.81, "apr_ele": 0.0, "apr_tot": 4.09, "apr_eff": 102.69, "apr_cost": 46.24, "apr_profit": 373.76, "apr_margin": 89.0, "ytd_rev": 1680, "ytd_bk": 16.61, "ytd_kel": 0.81, "ytd_ele": 5.01, "ytd_tot": 22.43, "ytd_cost": 234.92, "ytd_profit": 1445.08, "ytd_margin": 86.0, "elena_rate": 288.44, "note": null}, {"code": "OVS", "name": "OVS", "apr_rev": 1000, "apr_bk": 1.58, "apr_kel": 0.0, "apr_ele": 7.34, "apr_tot": 8.92, "apr_eff": 112.11, "apr_cost": 13.32, "apr_profit": 986.68, "apr_margin": 98.7, "ytd_rev": 4000, "ytd_bk": 12.45, "ytd_kel": 0.0, "ytd_ele": 28.35, "ytd_tot": 40.8, "ytd_cost": 143.18, "ytd_profit": 3856.82, "ytd_margin": 96.4, "elena_rate": 136.04, "note": null}, {"code": "PF", "name": "PF", "apr_rev": 350, "apr_bk": 6.86, "apr_kel": 1.56, "apr_ele": 0.0, "apr_tot": 8.42, "apr_eff": 41.57, "apr_cost": 93.63, "apr_profit": 256.37, "apr_margin": 73.2, "ytd_rev": 1350, "ytd_bk": 28.18, "ytd_kel": 1.56, "ytd_ele": 9.9, "ytd_tot": 39.64, "ytd_cost": 335.09, "ytd_profit": 1014.91, "ytd_margin": 75.2, "elena_rate": 102.52, "note": null}, {"code": "SFN", "name": "SFN", "apr_rev": 210, "apr_bk": 3.42, "apr_kel": 0.62, "apr_ele": 0.0, "apr_tot": 4.04, "apr_eff": 51.98, "apr_cost": 43.06, "apr_profit": 166.94, "apr_margin": 79.5, "ytd_rev": 840, "ytd_bk": 11.85, "ytd_kel": 0.62, "ytd_ele": 0.84, "ytd_tot": 13.31, "ytd_cost": 159.52, "ytd_profit": 680.48, "ytd_margin": 81.0, "elena_rate": 810.1, "note": null}, {"code": "SGNR", "name": "SGNR", "apr_rev": 650, "apr_bk": 7.56, "apr_kel": 0.76, "apr_ele": 0.0, "apr_tot": 8.32, "apr_eff": 78.12, "apr_cost": 81.18, "apr_profit": 568.82, "apr_margin": 87.5, "ytd_rev": 2600, "ytd_bk": 22.1, "ytd_kel": 0.76, "ytd_ele": 15.07, "ytd_tot": 37.93, "ytd_cost": 273.46, "ytd_profit": 2326.54, "ytd_margin": 89.5, "elena_rate": 154.38, "note": null}, {"code": "SHG", "name": "SHG", "apr_rev": 300, "apr_bk": 0.94, "apr_kel": 1.05, "apr_ele": 0.0, "apr_tot": 1.99, "apr_eff": 150.75, "apr_cost": 32.01, "apr_profit": 267.99, "apr_margin": 89.3, "ytd_rev": 1325, "ytd_bk": 3.48, "ytd_kel": 1.05, "ytd_ele": 1.13, "ytd_tot": 5.66, "ytd_cost": 67.68, "ytd_profit": 1257.32, "ytd_margin": 94.9, "elena_rate": 1112.67, "note": null}, {"code": "TFG", "name": "TFG", "apr_rev": 1600, "apr_bk": 0.27, "apr_kel": 0.0, "apr_ele": 0.62, "apr_tot": 0.89, "apr_eff": 1797.75, "apr_cost": 2.28, "apr_profit": 1597.72, "apr_margin": 99.9, "ytd_rev": 1600, "ytd_bk": 0.27, "ytd_kel": 0.0, "ytd_ele": 0.62, "ytd_tot": 0.89, "ytd_cost": 2.32, "ytd_profit": 1597.68, "ytd_margin": 99.9, "elena_rate": 2576.9, "note": "cleanup"}];
+const TTOTALS={"apr_rev": 14385, "apr_bk": 64.79, "apr_kel": 23.26, "apr_ele": 31.56, "apr_tot": 119.61, "apr_cost": 1079.95, "apr_profit": 13305.05, "ytd_rev": 49465, "ytd_bk": 312.28, "ytd_kel": 23.26, "ytd_ele": 245.63, "ytd_tot": 581.17, "ytd_cost": 4569.89, "ytd_profit": 44895.11, "apr_margin": 92.5, "ytd_margin": 90.8};
+const T1=TDATA;
+const T2=TDATA;
+
+function fmt(v){return '$'+Math.round(v).toLocaleString();}
+function fmtH(v){return v>0?v.toFixed(2)+'h':'—';}
+function fmt(v){return '$'+Math.round(v).toLocaleString();}
+
+// April table
+document.getElementById('aprBody').innerHTML=TDATA.map((r,i)=>{
+  const flag=r.code==='TFG'?'🔵':r.apr_margin>=88?'🟢':r.apr_margin>=75?'🟡':'🔴';
+  const mgColor=r.apr_margin>=88?'var(--gr)':r.apr_margin>=75?'var(--am)':'var(--rd)';
+  const effColor=!r.apr_eff?'var(--mu)':r.apr_eff>=150?'var(--gr)':r.apr_eff>=80?'var(--am)':'var(--rd)';
+  const aprRevLabel=r.note?fmt(r.apr_rev)+'<span style="font-size:10px;color:var(--am);margin-left:3px">'+r.note+'</span>':fmt(r.apr_rev);
+  return `<tr>
+    <td class="mono" style="padding-left:12px;color:var(--mu)">${String(i+1).padStart(2,'0')}</td>
+    <td style="text-align:left;padding-left:4px;font-weight:500">${flag} ${r.name}</td>
+    <td class="mono">${aprRevLabel}</td>
+    <td class="mono">${fmtH(r.apr_bk)}</td>
+    <td class="mono">${fmtH(r.apr_kel)}</td>
+    <td class="mono">${fmtH(r.apr_ele)}</td>
+    <td class="mono">${r.apr_tot>0?r.apr_tot.toFixed(2)+'h':'—'}</td>
+    <td class="mono" style="color:${effColor};font-weight:500">${r.apr_eff?fmt(r.apr_eff)+'/hr':'—'}</td>
+    <td class="mono" style="color:${mgColor};font-weight:500">${r.apr_rev>0?r.apr_margin.toFixed(1)+'%':'—'}</td>
+  </tr>`;
+}).join('');
+
+document.getElementById('aprFoot').innerHTML=`
+<tr style="background:#F7F6F5;font-weight:500;border-top:2px solid var(--ln)">
+  <td colspan="2" style="text-align:left;padding-left:12px;font-weight:600">Client subtotal</td>
+  <td class="mono">${fmt(TTOTALS.apr_rev)}</td>
+  <td class="mono">${TTOTALS.apr_bk.toFixed(2)}h</td>
+  <td class="mono">${TTOTALS.apr_kel.toFixed(2)}h</td>
+  <td class="mono">${TTOTALS.apr_ele.toFixed(2)}h</td>
+  <td class="mono">${TTOTALS.apr_tot.toFixed(2)}h</td>
+  <td class="mono">—</td>
+  <td class="mono">${TTOTALS.apr_margin.toFixed(1)}%</td>
+</tr>
+<tr style="background:#F0EEEB;color:var(--mu);font-size:12px">
+  <td colspan="2" style="text-align:left;padding-left:12px;font-style:italic">+ Other income</td>
+  <td class="mono">$627</td>
+  <td colspan="6" style="font-size:11px;padding-left:8px;color:var(--mu)">Optimus $587 · Gusto $40</td>
+</tr>
+<tr style="background:#EDE9FF;font-weight:600;border-top:1px solid #7B61FF">
+  <td colspan="2" style="text-align:left;padding-left:12px;color:var(--navy)">Total April revenue</td>
+  <td class="mono" style="color:#5A3FD9">$15,012</td>
+  <td colspan="6"></td>
+</tr>`;
+
+// YTD table
+document.getElementById('ytdBody').innerHTML=TDATA.map((r,i)=>{
+  const flag=r.code==='TFG'?'🔵':r.ytd_margin>=88?'🟢':r.ytd_margin>=75?'🟡':'🔴';
+  const mgColor=r.ytd_margin>=88?'var(--gr)':r.ytd_margin>=75?'var(--am)':'var(--rd)';
+  const ytdRevLabel=r.note?fmt(r.ytd_rev)+'<span style="font-size:10px;color:var(--am);margin-left:3px">+cleanup</span>':fmt(r.ytd_rev);
+  return `<tr>
+    <td class="mono" style="padding-left:12px;color:var(--mu)">${String(i+1).padStart(2,'0')}</td>
+    <td style="text-align:left;padding-left:4px;font-weight:500">${flag} ${r.name}</td>
+    <td class="mono">${ytdRevLabel}</td>
+    <td class="mono">${fmtH(r.ytd_bk)}</td>
+    <td class="mono">${fmtH(r.ytd_kel)}</td>
+    <td class="mono">${fmtH(r.ytd_ele)}</td>
+    <td class="mono">${r.ytd_tot>0?r.ytd_tot.toFixed(2)+'h':'—'}</td>
+    <td class="mono" style="color:var(--rd)">${fmt(r.ytd_cost)}</td>
+    <td class="mono" style="color:${mgColor};font-weight:500">${r.ytd_margin.toFixed(1)}%</td>
+    <td class="mono" style="color:var(--purple);font-weight:500">${r.elena_rate?fmt(r.elena_rate)+'/hr':'—'}</td>
+  </tr>`;
+}).join('');
+
+document.getElementById('ytdFoot').innerHTML=`
+<tr style="background:#F7F6F5;font-weight:500;border-top:2px solid var(--ln)">
+  <td colspan="2" style="text-align:left;padding-left:12px;font-weight:600">Client subtotal</td>
+  <td class="mono">${fmt(TTOTALS.ytd_rev)}</td>
+  <td class="mono">${TTOTALS.ytd_bk.toFixed(2)}h</td>
+  <td class="mono">${TTOTALS.ytd_kel.toFixed(2)}h</td>
+  <td class="mono">${TTOTALS.ytd_ele.toFixed(2)}h</td>
+  <td class="mono">${TTOTALS.ytd_tot.toFixed(2)}h</td>
+  <td class="mono" style="color:var(--rd)">${fmt(TTOTALS.ytd_cost)}</td>
+  <td class="mono">${TTOTALS.ytd_margin.toFixed(1)}%</td>
+  <td class="mono"></td>
+</tr>
+<tr style="background:#F0EEEB;color:var(--mu);font-size:12px">
+  <td colspan="2" style="text-align:left;padding-left:12px;font-style:italic">+ Other income (commission, Gusto)</td>
+  <td class="mono">$1,284</td>
+  <td colspan="7" style="font-size:11px;padding-left:8px">Commission $1,123 · Gusto $161 YTD</td>
+</tr>
+<tr style="background:#EDE9FF;font-weight:600;border-top:1px solid #7B61FF">
+  <td colspan="2" style="text-align:left;padding-left:12px;color:var(--navy)">Total YTD revenue</td>
+  <td class="mono" style="color:#5A3FD9">$56,064</td>
+  <td colspan="7"></td>
+</tr>`;
+  try{if(cfChart)cfChart.destroy();}catch(e){}
+  const canvas=document.getElementById('cfChart');
+  if(!canvas)return;
+  cfChart=new Chart(canvas,{
+    type:'bar',
+    data:{labels:MOS,datasets:[
+      {label:'Cash balance',data:bals,type:'line',borderColor:'#7B61FF',backgroundColor:'rgba(123,97,255,.08)',borderWidth:2.5,tension:.3,pointRadius:4,pointBackgroundColor:'#7B61FF',fill:true,yAxisID:'y1'},
+      {label:'Monthly net',data:nets,backgroundColor:nets.map(v=>v>=0?'rgba(29,158,117,.75)':'rgba(196,74,74,.75)'),borderRadius:5,barThickness:22,yAxisID:'y2'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{...CP.plugins,tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: $${(ctx.parsed.y||0).toLocaleString(undefined,{maximumFractionDigits:0})}`}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#6B7188'}},
+        y1:{position:'left',beginAtZero:false,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(0)+'k',padding:6}},
+        y2:{position:'right',grid:{display:false},border:{display:false},ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(1)+'k',padding:6}},
+      }
+    }
+  });
+} // end initTab3
+
+let cfInit=false,cfChart=null,scChart=null;
+function buildCF(){
+  const grow = +document.getElementById('mrrGrowth').value;
+  const dist = +document.getElementById('distrib').value;
+  const other= +document.getElementById('cleanupSlider').value;
+  const MOS=['May','Jun','Jul','Aug','Sep','Oct'];
+  const ROWENA=950,KELLI=2000,PAYROLL=2240,OPEX=1751;
+  let cash=29847.70, mrr=11585;
+  const rows=[],bals=[],nets=[];
+  MOS.forEach(m=>{
+    mrr+=grow;
+    const inflow=mrr+other;
+    const outflow=ROWENA+KELLI+PAYROLL+OPEX+dist;
+    const net=inflow-outflow;
+    cash+=net;
+    rows.push({m,mrr,other,inflow,outflow,net,cash:Math.round(cash)});
+    bals.push(Math.round(cash));
+    nets.push(Math.round(net));
+  });
+  document.getElementById('cfBody').innerHTML=rows.map(r=>{
+    const nc=r.net>=0?'var(--gr)':'var(--rd)';
+    const fmt2=v=>'$'+Math.round(v).toLocaleString();
+    return `<tr>
+      <td style="text-align:left;padding-left:14px;font-weight:500">${r.m}</td>
+      <td class="mono">${fmt2(r.mrr)}</td>
+      <td class="mono">${fmt2(r.other)}</td>
+      <td class="mono" style="font-weight:500;color:var(--navy)">${fmt2(r.inflow)}</td>
+      <td class="mono">${fmt2(ROWENA+KELLI)}</td>
+      <td class="mono">${fmt2(PAYROLL)}</td>
+      <td class="mono">${fmt2(OPEX)}</td>
+      <td class="mono">${fmt2(dist)}</td>
+      <td class="mono">${fmt2(r.outflow)}</td>
+      <td class="mono" style="font-weight:500;color:${nc}">${r.net>=0?'+':''}${fmt2(r.net)}</td>
+      <td class="mono" style="font-weight:500;color:var(--purple)">${fmt2(r.cash)}</td>
+    </tr>`;
+  }).join('');
+  if(cfChart)cfChart.destroy();
+  const canvas=document.getElementById('cfChart');
+  if(!canvas)return;
+  cfChart=new Chart(canvas,{
+    type:'bar',
+    data:{labels:MOS,datasets:[
+      {label:'Cash balance',data:bals,type:'line',borderColor:'#7B61FF',backgroundColor:'rgba(123,97,255,.08)',borderWidth:2.5,tension:.3,pointRadius:4,pointBackgroundColor:'#7B61FF',fill:true,yAxisID:'y1'},
+      {label:'Monthly net',data:nets,backgroundColor:nets.map(v=>v>=0?'rgba(29,158,117,.75)':'rgba(196,74,74,.75)'),borderRadius:5,barThickness:22,yAxisID:'y2'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{...CP.plugins,tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: $${(ctx.parsed.y||0).toLocaleString(undefined,{maximumFractionDigits:0})}`}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#6B7188'}},
+        y1:{position:'left',beginAtZero:false,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(0)+'k',padding:6}},
+        y2:{position:'right',grid:{display:false},border:{display:false},ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(1)+'k',padding:6}},
+      }
+    }
+  });
+}
+
+function initCF(){
+  if(cfInit)return; cfInit=true;
+  ['mrrGrowth','distrib','cleanupSlider'].forEach(id=>{
+    document.getElementById(id).addEventListener('input',function(){
+      const disp=id==='mrrGrowth'?'+$'+this.value:'$'+this.value;
+      document.getElementById(id+'Val').textContent=disp;
+      buildCF();
+    });
+  });
+  const endCash=[
+    Math.round(29848+6*(-313)),
+    Math.round(29848+(2594+3644+3494+4544+4394+5444)),
+    Math.round(29848+(3044+4694+4644+5794+5644+6694)),
+    Math.round(29848+6*7637),
+  ];
+  scChart=new Chart(document.getElementById('scenarioChart'),{
+    type:'bar',
+    data:{labels:['Conservative\n(no growth)','Base\n($450/mo)','Optimistic\n($900/mo)','No distribution'],
+      datasets:[{label:'Oct 2026 cash',data:endCash,
+        backgroundColor:['#9DA3AE','#7B61FF','#1D9E75','#BA7517'],borderRadius:6,barThickness:32}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      plugins:{...CP.plugins,legend:{display:false},tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`$${ctx.parsed.x.toLocaleString(undefined,{maximumFractionDigits:0})}`}}},
+      scales:{
+        x:{grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(0)+'k',padding:6}},
+        y:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#6B7188'}},
+      }
+    }
+  });
+  document.getElementById('levers').innerHTML=[
+    {l:'Raise 10 under-$400 clients by $50',i:'+$500/mo recurring MRR',c:'var(--gr)'},
+    {l:'Add 1 new client/mo at $450 avg',i:'+$450/mo compounding',c:'var(--gr)'},
+    {l:'Open Solo 401(k) at Fidelity',i:'~$3,750/yr tax savings',c:'var(--gr)'},
+    {l:'Start Airbnb (RV + palapa)',i:'~$1,050/mo personal income',c:'var(--gr)'},
+    {l:'Set up $3K/mo S-Corp distribution',i:'Personal cash flow clarity',c:'var(--purple)'},
+    {l:'Move personal subs off biz card',i:'−$33/mo IRS risk removed',c:'var(--am)'},
+    {l:'Review Workflow Queen $695/mo',i:'Up to −$695/mo if not renewing',c:'var(--am)'},
+  ].map(x=>`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--lns);gap:12px"><span style="color:var(--ink);font-size:12.5px">${x.l}</span><span style="font-size:11px;font-weight:500;color:${x.c};white-space:nowrap">${x.i}</span></div>`).join('');
+  buildCF();
+}
+
+document.querySelectorAll('.tnav[data-tab]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tnav').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    document.querySelector(`.tab-panel[data-panel="${btn.dataset.tab}"]`).classList.add('active');
+    if(btn.dataset.tab==='kpi') setTimeout(initTab3,50);
+    if(btn.dataset.tab==='cf')  setTimeout(initCF,50);
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+async function ask(q){
+  const el=document.getElementById('askAns');
+  el.textContent='Thinking…';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:1000,
+        messages:[{role:'user',content:CTX+'\n\nQuestion: '+q}]
+      })
+    });
+    const d=await res.json();
+    el.textContent=d.content?.map(x=>x.text||'').join('')||'No response.';
+  }catch(e){el.textContent='Ask CFO unavailable: '+e.message;}
+}
+document.getElementById('askBtn').onclick=()=>{const q=document.getElementById('askIn').value.trim();if(q)ask(q)};
+document.getElementById('askIn').addEventListener('keydown',e=>{if(e.key==='Enter'){const q=e.target.value.trim();if(q)ask(q)}});
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{document.getElementById('askIn').value=c.dataset.q;ask(c.dataset.q)}));
+
+})();
+</script>
