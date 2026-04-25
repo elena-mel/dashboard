@@ -290,6 +290,30 @@ function currentYearRange(req) {
   return { start_date: `${year}-01-01`, end_date: end };
 }
 
+function buildStateCookie(state) {
+  return [
+    `kb_qbo_state=${state}`,
+    'Path=/',
+    'HttpOnly',
+    'Secure',
+    'SameSite=Lax',
+    'Max-Age=600'
+  ].join('; ');
+}
+
+function clearStateCookie() {
+  return 'kb_qbo_state=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0';
+}
+
+function readCookie(req, name) {
+  const raw = req.headers.cookie || '';
+  return raw
+    .split(';')
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(`${name}=`))
+    ?.slice(name.length + 1) || '';
+}
+
 function authUrl(req) {
   const state = crypto.randomBytes(24).toString('hex');
   const url = new URL(AUTH_URL);
@@ -301,7 +325,8 @@ function authUrl(req) {
   return kvSet(STATE_KEY, { state, expiresAt: Date.now() + 10 * 60 * 1000 }).then(() => url.toString());
 }
 
-async function verifyState(state) {
+async function verifyState(state, req) {
+  if (readCookie(req, 'kb_qbo_state') === state) return true;
   const saved = await kvGet(STATE_KEY);
   return !!saved && saved.state === state && Date.now() < saved.expiresAt;
 }
@@ -324,6 +349,8 @@ function handleOptions(req, res) {
 
 module.exports = {
   authUrl,
+  buildStateCookie,
+  clearStateCookie,
   currentYearRange,
   exchangeCodeForTokens,
   formatPL,
