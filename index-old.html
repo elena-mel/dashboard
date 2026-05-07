@@ -649,11 +649,11 @@ BUDGET.net=BUDGET.rev-BUDGET.cogs-BUDGET.opex-BUDGET.pay;
 let activeMon = 3; // Apr by default
 
 const kpiData = {
-  mrr: {label:'Monthly Revenue',vals:[17293,12137,14023,19812],prior25:[8136,10455,12007,10449],ytdVal:()=>'$63,264',target:'$16,667+/mo',hitFn:v=>v>=16666.67},
-  net: {label:'Net Income',vals:[10026,7172,7207,13156],prior25:[6299,9058,6645,6257],ytdVal:()=>ytdNet,target:'$6,000+/mo',hitFn:v=>v>=6000},
-  gm:  {label:'Gross Margin',vals:[81.7,90.6,91.4,85.4],prior25:[89.5,96.8,67.7,77.2],ytdVal:()=>87.4,isPercent:true,target:'85%+',hitFn:v=>v>=85},
-  clients:{label:'Active Recurring',vals:[24,25,26,27],prior25:[18,18,18,19],ytdVal:()=>27,target:'30 active',hitFn:v=>v>=30},
-  ceoHrs:{label:'CEO Client Hrs',vals:[140.97,53.53,69.18,62.13],prior25:[null,null,null,null],ytdVal:()=>null,target:'<30/mo',hitFn:v=>v<30},
+  mrr: {label:'Monthly Revenue',vals:[17293,12137,14023,19812],prior25:[8136,10455,12007,10449],ytdVal:()=>ytdRev,ytdBudget:()=>BUDGET.rev*AM,target:'$16,667+/mo',hitFn:v=>v>=16666.67},
+  net: {label:'Net Income',vals:[10026,7172,7207,13156],prior25:[6299,9058,6645,6257],ytdVal:()=>ytdNet,ytdBudget:()=>6000*AM,target:'$6,000+/mo',hitFn:v=>v>=6000},
+  gm:  {label:'Gross Margin',vals:[81.7,90.6,91.4,85.4],prior25:[89.5,96.8,67.7,77.2],ytdVal:()=>86.7,ytdBudget:()=>85,isPercent:true,target:'85%+',hitFn:v=>v>=85},
+  clients:{label:'Active Recurring',vals:[24,25,26,27],prior25:[18,18,18,19],ytdVal:()=>27,ytdBudget:()=>30,target:'30 active',hitFn:v=>v>=30},
+  ceoHrs:{label:'CEO Client Hrs',vals:[140.97,53.53,69.18,62.13],prior25:[null,null,null,null],ytdVal:()=>null,ytdBudget:()=>null,target:'<30/mo',hitFn:v=>v<30},
 };
 
 function renderKpiCards(mon){
@@ -664,23 +664,25 @@ function renderKpiCards(mon){
   const keys=['mrr','net','gm','clients','ceoHrs'];
   el.innerHTML=keys.map(k=>{
     const d=kpiData[k];
-    const cur=isYtd&&k==='gm'?86.7:isYtd&&k==='net'?ytdNet:isYtd&&k==='mrr'?ytdRev:isYtd&&k==='clients'?27:d.vals[idx];
-    const prev=idx>0?d.vals[idx-1]:null;
-    const p25=d.prior25?.[idx];
+    const cur=isYtd&&k==='clients'?27:isYtd?d.ytdVal():d.vals[idx];
+    const compare=isYtd?d.ytdBudget?.():idx>0?d.vals[idx-1]:null;
+    const p25=isYtd&&['mrr','net'].includes(k)?d.prior25.reduce((a,v)=>a+(v||0),0):d.prior25?.[idx];
     const fmt=v=>v==null?'—':d.isPercent?v.toFixed(1)+'%':k==='clients'?String(Math.round(v)):k==='ceoHrs'?Number(v).toFixed(1)+'h':'$'+Math.round(v).toLocaleString();
-    const delta=(a,b,inv)=>{
+    const delta=(a,b,inv,label)=>{
       if(a==null||b==null)return '';
-      const d=a-b,cls=inv?(d<0?'up':d>0?'dn':'flat'):(d>0?'up':d<0?'dn':'flat');
-      const sign=d>=0?'▲':'▼';
-      return `<div class="delta ${cls}">${sign} ${fmt(Math.abs(d))} <span class="delta-label">vs ${mLabel==='YTD'?'budget':'prior mo'}</span></div>`;
+      const diff=a-b,cls=inv?(diff<0?'up':diff>0?'dn':'flat'):(diff>0?'up':diff<0?'dn':'flat');
+      const sign=diff>=0?'▲':'▼';
+      return `<div class="delta ${cls}">${sign} ${fmt(Math.abs(diff))} <span class="delta-label">${label}</span></div>`;
     };
-    const yoy=p25!=null?`<div class="delta ${cur>=p25?'up':'dn'}">${cur>=p25?'▲':'▼'} ${fmt(Math.abs(cur-p25))} <span class="delta-label">vs ${mLabel} '25</span></div>`:'';
-    const hit=d.hitFn(cur);
+    const compareLabel=isYtd?'vs YTD budget':'vs prior mo';
+    const priorLabel=isYtd&&['mrr','net'].includes(k)?"vs Jan-Apr '25":isYtd?"vs Apr '25":`vs ${mLabel} '25`;
+    const yoy=p25!=null?`<div class="delta ${cur>=p25?'up':'dn'}">${cur>=p25?'▲':'▼'} ${fmt(Math.abs(cur-p25))} <span class="delta-label">${priorLabel}</span></div>`:'';
+    const hit=isYtd&&compare!=null&&!d.isPercent&&k!=='ceoHrs'?cur>=compare:d.hitFn(cur);
     return `<div class="kpi">
       <div class="kpi-label">${d.label}</div>
       <div class="kpi-val mono">${fmt(cur)}</div>
       <div class="kpi-deltas">
-        ${delta(cur,prev,k==='ceoHrs')}
+        ${delta(cur,compare,k==='ceoHrs',compareLabel)}
         ${yoy}
       </div>
       <div class="kpi-target ${hit?'hit':'miss'}">${d.target} ${hit?'✓':'✗'}</div>
