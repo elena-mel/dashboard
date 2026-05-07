@@ -648,7 +648,7 @@ let activeMon = 3; // Apr by default
 
 const kpiData = {
   mrr: {label:'Monthly Revenue',vals:[17293,12137,14023,19812],prior25:[8136,10455,12007,10449],ytdVal:()=>ytdRev,ytdBudget:()=>BUDGET.rev*AM,target:'$16,667+/mo',hitFn:v=>v>=16666.67},
-  net: {label:'Net Income',vals:[10026,7172,7207,13156],prior25:[6299,9058,6645,6257],ytdVal:()=>ytdNet,ytdBudget:()=>6000*AM,target:'$6,000+/mo',hitFn:v=>v>=6000},
+  net: {label:'Net Income',vals:[10026,7172,7207,13156],prior25:[6299,9058,6645,6257],ytdVal:()=>ytdNet,ytdBudget:()=>BUDGET.net*AM,target:'$10,727/mo budget',hitFn:v=>v>=BUDGET.net},
   gm:  {label:'Gross Margin',vals:[81.7,90.6,91.4,85.4],prior25:[89.5,96.8,67.7,77.2],ytdVal:()=>86.7,ytdBudget:()=>85,isPercent:true,target:'85%+',hitFn:v=>v>=85},
   clients:{label:'Active Recurring',vals:[24,25,26,27],prior25:[18,18,18,19],ytdVal:()=>27,ytdBudget:()=>30,target:'30 active',hitFn:v=>v>=30},
   ceoHrs:{label:'CEO Client Hrs',vals:[140.97,53.53,69.18,62.13],prior25:[null,null,null,null],ytdVal:()=>null,ytdBudget:()=>null,target:'<30/mo',hitFn:v=>v<30},
@@ -1022,8 +1022,8 @@ document.getElementById('finKpis').innerHTML =
   scoreCard('Revenue YTD','$63,264','$16.7K/mo ($66.7K 4-mo target)','','',
     63264>=66667?'hit':'miss',
     'vs target: -$3,402','+54% vs same period 2025') +
-  scoreCard('Net Income YTD','$37,562','$6,000+/mo','','','hit',
-    'vs $24K 4-mo budget: +$13,562','59.4% net margin YTD') +
+  scoreCard('Net Income YTD','$37,562','$10.7K/mo budget','','','miss',
+    'vs $42.9K 4-mo budget: -$5,345','59.4% net margin YTD') +
   scoreCard('Gross Margin','86.7%','85%+','','','hit',
     'Still above target after higher April contractor cost','Jan dip (81.7%) = cleanup labor') +
   scoreCard('Net Margin','59.4%','45%+','','','hit',
