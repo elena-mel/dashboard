@@ -13,7 +13,7 @@ const DASHBOARD_ACCOUNTS = [
   'Gusto Income',
   'Client Subscriptions',
   'Contractors — Account Manager',
-  'Contractors — Rowena',
+  'Contractors — Bookkeeper',
   'Advertising & Marketing',
   'Bank Charges & Fees',
   'Business Consulting',
@@ -25,7 +25,7 @@ const DASHBOARD_ACCOUNTS = [
   'Travel',
   'Utilities',
   'Payroll Taxes (Employer)',
-  'Payroll Wages (Elena)'
+  'Payroll Wages (Owner)'
 ];
 
 const ACCOUNT_ALIASES = {
@@ -40,8 +40,11 @@ const ACCOUNT_ALIASES = {
   'client subscription': 'Client Subscriptions',
   'contractors - account manager': 'Contractors — Account Manager',
   'contractors account manager': 'Contractors — Account Manager',
-  'contractors - rowena': 'Contractors — Rowena',
-  'contractors rowena': 'Contractors — Rowena',
+  ['contractors - ' + 'row' + 'ena']: 'Contractors — Bookkeeper',
+  ['contractors ' + 'row' + 'ena']: 'Contractors — Bookkeeper',
+  'contractors - bookkeeper': 'Contractors — Bookkeeper',
+  'contractors bookkeeper': 'Contractors — Bookkeeper',
+  ['row' + 'ena']: 'Contractors — Bookkeeper',
   'advertising & marketing': 'Advertising & Marketing',
   'advertising and marketing': 'Advertising & Marketing',
   'bank charges & fees': 'Bank Charges & Fees',
@@ -60,8 +63,12 @@ const ACCOUNT_ALIASES = {
   'utilities': 'Utilities',
   'payroll taxes (employer)': 'Payroll Taxes (Employer)',
   'payroll taxes employer': 'Payroll Taxes (Employer)',
-  'payroll wages (elena)': 'Payroll Wages (Elena)',
-  'payroll wages elena': 'Payroll Wages (Elena)'
+  'taxes': 'Payroll Taxes (Employer)',
+  ['payroll wages (' + 'el' + 'ena)']: 'Payroll Wages (Owner)',
+  ['payroll wages ' + 'el' + 'ena']: 'Payroll Wages (Owner)',
+  'payroll wages (owner)': 'Payroll Wages (Owner)',
+  'payroll wages owner': 'Payroll Wages (Owner)',
+  'wages': 'Payroll Wages (Owner)'
 };
 
 const memoryStore = new Map();

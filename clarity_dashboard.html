@@ -233,15 +233,15 @@
         <path d="M12 4L12 16"/><path d="M12 10 Q7 8 5 4 Q5 12 12 16"/><path d="M12 10 Q17 8 19 4 Q19 12 12 16"/><path d="M7 18 Q12 20 17 18"/>
       </svg>
     </div>
-    <div><div class="brand-text"><span class="bp">KEEP</span>BOOKERS</div><div class="brand-sub">CFO Dashboard</div></div>
+    <div><div class="brand-text"><span class="bp">K</span>B</div><div class="brand-sub">Clarity Dashboard</div></div>
   </div>
   <div class="status-pills">
     <div class="status-pill"><span class="sdot green"></span>QBO connected</div>
     <div class="status-pill"><span class="sdot amber"></span>Hours: updated</div>
   </div>
   <div class="top-btns">
-    <a class="tbtn ghost" href="clarity_dashboard.html">Clarity Dashboard</a>
-    <button class="tbtn primary" onclick="alert('In Phase 3 (Vercel), this will pull live from QBO.')">↓ Pull from QBO</button>
+    <a class="tbtn ghost" href="cfo_app.html">Full Dashboard</a>
+    <button class="tbtn primary" id="qboRefreshBtn" onclick="window.refreshQboPL && window.refreshQboPL({manual:true})">↓ Pull from QBO</button>
     <button class="tbtn ghost" onclick="alert('In Phase 3 (Vercel), this will let you upload Time Doctor CSV, P&L PDF, and other reports.')">Upload Hours CSV</button>
   </div>
 </div>
@@ -249,7 +249,7 @@
 <!-- ═══ SOURCE BAR ═══ -->
 <div class="srcbar">
   <div class="src-chips">
-    <div class="src-chip"><span class="ci qbo">QB</span><div><span style="color:var(--gr);font-weight:600">QuickBooks Online</span><div class="src-date">✓ Synced Apr 30, 2026</div></div></div>
+    <div class="src-chip"><span class="ci qbo">QB</span><div><span style="color:var(--gr);font-weight:600">QuickBooks Online</span><div class="src-date" id="qboSyncText">Updated from Apr 30 reports</div></div></div>
     <div class="src-chip"><span class="ci td">TD</span><div><span style="font-weight:600">Time Doctor (Hours)</span><div class="src-warn">Updated through Apr 30, 2026</div></div></div>
   </div>
   <div class="month-pills" id="monthPills">
@@ -374,10 +374,10 @@
 
   <!-- 4 summary cards -->
   <div class="pl-cards">
-    <div class="pl-card"><div class="kpi-label">Revenue YTD</div><div class="kpi-val mono">$63,264</div><div class="pl-sub">vs $66.7K target &nbsp;·&nbsp; <span style="color:var(--rd)">-$3,402</span></div><div class="pl-sub" style="margin-top:3px">vs $41,047 same period '25 &nbsp;·&nbsp; <span style="color:var(--gr)">+54%</span></div></div>
-    <div class="pl-card"><div class="kpi-label">Gross Profit YTD</div><div class="kpi-val mono">$54,865</div><div class="pl-sub"><span class="mono">86.7%</span> margin &nbsp;·&nbsp; target 85% <span style="color:var(--gr)">✓</span></div></div>
-    <div class="pl-card"><div class="kpi-label">OpEx + Payroll YTD</div><div class="kpi-val mono">$17,304</div><div class="pl-sub">vs $16,160 budget &nbsp;·&nbsp; <span style="color:var(--am)">+$1,144</span></div></div>
-    <div class="pl-card"><div class="kpi-label">Net Income YTD</div><div class="kpi-val mono">$37,562</div><div class="pl-sub"><span class="mono">59.4%</span> margin &nbsp;·&nbsp; target 45% <span style="color:var(--gr)">✓</span></div></div>
+    <div class="pl-card"><div class="kpi-label">Revenue YTD</div><div class="kpi-val mono" id="plRevYtd">$63,264</div><div class="pl-sub" id="plRevBudget">vs $66.7K target &nbsp;·&nbsp; <span style="color:var(--rd)">-$3,402</span></div><div class="pl-sub" style="margin-top:3px">vs $41,047 same period '25 &nbsp;·&nbsp; <span style="color:var(--gr)">+54%</span></div></div>
+    <div class="pl-card"><div class="kpi-label">Gross Profit YTD</div><div class="kpi-val mono" id="plGpYtd">$54,865</div><div class="pl-sub" id="plGpMargin"><span class="mono">86.7%</span> margin &nbsp;·&nbsp; target 85% <span style="color:var(--gr)">✓</span></div></div>
+    <div class="pl-card"><div class="kpi-label">OpEx + Payroll YTD</div><div class="kpi-val mono" id="plSpendYtd">$17,304</div><div class="pl-sub" id="plSpendBudget">vs $16,160 budget &nbsp;·&nbsp; <span style="color:var(--am)">+$1,144</span></div></div>
+    <div class="pl-card"><div class="kpi-label">Net Income YTD</div><div class="kpi-val mono" id="plNetYtd">$37,562</div><div class="pl-sub" id="plNetMargin"><span class="mono">59.4%</span> margin &nbsp;·&nbsp; target 45% <span style="color:var(--gr)">✓</span></div></div>
   </div>
 
   <!-- Rolling 12-month 3-line chart -->
@@ -444,7 +444,7 @@
 <div class="tab-panel" data-panel="kpi">
 <div class="page">
   <div class="page-head">
-    <h1>KPI Scorecard</h1>
+    <h1>Clarity KPI Scorecard</h1>
     <div class="period"><span class="mono">Jan 1 – Apr 30, 2026</span> &nbsp;·&nbsp; <span class="src-badge"><span class="sdot green"></span>verified to source</span></div>
   </div>
 
@@ -476,56 +476,6 @@
   <div class="kpi-section-label">🏢 Client Health</div>
   <div class="kpi-score-grid" id="clientKpis"></div>
 
-  <!-- April table -->
-  <div style="margin-bottom:6px;font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:.1em">Last month — April 2026</div>
-  <div class="panel no-pad" style="margin-bottom:24px">
-    <div class="tbl-scroll">
-      <table class="pl-tbl">
-        <thead><tr>
-          <th style="text-align:left;padding-left:12px;width:28px">#</th>
-          <th style="text-align:left">Client</th>
-          <th>Revenue</th>
-          <th>Bookkeeper hrs</th>
-          <th>AM hrs</th>
-          <th>CEO hrs</th>
-          <th>Total hrs</th>
-          <th>$/hr</th>
-          <th>Margin%</th>
-        </tr></thead>
-        <tbody id="aprBody"></tbody>
-        <tfoot id="aprFoot"></tfoot>
-      </table>
-    </div>
-    <div style="padding:6px 14px;background:#FAFAF9;border-top:1px solid var(--ln);font-size:11px;color:var(--mu)">
-      Bookkeeper hrs = Bookkeeper Time Doctor hours. Account Manager Jan hours are cost allocated proportionally when Time Doctor is unavailable. Margin = (Revenue − team cost) ÷ Revenue.
-    </div>
-  </div>
-
-  <!-- YTD table -->
-  <div style="margin-bottom:6px;font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:.1em">Year to date — Jan 1 → Apr 2026</div>
-  <div class="panel no-pad" style="margin-bottom:14px">
-    <div class="tbl-scroll">
-      <table class="pl-tbl">
-        <thead><tr>
-          <th style="text-align:left;padding-left:12px;width:28px">#</th>
-          <th style="text-align:left">Client</th>
-          <th>Revenue</th>
-          <th>Bookkeeper hrs</th>
-          <th>AM hrs</th>
-          <th>CEO hrs</th>
-          <th>Total hrs</th>
-          <th>Team cost</th>
-          <th>Margin%</th>
-          <th>CEO $/hr</th>
-        </tr></thead>
-        <tbody id="ytdBody"></tbody>
-        <tfoot id="ytdFoot"></tfoot>
-      </table>
-    </div>
-    <div style="padding:6px 14px;background:#FAFAF9;border-top:1px solid var(--ln);font-size:11px;color:var(--mu)">
-      CEO $/hr = (YTD Revenue − team cost) ÷ CEO YTD hrs. Team cost includes all bookkeeper + AM payments, allocated by hours.
-    </div>
-  </div>
 </div>
 </div>
 
@@ -611,7 +561,29 @@
 (function(){
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const AM = 4; // actual months
+const QBO_CACHE_KEY = 'kb:qbo-pl-cache:v2';
+try{localStorage.removeItem('kb:qbo-pl-cache:v1');}catch(e){}
+const QBO_CACHE_MAX_MS = 60 * 60 * 1000;
+const QBO_API_BASE = (window.KB_QBO_API_BASE || '').replace(/\/$/, '');
+
+function qboUrl(path){return QBO_API_BASE + path;}
+function readQboCache(){
+  try{return JSON.parse(localStorage.getItem(QBO_CACHE_KEY) || 'null');}
+  catch(e){return null;}
+}
+function writeQboCache(payload){
+  const normalized = normalizeQboPayload(payload);
+  localStorage.setItem(QBO_CACHE_KEY, JSON.stringify(normalized));
+  return normalized;
+}
+function qboStamp(ts){
+  if(!ts)return 'Updated from Apr 30 reports';
+  return 'Synced ' + new Date(ts).toLocaleString(undefined,{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+}
+function setQboStatus(text){
+  const el=document.getElementById('qboSyncText');
+  if(el)el.textContent=text;
+}
 
 const D25 = {
   rev:[8136,10455,12007,10449,7990,11460,9290,8692,10192,9293,10257,15843],
@@ -620,7 +592,7 @@ const D25 = {
   gp:[7287,10114,8132,8061,5719,9802,7752,6676,8840,8085,8528,13781],
 };
 
-const PL = {
+const FALLBACK_PL = {
   'Bookkeeping Services':          [10085,10785,11585,11585],
   'Cleanup Services':              [ 7165,  775, 2400, 7600],
   'Commission Income':             [    0,  536,    0,  587],
@@ -642,6 +614,20 @@ const PL = {
   'Payroll Taxes (Employer)':      [240,240,240,234],
   'Payroll Wages (Owner)':         [2000,2000,2000,2000],
 };
+const DASHBOARD_ACCOUNTS = Object.keys(FALLBACK_PL);
+function normalizeQboPayload(payload){
+  const source = payload?.pl || payload?.data || payload || {};
+  const pl = {};
+  DASHBOARD_ACCOUNTS.forEach(k=>{
+    const vals = Array.isArray(source[k]) ? source[k] : FALLBACK_PL[k];
+    pl[k] = Array.from({length:12},(_,i)=>Number(vals?.[i] || 0));
+  });
+  const actualMonths = Math.max(1, Math.min(12, Number(payload?.actualMonths) || Math.max(...Object.values(pl).map(v=>v.filter(x=>x!==0).length), 4)));
+  return {pl, actualMonths, fetchedAt: payload?.fetchedAt || new Date().toISOString()};
+}
+const cachedQbo = readQboCache();
+let PL = cachedQbo?.pl || FALLBACK_PL;
+let AM = cachedQbo?.actualMonths || 4; // actual months
 const IK=['Bookkeeping Services','Cleanup Services','Commission Income','Gusto Income'];
 const CK=['Client Subscriptions','Contractors — Account Manager','Contractors — Bookkeeper'];
 const OK=['Advertising & Marketing','Bank Charges & Fees','Business Consulting','Car & Truck','Insurance','Meals & Entertainment','Office Supplies & Software','QuickBooks Payments Fees','Taxes & Licenses','Travel','Utilities'];
@@ -661,11 +647,42 @@ const BUDGET={rev:16666.67,cogs:1900,opex:1800,pay:2240};
 BUDGET.net=BUDGET.rev-BUDGET.cogs-BUDGET.opex-BUDGET.pay;
 
 let activeMon = 3; // Apr by default
+setQboStatus(cachedQbo ? qboStamp(cachedQbo.fetchedAt) : 'Updated from Apr 30 reports');
+
+window.refreshQboPL = async function refreshQboPL(opts={}){
+  const manual = !!opts.manual;
+  const btn = document.getElementById('qboRefreshBtn');
+  try{
+    if(btn){btn.disabled=true;btn.textContent='Syncing QBO...';}
+    setQboStatus('Syncing from QuickBooks...');
+    const res = await fetch(qboUrl('/api/qbo-pl?refresh=1'),{headers:{Accept:'application/json'}});
+    if(res.status===401){
+      const body = await res.json().catch(()=>({}));
+      if(manual) window.location.href = body.authUrl || qboUrl('/api/auth');
+      else setQboStatus(cachedQbo ? qboStamp(cachedQbo.fetchedAt) : 'Connect QBO to sync live data');
+      return;
+    }
+    if(!res.ok) throw new Error('QBO returned '+res.status);
+    const live = writeQboCache(await res.json());
+    setQboStatus(qboStamp(live.fetchedAt));
+    window.location.reload();
+  }catch(e){
+    console.warn('QBO sync failed',e);
+    setQboStatus((cachedQbo ? qboStamp(cachedQbo.fetchedAt) : 'Updated from Apr 30 reports')+' - refresh unavailable');
+    if(manual) alert('QuickBooks refresh is unavailable right now. The dashboard is still showing the latest cached or fallback data.');
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='↓ Pull from QBO';}
+  }
+};
+
+if(!cachedQbo || (Date.now() - Date.parse(cachedQbo.fetchedAt || 0)) > QBO_CACHE_MAX_MS){
+  window.refreshQboPL({manual:false});
+}
 
 const kpiData = {
-  mrr: {label:'Monthly Revenue',vals:[17293,12137,14023,19812],prior25:[8136,10455,12007,10449],ytdVal:()=>'$63,264',target:'$16,667+/mo',hitFn:v=>v>=16666.67},
-  net: {label:'Net Income',vals:[10026,7172,7207,13156],prior25:[6299,9058,6645,6257],ytdVal:()=>ytdNet,target:'$6,000+/mo',hitFn:v=>v>=6000},
-  gm:  {label:'Gross Margin',vals:[81.7,90.6,91.4,85.4],prior25:[89.5,96.8,67.7,77.2],ytdVal:()=>87.4,isPercent:true,target:'85%+',hitFn:v=>v>=85},
+  mrr: {label:'Monthly Revenue',vals:mRev,prior25:[8136,10455,12007,10449],ytdVal:()=>ytdRev,target:'$16,667+/mo',hitFn:v=>v>=16666.67},
+  net: {label:'Net Income',vals:mNet,prior25:[6299,9058,6645,6257],ytdVal:()=>ytdNet,target:'$6,000+/mo',hitFn:v=>v>=6000},
+  gm:  {label:'Gross Margin',vals:mRev.map((r,i)=>r?mGP[i]/r*100:null),prior25:[89.5,96.8,67.7,77.2],ytdVal:()=>ytdGP/ytdRev*100,isPercent:true,target:'85%+',hitFn:v=>v>=85},
   clients:{label:'Active Recurring',vals:[24,25,26,27],prior25:[18,18,18,19],ytdVal:()=>27,target:'27 active',hitFn:v=>v>=27},
   ceoHrs:{label:'CEO Client Hrs',vals:[140.97,53.53,69.18,56.93],prior25:[null,null,null,null],ytdVal:()=>null,target:'<30/mo',hitFn:v=>v<30},
 };
@@ -678,7 +695,7 @@ function renderKpiCards(mon){
   const keys=['mrr','net','gm','clients','ceoHrs'];
   el.innerHTML=keys.map(k=>{
     const d=kpiData[k];
-    const cur=isYtd&&k==='gm'?86.7:isYtd&&k==='net'?ytdNet:isYtd&&k==='mrr'?ytdRev:isYtd&&k==='clients'?27:d.vals[idx];
+    const cur=isYtd&&k==='clients'?27:isYtd?d.ytdVal():d.vals[idx];
     const prev=idx>0?d.vals[idx-1]:null;
     const p25=d.prior25?.[idx];
     const fmt=v=>v==null?'—':d.isPercent?v.toFixed(1)+'%':k==='clients'?String(Math.round(v)):'$'+Math.round(v).toLocaleString();
@@ -899,6 +916,16 @@ new Chart(document.getElementById('stackChart'),{
 });
 
 const fmt=v=>v==null?'—':'$'+Math.round(v).toLocaleString();
+const signedFmt=v=>(v>=0?'+':'−')+fmt(Math.abs(v));
+function setHtml(id,html){const el=document.getElementById(id);if(el)el.innerHTML=html;}
+setHtml('plRevYtd',fmt(ytdRev));
+setHtml('plRevBudget',`vs ${fmt(BUDGET.rev*AM)} target &nbsp;·&nbsp; <span style="color:${ytdRev>=BUDGET.rev*AM?'var(--gr)':'var(--rd)'}">${signedFmt(ytdRev-BUDGET.rev*AM)}</span>`);
+setHtml('plGpYtd',fmt(ytdGP));
+setHtml('plGpMargin',`<span class="mono">${(ytdGP/ytdRev*100).toFixed(1)}%</span> margin &nbsp;·&nbsp; target 85% <span style="color:${ytdGP/ytdRev>=.85?'var(--gr)':'var(--rd)'}">${ytdGP/ytdRev>=.85?'✓':'!'}</span>`);
+setHtml('plSpendYtd',fmt(ytdOpex+ytdPay));
+setHtml('plSpendBudget',`vs ${fmt((BUDGET.opex+BUDGET.pay)*AM)} budget &nbsp;·&nbsp; <span style="color:${ytdOpex+ytdPay<=(BUDGET.opex+BUDGET.pay)*AM?'var(--gr)':'var(--am)'}">${signedFmt(ytdOpex+ytdPay-(BUDGET.opex+BUDGET.pay)*AM)}</span>`);
+setHtml('plNetYtd',fmt(ytdNet));
+setHtml('plNetMargin',`<span class="mono">${(ytdNet/ytdRev*100).toFixed(1)}%</span> margin &nbsp;·&nbsp; target 45% <span style="color:${ytdNet/ytdRev>=.45?'var(--gr)':'var(--rd)'}">${ytdNet/ytdRev>=.45?'✓':'!'}</span>`);
 function rowLine(label,key,cls=''){
   const vals=Array(12).fill(null).map((_,i)=>i<AM?(PL[key]?.[i]??0):null);
   const t=vals.slice(0,AM).reduce((a,v)=>a+(v||0),0);
@@ -1165,88 +1192,6 @@ function fmt(v){return '$'+Math.round(v).toLocaleString();}
 function fmtH(v){return v>0?v.toFixed(2)+'h':'—';}
 function fmt(v){return '$'+Math.round(v).toLocaleString();}
 
-// April table
-document.getElementById('aprBody').innerHTML=TDATA.map((r,i)=>{
-  const flag=r.code==='TFG'?'🔵':r.apr_margin>=88?'🟢':r.apr_margin>=75?'🟡':'🔴';
-  const mgColor=r.apr_margin>=88?'var(--gr)':r.apr_margin>=75?'var(--am)':'var(--rd)';
-  const effColor=!r.apr_eff?'var(--mu)':r.apr_eff>=150?'var(--gr)':r.apr_eff>=80?'var(--am)':'var(--rd)';
-  const aprRevLabel=r.note?fmt(r.apr_rev)+'<span style="font-size:10px;color:var(--am);margin-left:3px">'+r.note+'</span>':fmt(r.apr_rev);
-  return `<tr>
-    <td class="mono" style="padding-left:12px;color:var(--mu)">${String(i+1).padStart(2,'0')}</td>
-    <td style="text-align:left;padding-left:4px;font-weight:500">${flag} ${r.name}</td>
-    <td class="mono">${aprRevLabel}</td>
-    <td class="mono">${fmtH(r.apr_bk)}</td>
-    <td class="mono">${fmtH(r.apr_kel)}</td>
-    <td class="mono">${fmtH(r.apr_ele)}</td>
-    <td class="mono">${r.apr_tot>0?r.apr_tot.toFixed(2)+'h':'—'}</td>
-    <td class="mono" style="color:${effColor};font-weight:500">${r.apr_eff?fmt(r.apr_eff)+'/hr':'—'}</td>
-    <td class="mono" style="color:${mgColor};font-weight:500">${r.apr_rev>0?r.apr_margin.toFixed(1)+'%':'—'}</td>
-  </tr>`;
-}).join('');
-
-document.getElementById('aprFoot').innerHTML=`
-<tr style="background:#F7F6F5;font-weight:500;border-top:2px solid var(--ln)">
-  <td colspan="2" style="text-align:left;padding-left:12px;font-weight:600">Client subtotal</td>
-  <td class="mono">${fmt(TTOTALS.apr_rev)}</td>
-  <td class="mono">${TTOTALS.apr_bk.toFixed(2)}h</td>
-  <td class="mono">${TTOTALS.apr_kel.toFixed(2)}h</td>
-  <td class="mono">${TTOTALS.apr_ele.toFixed(2)}h</td>
-  <td class="mono">${TTOTALS.apr_tot.toFixed(2)}h</td>
-  <td class="mono">—</td>
-  <td class="mono">${TTOTALS.apr_margin.toFixed(1)}%</td>
-</tr>
-<tr style="background:#F0EEEB;color:var(--mu);font-size:12px">
-  <td colspan="2" style="text-align:left;padding-left:12px;font-style:italic">+ Other income</td>
-  <td class="mono">$627</td>
-  <td colspan="6" style="font-size:11px;padding-left:8px;color:var(--mu)">Commission $587 · Gusto $40</td>
-</tr>
-<tr style="background:#EDE9FF;font-weight:600;border-top:1px solid #7B61FF">
-  <td colspan="2" style="text-align:left;padding-left:12px;color:var(--navy)">Total April revenue</td>
-  <td class="mono" style="color:#5A3FD9">$19,812</td>
-  <td colspan="6"></td>
-</tr>`;
-
-// YTD table
-document.getElementById('ytdBody').innerHTML=TDATA.map((r,i)=>{
-  const flag=r.code==='TFG'?'🔵':r.ytd_margin>=88?'🟢':r.ytd_margin>=75?'🟡':'🔴';
-  const mgColor=r.ytd_margin>=88?'var(--gr)':r.ytd_margin>=75?'var(--am)':'var(--rd)';
-  const ytdRevLabel=r.note?fmt(r.ytd_rev)+'<span style="font-size:10px;color:var(--am);margin-left:3px">'+r.note+'</span>':fmt(r.ytd_rev);
-  return `<tr>
-    <td class="mono" style="padding-left:12px;color:var(--mu)">${String(i+1).padStart(2,'0')}</td>
-    <td style="text-align:left;padding-left:4px;font-weight:500">${flag} ${r.name}</td>
-    <td class="mono">${ytdRevLabel}</td>
-    <td class="mono">${fmtH(r.ytd_bk)}</td>
-    <td class="mono">${fmtH(r.ytd_kel)}</td>
-    <td class="mono">${fmtH(r.ytd_ele)}</td>
-    <td class="mono">${r.ytd_tot>0?r.ytd_tot.toFixed(2)+'h':'—'}</td>
-    <td class="mono" style="color:var(--rd)">${fmt(r.ytd_cost)}</td>
-    <td class="mono" style="color:${mgColor};font-weight:500">${r.ytd_margin.toFixed(1)}%</td>
-    <td class="mono" style="color:var(--purple);font-weight:500">${r.ceo_rate?fmt(r.ceo_rate)+'/hr':'—'}</td>
-  </tr>`;
-}).join('');
-
-document.getElementById('ytdFoot').innerHTML=`
-<tr style="background:#F7F6F5;font-weight:500;border-top:2px solid var(--ln)">
-  <td colspan="2" style="text-align:left;padding-left:12px;font-weight:600">Client subtotal</td>
-  <td class="mono">${fmt(TTOTALS.ytd_rev)}</td>
-  <td class="mono">${TTOTALS.ytd_bk.toFixed(2)}h</td>
-  <td class="mono">${TTOTALS.ytd_kel.toFixed(2)}h</td>
-  <td class="mono">${TTOTALS.ytd_ele.toFixed(2)}h</td>
-  <td class="mono">${TTOTALS.ytd_tot.toFixed(2)}h</td>
-  <td class="mono" style="color:var(--rd)">${fmt(TTOTALS.ytd_cost)}</td>
-  <td class="mono">${TTOTALS.ytd_margin.toFixed(1)}%</td>
-  <td class="mono"></td>
-</tr>
-<tr style="background:#F0EEEB;color:var(--mu);font-size:12px">
-  <td colspan="2" style="text-align:left;padding-left:12px;font-style:italic">+ Other income (commission, Gusto)</td>
-  <td class="mono">$1,284</td>
-  <td colspan="7" style="font-size:11px;padding-left:8px">Commission $1,123 · Gusto $161 YTD</td>
-</tr>
-<tr style="background:#EDE9FF;font-weight:600;border-top:1px solid #7B61FF">
-  <td colspan="2" style="text-align:left;padding-left:12px;color:var(--navy)">Total YTD revenue</td>
-  <td class="mono" style="color:#5A3FD9">$63,264</td>
-  <td colspan="7"></td>
-</tr>`;
 } // end initTab3
 
 let cfInit=false,cfChart=null,scChart=null;

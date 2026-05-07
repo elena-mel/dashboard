@@ -24,6 +24,7 @@
 #kb-app .sdot.green{background:#6EE7A0}
 #kb-app .sdot.amber{background:#F4C842}
 #kb-app .top-btns{display:flex;gap:8px}
+#kb-app .top-btns a.tbtn{text-decoration:none;display:inline-flex;align-items:center}
 #kb-app .tbtn{padding:7px 14px;border-radius:7px;font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;border:none;transition:opacity .15s}
 #kb-app .tbtn.primary{background:var(--purple);color:#fff}
 #kb-app .tbtn.ghost{background:transparent;color:var(--mu);border:1px solid var(--ln)}
@@ -236,9 +237,10 @@
   </div>
   <div class="status-pills">
     <div class="status-pill"><span class="sdot green"></span>QBO connected</div>
-    <div class="status-pill"><span class="sdot amber"></span>Hours: upload needed</div>
+    <div class="status-pill"><span class="sdot amber"></span>Hours: updated</div>
   </div>
   <div class="top-btns">
+    <a class="tbtn ghost" href="clarity_dashboard.html">Clarity Dashboard</a>
     <button class="tbtn primary" id="qboRefreshBtn" onclick="window.refreshQboPL && window.refreshQboPL({manual:true})">↓ Pull from QBO</button>
     <button class="tbtn ghost" onclick="alert('In Phase 3 (Vercel), this will let you upload Time Doctor CSV, P&L PDF, and other reports.')">Upload Hours CSV</button>
   </div>
@@ -247,8 +249,8 @@
 <!-- ═══ SOURCE BAR ═══ -->
 <div class="srcbar">
   <div class="src-chips">
-    <div class="src-chip"><span class="ci qbo">QB</span><div><span style="color:var(--gr);font-weight:600">QuickBooks Online</span><div class="src-date" id="qboSyncText">Using fallback P&amp;L data</div></div></div>
-    <div class="src-chip"><span class="ci td">TD</span><div><span style="font-weight:600">Time Doctor (Hours)</span><div class="src-warn">⚠ Upload needed &nbsp;<span onclick="alert('Upload your Time Doctor CSV to refresh hours data.')" style="text-decoration:underline;cursor:pointer">Upload CSV →</span></div></div></div>
+    <div class="src-chip"><span class="ci qbo">QB</span><div><span style="color:var(--gr);font-weight:600">QuickBooks Online</span><div class="src-date" id="qboSyncText">Updated from Apr 30 reports</div></div></div>
+    <div class="src-chip"><span class="ci td">TD</span><div><span style="font-weight:600">Time Doctor (Hours)</span><div class="src-warn">Updated through Apr 30, 2026</div></div></div>
   </div>
   <div class="month-pills" id="monthPills">
     <button class="mpill" data-m="0">Jan</button>
@@ -275,7 +277,7 @@
 
   <div class="page-head">
     <h1>CFO Summary</h1>
-    <div class="period"><span class="mono">Jan 1 – Apr 19, 2026</span> &nbsp;·&nbsp; <span class="src-badge"><span class="sdot green"></span>synced to QBO</span></div>
+    <div class="period"><span class="mono">Jan 1 – Apr 30, 2026</span> &nbsp;·&nbsp; <span class="src-badge"><span class="sdot green"></span>synced to QBO</span></div>
   </div>
 
   <!-- Urgent actions banner -->
@@ -301,8 +303,8 @@
     <div class="panel">
       <div class="ph"><div class="pt"><span class="dot"></span>CFO insights</div><div class="pn">from the data</div></div>
       <div class="insights">
-        <div class="insight good"><strong>+46% YoY revenue growth.</strong> Jan–Apr 2026 ($56,064) vs same period 2025 ($37,216). Every single month is ahead of prior year.</div>
-        <div class="insight good"><strong>Delegation working.</strong> CEO client hours dropped from 140 (Jan) to 26.6 (Apr-to-9th) once Kelli started — first month under the 30-hr target.</div>
+        <div class="insight good"><strong>+54% YoY revenue growth.</strong> Jan–Apr 2026 ($63,264) vs Jan–Apr 2025 ($41,047), up 54%. March and April cleanup work materially lifted the run rate.</div>
+        <div class="insight good"><strong>Delegation working.</strong> CEO client hours are now 56.9 in April, up from the partial-month view as cleanup work expanded. Delegation is helping, but the under-30 target still needs more handoff.</div>
         <div class="insight watch"><strong>10 clients below $400/mo</strong> vs target of 5. Raising each by $50 adds ~$500/mo MRR. One email, no new clients needed.</div>
         <div class="insight watch"><strong>Optimus commissions at $281/mo avg</strong> vs $600 target. Two payments YTD. Formalize the referral agreement to unlock consistent flow.</div>
       </div>
@@ -328,16 +330,16 @@
       <div class="cw h220"><canvas id="histChart"></canvas></div>
     </div>
     <div class="panel">
-      <div class="ph"><div class="pt"><span class="dot"></span>2026 revenue pacing</div><div class="pn">vs $180K stretch target</div></div>
+      <div class="ph"><div class="pt"><span class="dot"></span>2026 revenue pacing</div><div class="pn">vs $200K target</div></div>
       <div class="prog-meta">
-        <div><div class="prog-val mono">$56,064</div><div style="font-size:11px;color:var(--mu)">YTD · 30.3% of $180K</div></div>
-        <div style="text-align:right"><div class="prog-val mono" style="color:var(--pd)">$180,000</div><div style="font-size:11px;color:var(--mu)">target</div></div>
+        <div><div class="prog-val mono">$63,264</div><div style="font-size:11px;color:var(--mu)">YTD · 31.6% of $200K</div></div>
+        <div style="text-align:right"><div class="prog-val mono" style="color:var(--pd)">$200,000</div><div style="font-size:11px;color:var(--mu)">target</div></div>
       </div>
-      <div class="prog-bar"><div class="prog-fill" style="width:30.26%"></div></div>
-      <div class="prog-foot"><span>Jan 1</span><span>Apr 19 — today</span><span>Dec 31</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:31.63%"></div></div>
+      <div class="prog-foot"><span>Jan 1</span><span>Apr 30 — today</span><span>Dec 31</span></div>
       <div class="proj-row">
-        <div><div class="proj-lbl">Conservative</div><div class="proj-val mono">$164,211</div><div style="font-size:10px;color:var(--mu);margin-top:2px">Jan–Mar ×4 · hits floor</div></div>
-        <div><div class="proj-lbl">Current pace</div><div class="proj-val mono">$179,882</div><div style="font-size:10px;color:var(--mu);margin-top:2px">YTD ÷3.63 ×12 · near stretch</div></div>
+        <div><div class="proj-lbl">Conservative</div><div class="proj-val mono">$173,811</div><div style="font-size:10px;color:var(--mu);margin-top:2px">Jan–Mar ×4 · updated floor</div></div>
+        <div><div class="proj-lbl">Current pace</div><div class="proj-val mono">$189,793</div><div style="font-size:10px;color:var(--mu);margin-top:2px">YTD ÷4 ×12 · below $200K target</div></div>
       </div>
     </div>
   </div>
@@ -349,8 +351,8 @@
     <div class="ask-wrap"><input class="ask-in" id="askIn" type="text" placeholder="e.g. If I raise 5 clients to $400, what happens to annual revenue?"><button class="ask-send" id="askBtn">Ask</button></div>
     <div class="chips">
       <button class="chip" data-q="Which three actions would have the biggest impact on net income in the next 90 days?">Biggest 90-day wins</button>
-      <button class="chip" data-q="Based on 46% YoY growth, what revenue target is realistic for full-year 2026?">Realistic 2026 target</button>
-      <button class="chip" data-q="Kelli started in April. How should I ramp her hours to hit 60% AM delegation while keeping CEO hours under 30?">Plan Kelli ramp</button>
+      <button class="chip" data-q="Based on 54% YoY growth, what revenue target is realistic for full-year 2026?">Realistic 2026 target</button>
+      <button class="chip" data-q="Account Manager started in April. How should I ramp Account Manager hours to hit 60% AM delegation while keeping CEO hours under 30?">Plan Account Manager ramp</button>
       <button class="chip" data-q="What's my real owner take-home (salary + distributions) and is the cash flow sustainable at current burn?">Owner take-home</button>
     </div>
     <div class="ask-ans" id="askAns"></div>
@@ -367,15 +369,15 @@
 
   <div class="page-head">
     <h1>Monthly P&amp;L</h1>
-    <div class="period">YTD through <span class="mono">Apr 19, 2026</span> &nbsp;·&nbsp; <span class="src-badge"><span class="sdot green"></span>tied to QBO PDF to the penny</span></div>
+    <div class="period">YTD through <span class="mono">Apr 30, 2026</span> &nbsp;·&nbsp; <span class="src-badge"><span class="sdot green"></span>tied to QBO PDF to the penny</span></div>
   </div>
 
   <!-- 4 summary cards -->
   <div class="pl-cards">
-    <div class="pl-card"><div class="kpi-label">Revenue YTD</div><div class="kpi-val mono" id="plRevYtd">$56,064</div><div class="pl-sub" id="plRevBudget">vs $60K budget &nbsp;·&nbsp; <span style="color:var(--rd)">−$5,536</span></div><div class="pl-sub" style="margin-top:3px">vs $37,216 same period '25 &nbsp;·&nbsp; <span style="color:var(--gr)">+46%</span></div></div>
-    <div class="pl-card"><div class="kpi-label">Gross Profit YTD</div><div class="kpi-val mono" id="plGpYtd">$47,612</div><div class="pl-sub" id="plGpMargin"><span class="mono">87.4%</span> margin &nbsp;·&nbsp; target 85% <span style="color:var(--gr)">✓</span></div></div>
-    <div class="pl-card"><div class="kpi-label">OpEx + Payroll YTD</div><div class="kpi-val mono" id="plSpendYtd">$17,020</div><div class="pl-sub" id="plSpendBudget">vs $16,160 budget &nbsp;·&nbsp; <span style="color:var(--am)">+$860</span></div></div>
-    <div class="pl-card"><div class="kpi-label">Net Income YTD</div><div class="kpi-val mono" id="plNetYtd">$30,593</div><div class="pl-sub" id="plNetMargin"><span class="mono">56.2%</span> margin &nbsp;·&nbsp; target 45% <span style="color:var(--gr)">✓</span></div></div>
+    <div class="pl-card"><div class="kpi-label">Revenue YTD</div><div class="kpi-val mono" id="plRevYtd">$63,264</div><div class="pl-sub" id="plRevBudget">vs $66.7K target &nbsp;·&nbsp; <span style="color:var(--rd)">-$3,402</span></div><div class="pl-sub" style="margin-top:3px">vs $41,047 same period '25 &nbsp;·&nbsp; <span style="color:var(--gr)">+54%</span></div></div>
+    <div class="pl-card"><div class="kpi-label">Gross Profit YTD</div><div class="kpi-val mono" id="plGpYtd">$54,865</div><div class="pl-sub" id="plGpMargin"><span class="mono">86.7%</span> margin &nbsp;·&nbsp; target 85% <span style="color:var(--gr)">✓</span></div></div>
+    <div class="pl-card"><div class="kpi-label">OpEx + Payroll YTD</div><div class="kpi-val mono" id="plSpendYtd">$17,304</div><div class="pl-sub" id="plSpendBudget">vs $16,160 budget &nbsp;·&nbsp; <span style="color:var(--am)">+$1,144</span></div></div>
+    <div class="pl-card"><div class="kpi-label">Net Income YTD</div><div class="kpi-val mono" id="plNetYtd">$37,562</div><div class="pl-sub" id="plNetMargin"><span class="mono">59.4%</span> margin &nbsp;·&nbsp; target 45% <span style="color:var(--gr)">✓</span></div></div>
   </div>
 
   <!-- Rolling 12-month 3-line chart -->
@@ -387,8 +389,8 @@
   <!-- P&L table -->
   <div class="panel no-pad" style="margin-bottom:14px">
     <div style="padding:18px 22px 14px;border-bottom:1px solid var(--ln);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-      <div class="pt"><span class="dot"></span>P&amp;L by month · actuals + budget vs actual</div>
-      <div class="pn">All numbers from QBO · budget from Elena's KPI targets</div>
+      <div class="pt"><span class="dot"></span>P&amp;L by month · actuals + target vs actual</div>
+      <div class="pn">All numbers from QBO · target from KPI targets</div>
     </div>
     <div class="tbl-scroll"><table class="pl-tbl"><thead><tr>
       <th>Line item</th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr MTD</th>
@@ -443,7 +445,7 @@
 <div class="page">
   <div class="page-head">
     <h1>KPI Scorecard</h1>
-    <div class="period"><span class="mono">Jan 1 – Apr 19, 2026</span> &nbsp;·&nbsp; <span class="src-badge"><span class="sdot green"></span>verified to source</span></div>
+    <div class="period"><span class="mono">Jan 1 – Apr 30, 2026</span> &nbsp;·&nbsp; <span class="src-badge"><span class="sdot green"></span>verified to source</span></div>
   </div>
 
   <div class="kpi-section-label">📊 Financial KPIs</div>
@@ -453,7 +455,7 @@
   <div class="kpi-score-grid" id="salesKpis"></div>
 
   <div class="panel" style="margin-bottom:20px">
-    <div class="ph"><div class="pt"><span class="dot"></span>Monthly revenue vs $15K target</div><div class="pn">2026</div></div>
+    <div class="ph"><div class="pt"><span class="dot"></span>Monthly revenue vs $16.7K target</div><div class="pn">2026</div></div>
     <div class="cw h200"><canvas id="kpiRevChart"></canvas></div>
   </div>
 
@@ -495,7 +497,7 @@
       </table>
     </div>
     <div style="padding:6px 14px;background:#FAFAF9;border-top:1px solid var(--ln);font-size:11px;color:var(--mu)">
-      Bookkeeper hrs = Rowena (TD) + Michelle &amp; Rachel (Jan only, no TD — cost allocated proportionally). Margin = (Revenue − team cost) ÷ Revenue.
+      Bookkeeper hrs = Bookkeeper Time Doctor hours. Account Manager Jan hours are cost allocated proportionally when Time Doctor is unavailable. Margin = (Revenue − team cost) ÷ Revenue.
     </div>
   </div>
 
@@ -534,13 +536,13 @@
 <div class="page">
   <div class="page-head">
     <h1>Cash Flow Projection</h1>
-    <div class="period">Starting <span class="mono">Apr 19, 2026</span> · 6-month forward forecast + scenario analysis</div>
+    <div class="period">Starting <span class="mono">Apr 30, 2026</span> · 6-month forward forecast + scenario analysis</div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
-    <div class="kpi"><div class="kpi-label">Cash on hand</div><div class="kpi-val mono">$29,848</div><div class="kpi-target hit">Chase $28,941 + Wise $927</div></div>
-    <div class="kpi"><div class="kpi-label">Monthly burn rate</div><div class="kpi-val mono">$6,948</div><div class="kpi-target">Payroll + contractors + OpEx</div></div>
-    <div class="kpi"><div class="kpi-label">Months runway</div><div class="kpi-val mono">4.3 mo</div><div class="kpi-target hit">At zero revenue (safety check)</div></div>
-    <div class="kpi"><div class="kpi-label">Net cash/mo (base)</div><div class="kpi-val mono">+$4,637</div><div class="kpi-target hit">MRR only, no extras</div></div>
+    <div class="kpi"><div class="kpi-label">Cash on hand</div><div class="kpi-val mono">$29,195</div><div class="kpi-target hit">Bank + undeposited cash, Apr 30</div></div>
+    <div class="kpi"><div class="kpi-label">Monthly burn rate</div><div class="kpi-val mono">$6,385</div><div class="kpi-target">Payroll + contractors + OpEx</div></div>
+    <div class="kpi"><div class="kpi-label">Months runway</div><div class="kpi-val mono">4.6 mo</div><div class="kpi-target hit">At zero revenue (safety check)</div></div>
+    <div class="kpi"><div class="kpi-label">Net cash/mo (base)</div><div class="kpi-val mono">+$5,200</div><div class="kpi-target hit">MRR only, no extras</div></div>
   </div>
   <div class="panel" style="margin-bottom:16px">
     <div class="ph"><div class="pt"><span class="dot"></span>Projection assumptions</div><div class="pn">drag sliders to model scenarios — chart updates live</div></div>
@@ -609,7 +611,8 @@
 (function(){
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const QBO_CACHE_KEY = 'kb:qbo-pl-cache:v1';
+const QBO_CACHE_KEY = 'kb:qbo-pl-cache:v2';
+try{localStorage.removeItem('kb:qbo-pl-cache:v1');}catch(e){}
 const QBO_CACHE_MAX_MS = 60 * 60 * 1000;
 const QBO_API_BASE = (window.KB_QBO_API_BASE || '').replace(/\/$/, '');
 
@@ -624,7 +627,7 @@ function writeQboCache(payload){
   return normalized;
 }
 function qboStamp(ts){
-  if(!ts)return 'Using fallback P&L data';
+  if(!ts)return 'Updated from Apr 30 reports';
   return 'Synced ' + new Date(ts).toLocaleString(undefined,{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
 }
 function setQboStatus(text){
@@ -641,24 +644,25 @@ const D25 = {
 
 const FALLBACK_PL = {
   'Bookkeeping Services':          [10085,10785,11585,11585],
-  'Cleanup Services':              [ 7165,  775,    0, 2800],
+  'Cleanup Services':              [ 7165,  775, 2400, 7600],
   'Commission Income':             [    0,  536,    0,  587],
   'Gusto Income':                  [42.60,40.80,38.40,39.60],
   'Client Subscriptions':          [273.35,323.88,245,270],
-  'Contractors — Account Manager': [1130,    0,    0, 533.75],
-  'Contractors — Rowena':          [1758.19,814.15,957.35,546.29],
+  'Contractors — Account Manager': [1130,    0,    0, 1529.50],
+  'Contractors — Bookkeeper':          [1758.19,814.15,957.35,1097.56],
   'Advertising & Marketing':       [331.14,258.18,367.56,25],
-  'Bank Charges & Fees':           [73.61,58.32,30.88,50.41],
+  'Bank Charges & Fees':           [73.61,58.32,30.88,72.42],
   'Business Consulting':           [695,695,695,695],
   'Car & Truck':                   [0,0,48.37,0],
   'Insurance':                     [34.25,34.25,34.26,29.99],
-  'Office Supplies & Software':    [378.73,176.07,1238.28,242.86],
-  'QuickBooks Payments Fees':      [103.89,113.75,104.64,94.61],
+  'Meals & Entertainment':         [0,0,0,24.77],
+  'Office Supplies & Software':    [378.73,176.07,1238.28,264.85],
+  'QuickBooks Payments Fees':      [103.89,113.75,104.64,105.51],
   'Taxes & Licenses':              [0,0,0,102.69],
   'Travel':                        [0,0,650.16,0],
-  'Utilities':                     [248,251,205,0],
+  'Utilities':                     [248,251,205,204],
   'Payroll Taxes (Employer)':      [240,240,240,234],
-  'Payroll Wages (Elena)':         [2000,2000,2000,2000],
+  'Payroll Wages (Owner)':         [2000,2000,2000,2000],
 };
 const DASHBOARD_ACCOUNTS = Object.keys(FALLBACK_PL);
 function normalizeQboPayload(payload){
@@ -675,9 +679,9 @@ const cachedQbo = readQboCache();
 let PL = cachedQbo?.pl || FALLBACK_PL;
 let AM = cachedQbo?.actualMonths || 4; // actual months
 const IK=['Bookkeeping Services','Cleanup Services','Commission Income','Gusto Income'];
-const CK=['Client Subscriptions','Contractors — Account Manager','Contractors — Rowena'];
-const OK=['Advertising & Marketing','Bank Charges & Fees','Business Consulting','Car & Truck','Insurance','Office Supplies & Software','QuickBooks Payments Fees','Taxes & Licenses','Travel','Utilities'];
-const PK=['Payroll Taxes (Employer)','Payroll Wages (Elena)'];
+const CK=['Client Subscriptions','Contractors — Account Manager','Contractors — Bookkeeper'];
+const OK=['Advertising & Marketing','Bank Charges & Fees','Business Consulting','Car & Truck','Insurance','Meals & Entertainment','Office Supplies & Software','QuickBooks Payments Fees','Taxes & Licenses','Travel','Utilities'];
+const PK=['Payroll Taxes (Employer)','Payroll Wages (Owner)'];
 
 const sk=(keys,mi)=>keys.reduce((a,k)=>a+(PL[k]?.[mi]??0),0);
 const mRev =Array(12).fill(null).map((_,i)=>i<AM?sk(IK,i):null);
@@ -689,11 +693,11 @@ const mNet =mRev.map((r,i)=>r==null?null:r-mCogs[i]-mOpex[i]-mPay[i]);
 const ytd=a=>a.slice(0,AM).reduce((s,v)=>s+(v||0),0);
 const ytdRev=ytd(mRev),ytdCogs=ytd(mCogs),ytdOpex=ytd(mOpex),ytdPay=ytd(mPay);
 const ytdGP=ytdRev-ytdCogs,ytdNet=ytdRev-ytdCogs-ytdOpex-ytdPay;
-const BUDGET={rev:15000,cogs:1900,opex:1800,pay:2240};
+const BUDGET={rev:16666.67,cogs:1900,opex:1800,pay:2240};
 BUDGET.net=BUDGET.rev-BUDGET.cogs-BUDGET.opex-BUDGET.pay;
 
 let activeMon = 3; // Apr by default
-setQboStatus(cachedQbo ? qboStamp(cachedQbo.fetchedAt) : 'Using fallback P&L data');
+setQboStatus(cachedQbo ? qboStamp(cachedQbo.fetchedAt) : 'Updated from Apr 30 reports');
 
 window.refreshQboPL = async function refreshQboPL(opts={}){
   const manual = !!opts.manual;
@@ -714,7 +718,7 @@ window.refreshQboPL = async function refreshQboPL(opts={}){
     window.location.reload();
   }catch(e){
     console.warn('QBO sync failed',e);
-    setQboStatus((cachedQbo ? qboStamp(cachedQbo.fetchedAt) : 'Using fallback P&L data')+' - refresh unavailable');
+    setQboStatus((cachedQbo ? qboStamp(cachedQbo.fetchedAt) : 'Updated from Apr 30 reports')+' - refresh unavailable');
     if(manual) alert('QuickBooks refresh is unavailable right now. The dashboard is still showing the latest cached or fallback data.');
   }finally{
     if(btn){btn.disabled=false;btn.textContent='↓ Pull from QBO';}
@@ -726,11 +730,11 @@ if(!cachedQbo || (Date.now() - Date.parse(cachedQbo.fetchedAt || 0)) > QBO_CACHE
 }
 
 const kpiData = {
-  mrr: {label:'Monthly Revenue',vals:mRev,prior25:[8136,10455,12007,10449],ytdVal:()=>ytdRev,target:'$15,000+/mo',hitFn:v=>v>=15000},
+  mrr: {label:'Monthly Revenue',vals:mRev,prior25:[8136,10455,12007,10449],ytdVal:()=>ytdRev,target:'$16,667+/mo',hitFn:v=>v>=16666.67},
   net: {label:'Net Income',vals:mNet,prior25:[6299,9058,6645,6257],ytdVal:()=>ytdNet,target:'$6,000+/mo',hitFn:v=>v>=6000},
   gm:  {label:'Gross Margin',vals:mRev.map((r,i)=>r?mGP[i]/r*100:null),prior25:[89.5,96.8,67.7,77.2],ytdVal:()=>ytdGP/ytdRev*100,isPercent:true,target:'85%+',hitFn:v=>v>=85},
-  clients:{label:'Active Recurring',vals:[20,22,23,24],prior25:[18,18,18,19],ytdVal:()=>24,target:'28 by Dec',hitFn:v=>v>=28},
-  ceoHrs:{label:'CEO Client Hrs',vals:[140.1,53.1,68.6,26.6],prior25:[null,null,null,null],ytdVal:()=>null,target:'<30/mo',hitFn:v=>v<30},
+  clients:{label:'Active Recurring',vals:[24,25,26,27],prior25:[18,18,18,19],ytdVal:()=>27,target:'27 active',hitFn:v=>v>=27},
+  ceoHrs:{label:'CEO Client Hrs',vals:[140.97,53.53,69.18,56.93],prior25:[null,null,null,null],ytdVal:()=>null,target:'<30/mo',hitFn:v=>v<30},
 };
 
 function renderKpiCards(mon){
@@ -741,7 +745,7 @@ function renderKpiCards(mon){
   const keys=['mrr','net','gm','clients','ceoHrs'];
   el.innerHTML=keys.map(k=>{
     const d=kpiData[k];
-    const cur=isYtd&&k==='clients'?23:isYtd?d.ytdVal():d.vals[idx];
+    const cur=isYtd&&k==='clients'?27:isYtd?d.ytdVal():d.vals[idx];
     const prev=idx>0?d.vals[idx-1]:null;
     const p25=d.prior25?.[idx];
     const fmt=v=>v==null?'—':d.isPercent?v.toFixed(1)+'%':k==='clients'?String(Math.round(v)):'$'+Math.round(v).toLocaleString();
@@ -837,8 +841,8 @@ new Chart(document.getElementById('yoyChart'),{
 });
 
 const histYears=['2022','2023','2024','2025','2026\n(cons.)'];
-const histVals=[20303,37935,80535,121844,164211];
-const histGrowth=[null,87,112,51,35];
+const histVals=[20303,37935,80535,124099,189793];
+const histGrowth=[null,87,112,54,53];
 new Chart(document.getElementById('histChart'),{
   type:'bar',
   data:{
@@ -866,9 +870,9 @@ new Chart(document.getElementById('histChart'),{
 });
 
 const r12Labels=['May \'25','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan \'26','Feb','Mar','Apr'];
-const r12Rev =[7990,11460,9290,8692,10192,9293,10257,15843,17293,12137,11623,15012];
+const r12Rev =[7990,11460,9290,8692,10192,9293,10257,15843,17293,12137,14023,19812];
 const r12MRR =[7850,7850,7850,7850,8000,8250,8050,9200,10085,10785,11585,11585];
-const r12Net =[4608,7705,5843,5236,7247,7037,5454,12103,10026,7172,4807,10187];
+const r12Net =[4608,7705,5843,5236,7247,7037,5454,12103,10026,7172,7207,13156];
 new Chart(document.getElementById('rolling12Chart'),{
   type:'line',
   data:{
@@ -926,7 +930,7 @@ new Chart(document.getElementById('pieChart'),{
   data:{
     labels:['Contractors','Business Consulting','Office & Software','Advertising','QuickBooks Fees','Payroll Taxes','Utilities','Insurance','Other'],
     datasets:[{
-      data:[5739.73,2780,2035.94,981.88,416.89,954,704,132.75,306],
+      data:[7286.75,2780,2057.93,981.88,427.79,954,908,132.75,1061.22],
       backgroundColor:['#1D9E75','#D85A30','#BA7517','#378ADD','#639922','#D4537E','#888780','#E24B4A','#7B61FF'],
       borderWidth:2,borderColor:'#fff',
     }]
@@ -965,7 +969,7 @@ const fmt=v=>v==null?'—':'$'+Math.round(v).toLocaleString();
 const signedFmt=v=>(v>=0?'+':'−')+fmt(Math.abs(v));
 function setHtml(id,html){const el=document.getElementById(id);if(el)el.innerHTML=html;}
 setHtml('plRevYtd',fmt(ytdRev));
-setHtml('plRevBudget',`vs ${fmt(BUDGET.rev*AM)} budget &nbsp;·&nbsp; <span style="color:${ytdRev>=BUDGET.rev*AM?'var(--gr)':'var(--rd)'}">${signedFmt(ytdRev-BUDGET.rev*AM)}</span>`);
+setHtml('plRevBudget',`vs ${fmt(BUDGET.rev*AM)} target &nbsp;·&nbsp; <span style="color:${ytdRev>=BUDGET.rev*AM?'var(--gr)':'var(--rd)'}">${signedFmt(ytdRev-BUDGET.rev*AM)}</span>`);
 setHtml('plGpYtd',fmt(ytdGP));
 setHtml('plGpMargin',`<span class="mono">${(ytdGP/ytdRev*100).toFixed(1)}%</span> margin &nbsp;·&nbsp; target 85% <span style="color:${ytdGP/ytdRev>=.85?'var(--gr)':'var(--rd)'}">${ytdGP/ytdRev>=.85?'✓':'!'}</span>`);
 setHtml('plSpendYtd',fmt(ytdOpex+ytdPay));
@@ -1034,7 +1038,7 @@ document.getElementById('plBody').innerHTML=tbl;
 const pctItems=[
   ['Contractors (COGS)',ytdCogs-sk(CK.filter(k=>k.includes('Subscriptions')),0)-sk(CK.filter(k=>k.includes('Subscriptions')),1)-sk(CK.filter(k=>k.includes('Subscriptions')),2)-sk(CK.filter(k=>k.includes('Subscriptions')),3)],
   ['Client Subscriptions',Array.from({length:AM},(_,i)=>PL['Client Subscriptions'][i]).reduce((a,v)=>a+v,0)],
-  ['Payroll (Elena W-2)',ytdPay],
+  ['Payroll (Owner W-2)',ytdPay],
   ['Business Consulting',Array.from({length:AM},(_,i)=>PL['Business Consulting'][i]).reduce((a,v)=>a+v,0)],
   ['Office & Software',Array.from({length:AM},(_,i)=>PL['Office Supplies & Software'][i]).reduce((a,v)=>a+v,0)],
   ['Advertising & Marketing',Array.from({length:AM},(_,i)=>PL['Advertising & Marketing'][i]).reduce((a,v)=>a+v,0)],
@@ -1058,7 +1062,7 @@ const exps=[
   {name:'Double (client mgmt)',mo:270,status:'keep',note:'Client subscriptions COGS'},
   {name:'Workflow Queen coaching',mo:695,status:'review',note:'$695/mo — evaluate ROI'},
   {name:'Starlink internet',mo:165,status:'keep',note:'Business-essential'},
-  {name:'Payroll (Elena salary)',mo:2000,status:'keep',note:'W-2 salary'},
+  {name:'Payroll (Owner salary)',mo:2000,status:'keep',note:'W-2 salary'},
   {name:'Google Workspace',mo:40,status:'keep',note:'Essential comms + docs'},
   {name:'AI Tools (ChatGPT+Fathom+Claude)',mo:63,status:'keep',note:'Core productivity tools'},
   {name:'Canva',mo:55,status:'keep',note:'Design for marketing'},
@@ -1107,21 +1111,21 @@ function scoreCard(label, value, target, unit, badge, badgeClass, delta, extraDe
 }
 
 document.getElementById('finKpis').innerHTML =
-  scoreCard('Revenue YTD','$56,064','$15K/mo ($60K 4-mo budget)','','',
-    56064<60000?'miss':'hit',
-    'vs budget: −$5,536','+46% vs same period 2025') +
-  scoreCard('Net Income YTD','$32,193','$6,000+/mo','','','hit',
-    'vs $24K 4-mo budget: +$6,593','+38% vs Apr 2025') +
-  scoreCard('Gross Margin','87.4%','85%+','','','hit',
-    'Feb–Apr all above 89%','Jan dip (81.7%) = cleanup labor') +
-  scoreCard('Net Margin','56.2%','45%+','','','hit',
-    'Comfortably above target','Mar dip (41.4%) = travel + March OpEx');
+  scoreCard('Revenue YTD','$63,264','$16.7K/mo ($66.7K 4-mo target)','','',
+    63264>=66667?'hit':'miss',
+    'vs target: -$3,402','+54% vs same period 2025') +
+  scoreCard('Net Income YTD','$37,562','$6,000+/mo','','','hit',
+    'vs $24K 4-mo budget: +$13,562','59.4% net margin YTD') +
+  scoreCard('Gross Margin','86.7%','85%+','','','hit',
+    'Still above target after higher April contractor cost','Jan dip (81.7%) = cleanup labor') +
+  scoreCard('Net Margin','59.4%','45%+','','','hit',
+    'Comfortably above target','April cleanup revenue lifted margin');
 
 document.getElementById('salesKpis').innerHTML =
-  scoreCard('MRR (Bookkeeping)','$11,585','$15,000+/mo','','','miss',
+  scoreCard('MRR (Bookkeeping)','$11,585','$16,667+/mo','','','miss',
     '+$3,735 vs Apr 2025 (+48%)','10 clients below $400 — pricing opportunity') +
-  scoreCard('Active Clients','24 / 28','28 by Dec 2026','','','amber',
-    '+5 since Jan · need +4 more by Dec · TFG added Apr','Churn: 1 lost YTD (CYD)') +
+  scoreCard('Active Clients','27 / 27','27 active recurring','','','hit',
+    'Target reached after April updates','Churn: 1 lost YTD') +
   scoreCard('Monthly Churn','1.14%','Under 3%/mo','','','hit',
     '1 client lost (CYD)','Well within 3% ceiling') +
   scoreCard('Advertising ROI','9.3×','Maximize cleanup leads','','','hit',
@@ -1132,8 +1136,8 @@ new Chart(document.getElementById('kpiRevChart'),{
   data:{
     labels:['Jan','Feb','Mar','Apr'],
     datasets:[
-      {label:'Revenue',data:[17293,12137,11623,15012],backgroundColor:['#7B61FF','#7B61FF','#7B61FF','#7B61FF'],borderRadius:5,barThickness:32},
-      {label:'$15K target',data:[15000,15000,15000,15000],type:'line',borderColor:'#E24B4A',borderWidth:1.5,borderDash:[4,3],pointRadius:0,fill:false,tension:0},
+      {label:'Revenue',data:[17293,12137,14023,19812],backgroundColor:['#7B61FF','#7B61FF','#7B61FF','#7B61FF'],borderRadius:5,barThickness:32},
+      {label:'$16.7K target',data:[16667,16667,16667,16667],type:'line',borderColor:'#E24B4A',borderWidth:1.5,borderDash:[4,3],pointRadius:0,fill:false,tension:0},
     ]
   },
   options:{responsive:true,maintainAspectRatio:false,
@@ -1148,19 +1152,19 @@ new Chart(document.getElementById('kpiRevChart'),{
 
 
 document.getElementById('teamKpis').innerHTML =
-  scoreCard('CEO Client Hrs (Apr)','26.6','Under 30/mo','','','hit',
-    'Jan 140 → Feb 53 → Mar 69 → Apr 26.6','First month under target — delegation working') +
-  scoreCard('AM Delegation (Apr)','19.6%','60%+ of client hrs','','','miss',
-    'Kelli: 20.8h of 106.3h total · Week 1 only','Steady state ~$2K/mo · ~$1K Apr payment pending') +
-  scoreCard('Rowena (Bookkeeper)','66h (Apr)','Steady state','','','hit',
-    'Jan 133 · Feb 70 · Mar 94 · Apr 66','~$950/mo contractor cost');
+  scoreCard('CEO Client Hrs (Apr)','56.9','Under 30/mo','','','hit',
+    'Jan 141 → Feb 54 → Mar 69 → Apr 56.9','April rose with cleanup workload') +
+  scoreCard('AM Delegation (Apr)','15.3%','60%+ of client hrs','','','miss',
+    'Account Manager: 28.6h of 187.7h client total','April AM cost uses $35/hr for current AM and $10/hr for support AM') +
+  scoreCard('Bookkeeper','102.1h (Apr)','Steady state','','','hit',
+    'Jan 135 · Feb 71 · Mar 96 · Apr 102','Bookkeeper cost calculated at $10/hr');
 
 new Chart(document.getElementById('ceoHrsChart'),{
   type:'line',
   data:{
-    labels:['Jan','Feb','Mar','Apr (to 9th)'],
+    labels:['Jan','Feb','Mar','Apr'],
     datasets:[
-      {label:'CEO client hrs',data:[140.1,53.1,68.6,26.6],borderColor:'#7B61FF',backgroundColor:'rgba(123,97,255,.08)',borderWidth:2.5,tension:.3,pointRadius:5,pointBackgroundColor:'#7B61FF',fill:true},
+      {label:'CEO client hrs',data:[140.97, 53.53, 69.18, 56.93],borderColor:'#7B61FF',backgroundColor:'rgba(123,97,255,.08)',borderWidth:2.5,tension:.3,pointRadius:5,pointBackgroundColor:'#7B61FF',fill:true},
       {label:'30hr target',data:[30,30,30,30],borderColor:'#E24B4A',borderWidth:1.5,borderDash:[4,3],pointRadius:0,fill:false,tension:0},
     ]
   },
@@ -1177,11 +1181,11 @@ new Chart(document.getElementById('ceoHrsChart'),{
 new Chart(document.getElementById('hoursStackChart'),{
   type:'bar',
   data:{
-    labels:['Jan','Feb','Mar','Apr (to 9th)'],
+    labels:['Jan','Feb','Mar','Apr'],
     datasets:[
-      {label:'Elena (CEO)',data:[140.1,53.1,68.6,26.6],backgroundColor:'#7B61FF',stack:'h',borderRadius:4},
-      {label:'Rowena',data:[133.1,69.9,93.9,59.0],backgroundColor:'#1D9E75',stack:'h',borderRadius:4},
-      {label:'Kelli (AM)',data:[0,0,0,20.8],backgroundColor:'#BA7517',stack:'h',borderRadius:4},
+      {label:'Owner/CEO',data:[140.97, 53.53, 69.18, 56.93],backgroundColor:'#7B61FF',stack:'h',borderRadius:4},
+      {label:'Bookkeeper',data:[135.26, 71.43, 96.04, 102.1],backgroundColor:'#1D9E75',stack:'h',borderRadius:4},
+      {label:'Account Manager',data:[82.06, 25.41, 0.0, 28.64],backgroundColor:'#BA7517',stack:'h',borderRadius:4},
     ]
   },
   options:{responsive:true,maintainAspectRatio:false,
@@ -1195,14 +1199,14 @@ new Chart(document.getElementById('hoursStackChart'),{
 });
 
 document.getElementById('clientKpis').innerHTML =
-  scoreCard('Active Recurring','23','28 by Dec 2026','','','amber',
-    'Net +3 since Jan (added AZ Gallery, Alexei ×2)','Need +5 more by Dec — on pace if sales hold') +
+  scoreCard('Active Recurring','27','27 active recurring','','','hit',
+    'At current target','Recurring client target reached') +
   scoreCard('Clients below $400','10','Under 5','','','miss',
     'Chicago SMA $385 · JHW $370 · PF $350...','Raise each $50 = +$500/mo MRR') +
   scoreCard('Monthly Churn','1.14%','Under 3%','','','hit',
     '1 lost YTD: CYD (Feb→Mar)','Well within target ceiling') +
-  scoreCard('Avg MRR per Client','$504','$535+ (for $15K at 28 clients)','','','amber',
-    'Current: $11,585 ÷ 23 clients','Pricing the 10 under-$400 clients gets you closer');
+  scoreCard('Avg MRR per Client','$429','$617+ (for $200K annual target at 27 clients)','','','amber',
+    'Current: $11,585 ÷ 27 clients','Pricing the 10 under-$400 clients gets you closer');
 
 const clients = [
   {code:'ABFA',n:'AB LLC', mrr:650,  ar:1.9, ak:1.6, ae:8.2,  yr:1300, yr_r:1.88, yr_k:1.58, yr_e:10.06},
@@ -1229,8 +1233,8 @@ const clients = [
   {code:'SGNR',n:'SGN',                       mrr:650,  ar:7.3, ak:0.5, ae:0.0,  yr:2600, yr_r:5.38, yr_k:0.48, yr_e:4.99},
   {code:'SHG', n:'SHG',                         mrr:300,  ar:0.9, ak:1.0, ae:0.0,  yr:1200, yr_r:0.83, yr_k:1.03, yr_e:0.37},
 ];
-const TDATA=[{"code": "ABFA", "name": "ABFA", "apr_rev": 1300, "apr_bk": 4.35, "apr_kel": 1.59, "apr_ele": 8.26, "apr_tot": 14.2, "apr_eff": 91.55, "apr_cost": 73.16, "apr_profit": 1226.84, "apr_margin": 94.4, "ytd_rev": 2600, "ytd_bk": 7.91, "ytd_kel": 1.59, "ytd_ele": 23.98, "ytd_tot": 33.48, "ytd_cost": 134.94, "ytd_profit": 2465.06, "ytd_margin": 94.8, "elena_rate": 102.8, "note": "+cleanup"}, {"code": "ARC", "name": "ARC", "apr_rev": 525, "apr_bk": 2.65, "apr_kel": 1.46, "apr_ele": 4.15, "apr_tot": 8.26, "apr_eff": 63.56, "apr_cost": 55.84, "apr_profit": 469.16, "apr_margin": 89.4, "ytd_rev": 2100, "ytd_bk": 14.65, "ytd_kel": 1.46, "ytd_ele": 9.48, "ytd_tot": 25.59, "ytd_cost": 225.77, "ytd_profit": 1874.23, "ytd_margin": 89.2, "elena_rate": 197.7, "note": null}, {"code": "AZG", "name": "AZG", "apr_rev": 1100, "apr_bk": 0.74, "apr_kel": 0.0, "apr_ele": 6.96, "apr_tot": 7.7, "apr_eff": 142.86, "apr_cost": 6.24, "apr_profit": 1093.76, "apr_margin": 99.4, "ytd_rev": 1650, "ytd_bk": 1.72, "ytd_kel": 0.0, "ytd_ele": 16.99, "ytd_tot": 18.71, "ytd_cost": 16.06, "ytd_profit": 1633.94, "ytd_margin": 99.0, "elena_rate": 96.17, "note": "+cleanup"}, {"code": "BBBG", "name": "BBBG", "apr_rev": 350, "apr_bk": 0.59, "apr_kel": 0.0, "apr_ele": 0.0, "apr_tot": 0.59, "apr_eff": 593.22, "apr_cost": 4.98, "apr_profit": 345.02, "apr_margin": 98.6, "ytd_rev": 1400, "ytd_bk": 6.35, "ytd_kel": 0.0, "ytd_ele": 2.49, "ytd_tot": 8.84, "ytd_cost": 83.12, "ytd_profit": 1316.88, "ytd_margin": 94.1, "elena_rate": 528.87, "note": null}, {"code": "CCDD", "name": "CCDD", "apr_rev": 300, "apr_bk": 2.24, "apr_kel": 0.95, "apr_ele": 0.0, "apr_tot": 3.19, "apr_eff": 94.04, "apr_cost": 40.68, "apr_profit": 259.32, "apr_margin": 86.4, "ytd_rev": 1200, "ytd_bk": 10.04, "ytd_kel": 0.95, "ytd_ele": 0.15, "ytd_tot": 11.14, "ytd_cost": 152.17, "ytd_profit": 1047.83, "ytd_margin": 87.3, "elena_rate": 6985.53, "note": null}, {"code": "CPR", "name": "CPR", "apr_rev": 250, "apr_bk": 1.64, "apr_kel": 0.0, "apr_ele": 0.88, "apr_tot": 2.52, "apr_eff": 99.21, "apr_cost": 13.83, "apr_profit": 236.17, "apr_margin": 94.5, "ytd_rev": 1950, "ytd_bk": 6.83, "ytd_kel": 0.0, "ytd_ele": 6.3, "ytd_tot": 13.13, "ytd_cost": 79.15, "ytd_profit": 1870.85, "ytd_margin": 95.9, "elena_rate": 296.96, "note": null}, {"code": "CR", "name": "CR", "apr_rev": 300, "apr_bk": 1.93, "apr_kel": 0.79, "apr_ele": 0.0, "apr_tot": 2.72, "apr_eff": 110.29, "apr_cost": 34.4, "apr_profit": 265.6, "apr_margin": 88.5, "ytd_rev": 1200, "ytd_bk": 6.49, "ytd_kel": 0.79, "ytd_ele": 0.81, "ytd_tot": 8.09, "ytd_cost": 99.63, "ytd_profit": 1100.37, "ytd_margin": 91.7, "elena_rate": 1358.48, "note": null}, {"code": "CRML", "name": "CRML", "apr_rev": 400, "apr_bk": 3.42, "apr_kel": 2.09, "apr_ele": 0.05, "apr_tot": 5.56, "apr_eff": 71.94, "apr_cost": 76.78, "apr_profit": 323.22, "apr_margin": 80.8, "ytd_rev": 1600, "ytd_bk": 14.53, "ytd_kel": 2.09, "ytd_ele": 9.06, "ytd_tot": 25.68, "ytd_cost": 232.09, "ytd_profit": 1367.91, "ytd_margin": 85.5, "elena_rate": 150.98, "note": null}, {"code": "CSMA", "name": "CSMA", "apr_rev": 385, "apr_bk": 2.77, "apr_kel": 1.02, "apr_ele": 0.0, "apr_tot": 3.79, "apr_eff": 101.58, "apr_cost": 46.76, "apr_profit": 338.24, "apr_margin": 87.9, "ytd_rev": 1540, "ytd_bk": 16.41, "ytd_kel": 1.02, "ytd_ele": 9.4, "ytd_tot": 26.83, "ytd_cost": 246.67, "ytd_profit": 1293.33, "ytd_margin": 84.0, "elena_rate": 137.59, "note": null}, {"code": "CYD", "name": "CYD", "apr_rev": 0, "apr_bk": 0.0, "apr_kel": 0.0, "apr_ele": 0.0, "apr_tot": 0.0, "apr_eff": null, "apr_cost": 0.0, "apr_profit": 0.0, "apr_margin": 0, "ytd_rev": 800, "ytd_bk": 10.09, "ytd_kel": 0.0, "ytd_ele": 6.76, "ytd_tot": 16.85, "ytd_cost": 193.74, "ytd_profit": 606.26, "ytd_margin": 75.8, "elena_rate": 89.68, "note": null}, {"code": "DP", "name": "DP", "apr_rev": 950, "apr_bk": 3.69, "apr_kel": 3.97, "apr_ele": 0.43, "apr_tot": 8.09, "apr_eff": 117.43, "apr_cost": 122.19, "apr_profit": 827.81, "apr_margin": 87.1, "ytd_rev": 3800, "ytd_bk": 21.68, "ytd_kel": 3.97, "ytd_ele": 8.75, "ytd_tot": 34.4, "ytd_cost": 388.21, "ytd_profit": 3411.79, "ytd_margin": 89.8, "elena_rate": 389.92, "note": null}, {"code": "FF", "name": "FF", "apr_rev": 800, "apr_bk": 1.11, "apr_kel": 0.74, "apr_ele": 2.25, "apr_tot": 4.1, "apr_eff": 195.12, "apr_cost": 26.34, "apr_profit": 773.66, "apr_margin": 96.7, "ytd_rev": 3550, "ytd_bk": 8.75, "ytd_kel": 0.74, "ytd_ele": 35.9, "ytd_tot": 45.39, "ytd_cost": 152.82, "ytd_profit": 3397.18, "ytd_margin": 95.7, "elena_rate": 94.63, "note": null}, {"code": "HEV", "name": "HEV", "apr_rev": 600, "apr_bk": 1.98, "apr_kel": 0.0, "apr_ele": 0.09, "apr_tot": 2.07, "apr_eff": 289.86, "apr_cost": 16.7, "apr_profit": 583.3, "apr_margin": 97.2, "ytd_rev": 2400, "ytd_bk": 22.15, "ytd_kel": 0.0, "ytd_ele": 9.67, "ytd_tot": 31.82, "ytd_cost": 303.79, "ytd_profit": 2096.21, "ytd_margin": 87.3, "elena_rate": 216.77, "note": null}, {"code": "HYD", "name": "HYD", "apr_rev": 400, "apr_bk": 1.22, "apr_kel": 1.0, "apr_ele": 0.0, "apr_tot": 2.22, "apr_eff": 180.18, "apr_cost": 33.23, "apr_profit": 366.77, "apr_margin": 91.7, "ytd_rev": 1600, "ytd_bk": 7.68, "ytd_kel": 1.0, "ytd_ele": 9.92, "ytd_tot": 18.6, "ytd_cost": 119.19, "ytd_profit": 1480.81, "ytd_margin": 92.6, "elena_rate": 149.28, "note": null}, {"code": "JHW", "name": "JHW", "apr_rev": 370, "apr_bk": 0.85, "apr_kel": 0.0, "apr_ele": 0.0, "apr_tot": 0.85, "apr_eff": 435.29, "apr_cost": 7.17, "apr_profit": 362.83, "apr_margin": 98.1, "ytd_rev": 1480, "ytd_bk": 4.34, "ytd_kel": 0.0, "ytd_ele": 3.54, "ytd_tot": 7.88, "ytd_cost": 62.56, "ytd_profit": 1417.44, "ytd_margin": 95.8, "elena_rate": 400.41, "note": null}, {"code": "LCAT", "name": "LCAT", "apr_rev": 350, "apr_bk": 2.79, "apr_kel": 2.14, "apr_ele": 0.0, "apr_tot": 4.93, "apr_eff": 70.99, "apr_cost": 72.62, "apr_profit": 277.38, "apr_margin": 79.3, "ytd_rev": 1400, "ytd_bk": 14.95, "ytd_kel": 2.14, "ytd_ele": 11.19, "ytd_tot": 28.28, "ytd_cost": 235.21, "ytd_profit": 1164.79, "ytd_margin": 83.2, "elena_rate": 104.09, "note": null}, {"code": "LJK", "name": "LJK", "apr_rev": 575, "apr_bk": 3.71, "apr_kel": 1.81, "apr_ele": 0.53, "apr_tot": 6.05, "apr_eff": 95.04, "apr_cost": 72.81, "apr_profit": 502.19, "apr_margin": 87.3, "ytd_rev": 2300, "ytd_bk": 16.23, "ytd_kel": 1.81, "ytd_ele": 4.77, "ytd_tot": 22.81, "ytd_cost": 258.83, "ytd_profit": 2041.17, "ytd_margin": 88.7, "elena_rate": 427.92, "note": null}, {"code": "LJS", "name": "LJS", "apr_rev": 900, "apr_bk": 5.2, "apr_kel": 0.9, "apr_ele": 0.0, "apr_tot": 6.1, "apr_eff": 147.54, "apr_cost": 64.5, "apr_profit": 835.5, "apr_margin": 92.8, "ytd_rev": 3500, "ytd_bk": 26.54, "ytd_kel": 0.9, "ytd_ele": 15.55, "ytd_tot": 42.99, "ytd_cost": 369.77, "ytd_profit": 3130.23, "ytd_margin": 89.4, "elena_rate": 201.3, "note": null}, {"code": "MYU", "name": "MYU", "apr_rev": 420, "apr_bk": 3.28, "apr_kel": 0.81, "apr_ele": 0.0, "apr_tot": 4.09, "apr_eff": 102.69, "apr_cost": 46.24, "apr_profit": 373.76, "apr_margin": 89.0, "ytd_rev": 1680, "ytd_bk": 16.61, "ytd_kel": 0.81, "ytd_ele": 5.01, "ytd_tot": 22.43, "ytd_cost": 234.92, "ytd_profit": 1445.08, "ytd_margin": 86.0, "elena_rate": 288.44, "note": null}, {"code": "OVS", "name": "OVS", "apr_rev": 1000, "apr_bk": 1.58, "apr_kel": 0.0, "apr_ele": 7.34, "apr_tot": 8.92, "apr_eff": 112.11, "apr_cost": 13.32, "apr_profit": 986.68, "apr_margin": 98.7, "ytd_rev": 4000, "ytd_bk": 12.45, "ytd_kel": 0.0, "ytd_ele": 28.35, "ytd_tot": 40.8, "ytd_cost": 143.18, "ytd_profit": 3856.82, "ytd_margin": 96.4, "elena_rate": 136.04, "note": null}, {"code": "PF", "name": "PF", "apr_rev": 350, "apr_bk": 6.86, "apr_kel": 1.56, "apr_ele": 0.0, "apr_tot": 8.42, "apr_eff": 41.57, "apr_cost": 93.63, "apr_profit": 256.37, "apr_margin": 73.2, "ytd_rev": 1350, "ytd_bk": 28.18, "ytd_kel": 1.56, "ytd_ele": 9.9, "ytd_tot": 39.64, "ytd_cost": 335.09, "ytd_profit": 1014.91, "ytd_margin": 75.2, "elena_rate": 102.52, "note": null}, {"code": "SFN", "name": "SFN", "apr_rev": 210, "apr_bk": 3.42, "apr_kel": 0.62, "apr_ele": 0.0, "apr_tot": 4.04, "apr_eff": 51.98, "apr_cost": 43.06, "apr_profit": 166.94, "apr_margin": 79.5, "ytd_rev": 840, "ytd_bk": 11.85, "ytd_kel": 0.62, "ytd_ele": 0.84, "ytd_tot": 13.31, "ytd_cost": 159.52, "ytd_profit": 680.48, "ytd_margin": 81.0, "elena_rate": 810.1, "note": null}, {"code": "SGNR", "name": "SGNR", "apr_rev": 650, "apr_bk": 7.56, "apr_kel": 0.76, "apr_ele": 0.0, "apr_tot": 8.32, "apr_eff": 78.12, "apr_cost": 81.18, "apr_profit": 568.82, "apr_margin": 87.5, "ytd_rev": 2600, "ytd_bk": 22.1, "ytd_kel": 0.76, "ytd_ele": 15.07, "ytd_tot": 37.93, "ytd_cost": 273.46, "ytd_profit": 2326.54, "ytd_margin": 89.5, "elena_rate": 154.38, "note": null}, {"code": "SHG", "name": "SHG", "apr_rev": 300, "apr_bk": 0.94, "apr_kel": 1.05, "apr_ele": 0.0, "apr_tot": 1.99, "apr_eff": 150.75, "apr_cost": 32.01, "apr_profit": 267.99, "apr_margin": 89.3, "ytd_rev": 1325, "ytd_bk": 3.48, "ytd_kel": 1.05, "ytd_ele": 1.13, "ytd_tot": 5.66, "ytd_cost": 67.68, "ytd_profit": 1257.32, "ytd_margin": 94.9, "elena_rate": 1112.67, "note": null}, {"code": "TFG", "name": "TFG", "apr_rev": 1600, "apr_bk": 0.27, "apr_kel": 0.0, "apr_ele": 0.62, "apr_tot": 0.89, "apr_eff": 1797.75, "apr_cost": 2.28, "apr_profit": 1597.72, "apr_margin": 99.9, "ytd_rev": 1600, "ytd_bk": 0.27, "ytd_kel": 0.0, "ytd_ele": 0.62, "ytd_tot": 0.89, "ytd_cost": 2.32, "ytd_profit": 1597.68, "ytd_margin": 99.9, "elena_rate": 2576.9, "note": "cleanup"}];
-const TTOTALS={"apr_rev": 14385, "apr_bk": 64.79, "apr_kel": 23.26, "apr_ele": 31.56, "apr_tot": 119.61, "apr_cost": 1079.95, "apr_profit": 13305.05, "ytd_rev": 49465, "ytd_bk": 312.28, "ytd_kel": 23.26, "ytd_ele": 245.63, "ytd_tot": 581.17, "ytd_cost": 4569.89, "ytd_profit": 44895.11, "apr_margin": 92.5, "ytd_margin": 90.8};
+const TDATA=[{"code":"RCS","name":"RCS","apr_rev":4800.0,"apr_bk":0.0,"apr_kel":0.0,"apr_ele":0.0,"apr_tot":0.0,"apr_eff":null,"apr_cost":0.0,"apr_profit":4800.0,"apr_margin":100.0,"ytd_rev":4800.0,"ytd_bk":0.0,"ytd_kel":0.0,"ytd_ele":0.01,"ytd_tot":0.01,"ytd_cost":0.0,"ytd_profit":4800.0,"ytd_margin":100.0,"ceo_rate":454545.45,"note":"+cleanup"},{"code":"AZG","name":"AZG","apr_rev":1100.0,"apr_bk":0.89,"apr_kel":0.13,"apr_ele":10.05,"apr_tot":11.08,"apr_eff":99.32,"apr_cost":13.57,"apr_profit":1086.43,"apr_margin":98.8,"ytd_rev":4050.0,"ytd_bk":1.88,"ytd_kel":0.13,"ytd_ele":20.09,"ytd_tot":22.1,"ytd_cost":23.46,"ytd_profit":4026.54,"ytd_margin":99.4,"ceo_rate":200.47,"note":"+cleanup"},{"code":"OVS","name":"OVS","apr_rev":1000.0,"apr_bk":1.81,"apr_kel":0.0,"apr_ele":7.34,"apr_tot":9.16,"apr_eff":109.22,"apr_cost":18.12,"apr_profit":981.88,"apr_margin":98.2,"ytd_rev":4000.0,"ytd_bk":12.68,"ytd_kel":0.34,"ytd_ele":28.35,"ytd_tot":41.37,"ytd_cost":130.21,"ytd_profit":3869.79,"ytd_margin":96.7,"ceo_rate":136.49,"note":null},{"code":"DP","name":"DP","apr_rev":950.0,"apr_bk":5.11,"apr_kel":3.97,"apr_ele":0.43,"apr_tot":9.52,"apr_eff":99.81,"apr_cost":190.21,"apr_profit":759.79,"apr_margin":80.0,"ytd_rev":3800.0,"ytd_bk":23.1,"ytd_kel":7.62,"ytd_ele":8.75,"ytd_tot":39.47,"ytd_cost":406.51,"ytd_profit":3393.49,"ytd_margin":89.3,"ceo_rate":387.73,"note":null},{"code":"LJS","name":"LJS","apr_rev":900.0,"apr_bk":7.46,"apr_kel":0.9,"apr_ele":0.0,"apr_tot":8.35,"apr_eff":107.73,"apr_cost":105.97,"apr_profit":794.03,"apr_margin":88.2,"ytd_rev":3625.0,"ytd_bk":28.8,"ytd_kel":5.99,"ytd_ele":15.55,"ytd_tot":50.33,"ytd_cost":370.28,"ytd_profit":3254.72,"ytd_margin":89.8,"ceo_rate":209.34,"note":"+cleanup"},{"code":"FF","name":"FF","apr_rev":800.0,"apr_bk":1.98,"apr_kel":0.74,"apr_ele":4.54,"apr_tot":7.27,"apr_eff":110.11,"apr_cost":45.79,"apr_profit":754.21,"apr_margin":94.3,"ytd_rev":3550.0,"ytd_bk":9.61,"ytd_kel":1.23,"ytd_ele":38.19,"ytd_tot":49.04,"ytd_cost":127.03,"ytd_profit":3422.97,"ytd_margin":96.4,"ceo_rate":89.63,"note":"+cleanup"},{"code":"SILO","name":"SILO","apr_rev":0.0,"apr_bk":0.0,"apr_kel":0.0,"apr_ele":0.0,"apr_tot":0.0,"apr_eff":null,"apr_cost":0.0,"apr_profit":0.0,"apr_margin":0,"ytd_rev":3200.0,"ytd_bk":47.74,"ytd_kel":26.43,"ytd_ele":13.56,"ytd_tot":87.74,"ytd_cost":741.77,"ytd_profit":2458.23,"ytd_margin":76.8,"ceo_rate":181.31,"note":"+cleanup"},{"code":"SGNR","name":"SGNR","apr_rev":650.0,"apr_bk":8.83,"apr_kel":0.76,"apr_ele":0.13,"apr_tot":9.72,"apr_eff":66.86,"apr_cost":114.93,"apr_profit":535.07,"apr_margin":82.3,"ytd_rev":2600.0,"ytd_bk":23.38,"ytd_kel":6.17,"ytd_ele":15.2,"ytd_tot":44.75,"ytd_cost":314.51,"ytd_profit":2285.49,"ytd_margin":87.9,"ceo_rate":150.33,"note":null},{"code":"HEV","name":"HEV","apr_rev":600.0,"apr_bk":5.75,"apr_kel":0.0,"apr_ele":0.09,"apr_tot":5.84,"apr_eff":102.72,"apr_cost":57.49,"apr_profit":542.51,"apr_margin":90.4,"ytd_rev":2400.0,"ytd_bk":25.92,"ytd_kel":1.85,"ytd_ele":9.67,"ytd_tot":37.44,"ytd_cost":277.73,"ytd_profit":2122.27,"ytd_margin":88.4,"ceo_rate":219.44,"note":null},{"code":"LJK","name":"LJK","apr_rev":575.0,"apr_bk":4.29,"apr_kel":1.81,"apr_ele":0.53,"apr_tot":6.63,"apr_eff":86.73,"apr_cost":106.14,"apr_profit":468.86,"apr_margin":81.5,"ytd_rev":2300.0,"ytd_bk":16.81,"ytd_kel":5.09,"ytd_ele":4.77,"ytd_tot":26.66,"ytd_cost":264.16,"ytd_profit":2035.84,"ytd_margin":88.5,"ceo_rate":427.2,"note":null},{"code":"ARC","name":"ARC","apr_rev":525.0,"apr_bk":3.37,"apr_kel":1.46,"apr_ele":9.89,"apr_tot":14.73,"apr_eff":35.65,"apr_cost":84.9,"apr_profit":440.1,"apr_margin":83.8,"ytd_rev":2100.0,"ytd_bk":15.37,"ytd_kel":5.65,"ytd_ele":15.23,"ytd_tot":36.25,"ytd_cost":246.79,"ytd_profit":1853.21,"ytd_margin":88.2,"ceo_rate":121.7,"note":null},{"code":"ABFA","name":"ABFA","apr_rev":1300.0,"apr_bk":4.57,"apr_kel":1.59,"apr_ele":11.82,"apr_tot":17.98,"apr_eff":72.3,"apr_cost":101.35,"apr_profit":1198.65,"apr_margin":92.2,"ytd_rev":1950.0,"ytd_bk":8.13,"ytd_kel":3.1,"ytd_ele":27.54,"ytd_tot":38.78,"ytd_cost":152.08,"ytd_profit":1797.92,"ytd_margin":92.2,"ceo_rate":65.28,"note":"+cleanup"},{"code":"CPR","name":"CPR","apr_rev":250.0,"apr_bk":1.82,"apr_kel":0.0,"apr_ele":0.88,"apr_tot":2.71,"apr_eff":92.34,"apr_cost":18.23,"apr_profit":231.77,"apr_margin":92.7,"ytd_rev":1950.0,"ytd_bk":7.01,"ytd_kel":2.58,"ytd_ele":6.3,"ytd_tot":15.89,"ytd_cost":95.89,"ytd_profit":1854.11,"ytd_margin":95.1,"ceo_rate":294.2,"note":"+cleanup"},{"code":"PNP","name":"PNP","apr_rev":0.0,"apr_bk":0.0,"apr_kel":0.0,"apr_ele":0.0,"apr_tot":0.0,"apr_eff":null,"apr_cost":0.0,"apr_profit":0.0,"apr_margin":0,"ytd_rev":1800.0,"ytd_bk":3.53,"ytd_kel":0.46,"ytd_ele":16.19,"ytd_tot":20.18,"ytd_cost":39.89,"ytd_profit":1760.11,"ytd_margin":97.8,"ceo_rate":108.72,"note":"+cleanup"},{"code":"MYU","name":"MYU","apr_rev":420.0,"apr_bk":3.55,"apr_kel":0.81,"apr_ele":0.0,"apr_tot":4.36,"apr_eff":96.31,"apr_cost":63.87,"apr_profit":356.13,"apr_margin":84.8,"ytd_rev":1680.0,"ytd_bk":16.88,"ytd_kel":4.61,"ytd_ele":5.01,"ytd_tot":26.5,"ytd_cost":235.11,"ytd_profit":1444.89,"ytd_margin":86.0,"ceo_rate":288.31,"note":null},{"code":"CRML","name":"CRML","apr_rev":400.0,"apr_bk":3.84,"apr_kel":2.09,"apr_ele":0.05,"apr_tot":5.98,"apr_eff":66.89,"apr_cost":111.46,"apr_profit":288.54,"apr_margin":72.1,"ytd_rev":1600.0,"ytd_bk":14.95,"ytd_kel":4.47,"ytd_ele":9.06,"ytd_tot":28.48,"ytd_cost":246.39,"ytd_profit":1353.61,"ytd_margin":84.6,"ceo_rate":149.33,"note":null},{"code":"HYD","name":"HYD","apr_rev":400.0,"apr_bk":1.22,"apr_kel":2.0,"apr_ele":0.36,"apr_tot":3.58,"apr_eff":111.66,"apr_cost":82.13,"apr_profit":317.87,"apr_margin":79.5,"ytd_rev":1600.0,"ytd_bk":7.68,"ytd_kel":5.62,"ytd_ele":10.28,"ytd_tot":23.59,"ytd_cost":182.99,"ytd_profit":1417.01,"ytd_margin":88.6,"ceo_rate":137.8,"note":null},{"code":"TFG","name":"TFG","apr_rev":1600.0,"apr_bk":19.78,"apr_kel":2.86,"apr_ele":8.67,"apr_tot":31.31,"apr_eff":51.1,"apr_cost":297.77,"apr_profit":1302.23,"apr_margin":81.4,"ytd_rev":1600.0,"ytd_bk":19.78,"ytd_kel":2.86,"ytd_ele":8.67,"ytd_tot":31.31,"ytd_cost":297.77,"ytd_profit":1302.23,"ytd_margin":81.4,"ceo_rate":150.14,"note":"+cleanup"},{"code":"CSMA","name":"CSMA","apr_rev":385.0,"apr_bk":2.94,"apr_kel":1.02,"apr_ele":0.0,"apr_tot":3.96,"apr_eff":97.29,"apr_cost":65.01,"apr_profit":319.99,"apr_margin":83.1,"ytd_rev":1540.0,"ytd_bk":16.59,"ytd_kel":5.55,"ytd_ele":9.4,"ytd_tot":31.54,"ytd_cost":246.82,"ytd_profit":1293.18,"ytd_margin":84.0,"ceo_rate":137.6,"note":null},{"code":"JHW","name":"JHW","apr_rev":370.0,"apr_bk":1.14,"apr_kel":0.0,"apr_ele":0.0,"apr_tot":1.14,"apr_eff":325.28,"apr_cost":11.37,"apr_profit":358.63,"apr_margin":96.9,"ytd_rev":1480.0,"ytd_bk":4.63,"ytd_kel":2.51,"ytd_ele":3.54,"ytd_tot":10.68,"ytd_cost":71.38,"ytd_profit":1408.62,"ytd_margin":95.2,"ceo_rate":397.95,"note":null},{"code":"BBBG","name":"BBBG","apr_rev":350.0,"apr_bk":2.73,"apr_kel":0.89,"apr_ele":0.67,"apr_tot":4.29,"apr_eff":81.53,"apr_cost":58.38,"apr_profit":291.62,"apr_margin":83.3,"ytd_rev":1400.0,"ytd_bk":8.5,"ytd_kel":4.73,"ytd_ele":3.16,"ytd_tot":16.39,"ytd_cost":154.51,"ytd_profit":1245.49,"ytd_margin":89.0,"ceo_rate":394.14,"note":null},{"code":"LCAT","name":"LCAT","apr_rev":350.0,"apr_bk":3.37,"apr_kel":2.14,"apr_ele":0.0,"apr_tot":5.52,"apr_eff":63.45,"apr_cost":108.75,"apr_profit":241.25,"apr_margin":68.9,"ytd_rev":1400.0,"ytd_bk":15.53,"ytd_kel":7.13,"ytd_ele":11.19,"ytd_tot":33.84,"ytd_cost":280.14,"ytd_profit":1119.86,"ytd_margin":80.0,"ceo_rate":100.12,"note":null},{"code":"PF","name":"PF","apr_rev":350.0,"apr_bk":8.68,"apr_kel":1.56,"apr_ele":1.44,"apr_tot":11.68,"apr_eff":29.96,"apr_cost":141.46,"apr_profit":208.54,"apr_margin":59.6,"ytd_rev":1350.0,"ytd_bk":30.0,"ytd_kel":3.01,"ytd_ele":11.34,"ytd_tot":44.35,"ytd_cost":369.05,"ytd_profit":980.95,"ytd_margin":72.7,"ceo_rate":86.49,"note":"+cleanup"},{"code":"SHG","name":"SHG","apr_rev":300.0,"apr_bk":0.94,"apr_kel":1.05,"apr_ele":0.0,"apr_tot":1.99,"apr_eff":150.86,"apr_cost":46.18,"apr_profit":253.82,"apr_margin":84.6,"ytd_rev":1325.0,"ytd_bk":3.49,"ytd_kel":4.06,"ytd_ele":1.13,"ytd_tot":8.67,"ytd_cost":101.73,"ytd_profit":1223.27,"ytd_margin":92.3,"ceo_rate":1081.47,"note":"+cleanup"},{"code":"CCDD","name":"CCDD","apr_rev":300.0,"apr_bk":2.46,"apr_kel":1.46,"apr_ele":0.0,"apr_tot":3.92,"apr_eff":76.58,"apr_cost":75.58,"apr_profit":224.42,"apr_margin":74.8,"ytd_rev":1200.0,"ytd_bk":10.27,"ytd_kel":4.98,"ytd_ele":0.15,"ytd_tot":15.39,"ytd_cost":188.86,"ytd_profit":1011.14,"ytd_margin":84.3,"ceo_rate":6959.93,"note":null},{"code":"CR","name":"CR","apr_rev":300.0,"apr_bk":2.0,"apr_kel":0.79,"apr_ele":0.0,"apr_tot":2.79,"apr_eff":107.63,"apr_cost":47.66,"apr_profit":252.34,"apr_margin":84.1,"ytd_rev":1200.0,"ytd_bk":6.56,"ytd_kel":5.23,"ytd_ele":0.81,"ytd_tot":12.6,"ytd_cost":137.72,"ytd_profit":1062.28,"ytd_margin":88.5,"ceo_rate":1317.77,"note":null},{"code":"SFN","name":"SFN","apr_rev":210.0,"apr_bk":3.56,"apr_kel":0.62,"apr_ele":0.0,"apr_tot":4.18,"apr_eff":50.28,"apr_cost":57.22,"apr_profit":152.78,"apr_margin":72.8,"ytd_rev":840.0,"ytd_bk":11.99,"ytd_kel":5.87,"ytd_ele":0.84,"ytd_tot":18.7,"ytd_cost":194.06,"ytd_profit":645.94,"ytd_margin":76.9,"ceo_rate":773.06,"note":null},{"code":"CYD","name":"CYD","apr_rev":0.0,"apr_bk":0.0,"apr_kel":0.0,"apr_ele":0.0,"apr_tot":0.0,"apr_eff":null,"apr_cost":0.0,"apr_profit":0.0,"apr_margin":0,"ytd_rev":800.0,"ytd_bk":10.09,"ytd_kel":6.84,"ytd_ele":6.76,"ytd_tot":23.7,"ytd_cost":169.37,"ytd_profit":630.63,"ytd_margin":78.8,"ceo_rate":93.3,"note":null},{"code":"GGPC","name":"GGPC","apr_rev":0.0,"apr_bk":0.0,"apr_kel":0.0,"apr_ele":0.0,"apr_tot":0.0,"apr_eff":null,"apr_cost":0.0,"apr_profit":0.0,"apr_margin":0,"ytd_rev":640.0,"ytd_bk":2.4,"ytd_kel":0.0,"ytd_ele":11.02,"ytd_tot":13.42,"ytd_cost":24.01,"ytd_profit":615.99,"ytd_margin":96.2,"ceo_rate":55.91,"note":"+cleanup"},{"code":"NXGEN","name":"NXGEN","apr_rev":0.0,"apr_bk":0.0,"apr_kel":0.0,"apr_ele":0.0,"apr_tot":0.0,"apr_eff":null,"apr_cost":0.0,"apr_profit":0.0,"apr_margin":0,"ytd_rev":200.0,"ytd_bk":0.0,"ytd_kel":0.0,"ytd_ele":2.8,"ytd_tot":2.8,"ytd_cost":0.0,"ytd_profit":200.0,"ytd_margin":100.0,"ceo_rate":71.39,"note":"+cleanup"},{"code":"CPS","name":"CPS","apr_rev":0.0,"apr_bk":0.0,"apr_kel":0.0,"apr_ele":0.0,"apr_tot":0.0,"apr_eff":null,"apr_cost":0.0,"apr_profit":0.0,"apr_margin":0,"ytd_rev":0.0,"ytd_bk":0.0,"ytd_kel":0.0,"ytd_ele":0.49,"ytd_tot":0.49,"ytd_cost":0.0,"ytd_profit":0.0,"ytd_margin":0,"ceo_rate":0.0,"note":null},{"code":"JAB","name":"JAB","apr_rev":0.0,"apr_bk":0.0,"apr_kel":0.0,"apr_ele":0.0,"apr_tot":0.0,"apr_eff":null,"apr_cost":0.0,"apr_profit":0.0,"apr_margin":0,"ytd_rev":0.0,"ytd_bk":1.52,"ytd_kel":2.01,"ytd_ele":5.57,"ytd_tot":9.1,"ytd_cost":35.3,"ytd_profit":-35.3,"ytd_margin":0,"ceo_rate":-6.34,"note":null}];
+const TTOTALS={"apr_rev":19185.0,"apr_bk":102.09,"apr_kel":28.65,"apr_ele":56.89,"apr_tot":187.69,"apr_cost":2023.54,"apr_profit":17161.46,"ytd_rev":61980.0,"ytd_bk":404.82,"ytd_kel":136.12,"ytd_ele":320.62,"ytd_tot":861.56,"ytd_cost":6125.52,"ytd_profit":55854.48,"apr_margin":89.5,"ytd_margin":90.1};
 const T1=TDATA;
 const T2=TDATA;
 
@@ -1271,11 +1275,11 @@ document.getElementById('aprFoot').innerHTML=`
 <tr style="background:#F0EEEB;color:var(--mu);font-size:12px">
   <td colspan="2" style="text-align:left;padding-left:12px;font-style:italic">+ Other income</td>
   <td class="mono">$627</td>
-  <td colspan="6" style="font-size:11px;padding-left:8px;color:var(--mu)">Optimus $587 · Gusto $40</td>
+  <td colspan="6" style="font-size:11px;padding-left:8px;color:var(--mu)">Commission $587 · Gusto $40</td>
 </tr>
 <tr style="background:#EDE9FF;font-weight:600;border-top:1px solid #7B61FF">
   <td colspan="2" style="text-align:left;padding-left:12px;color:var(--navy)">Total April revenue</td>
-  <td class="mono" style="color:#5A3FD9">$15,012</td>
+  <td class="mono" style="color:#5A3FD9">$19,812</td>
   <td colspan="6"></td>
 </tr>`;
 
@@ -1283,7 +1287,7 @@ document.getElementById('aprFoot').innerHTML=`
 document.getElementById('ytdBody').innerHTML=TDATA.map((r,i)=>{
   const flag=r.code==='TFG'?'🔵':r.ytd_margin>=88?'🟢':r.ytd_margin>=75?'🟡':'🔴';
   const mgColor=r.ytd_margin>=88?'var(--gr)':r.ytd_margin>=75?'var(--am)':'var(--rd)';
-  const ytdRevLabel=r.note?fmt(r.ytd_rev)+'<span style="font-size:10px;color:var(--am);margin-left:3px">+cleanup</span>':fmt(r.ytd_rev);
+  const ytdRevLabel=r.note?fmt(r.ytd_rev)+'<span style="font-size:10px;color:var(--am);margin-left:3px">'+r.note+'</span>':fmt(r.ytd_rev);
   return `<tr>
     <td class="mono" style="padding-left:12px;color:var(--mu)">${String(i+1).padStart(2,'0')}</td>
     <td style="text-align:left;padding-left:4px;font-weight:500">${flag} ${r.name}</td>
@@ -1294,7 +1298,7 @@ document.getElementById('ytdBody').innerHTML=TDATA.map((r,i)=>{
     <td class="mono">${r.ytd_tot>0?r.ytd_tot.toFixed(2)+'h':'—'}</td>
     <td class="mono" style="color:var(--rd)">${fmt(r.ytd_cost)}</td>
     <td class="mono" style="color:${mgColor};font-weight:500">${r.ytd_margin.toFixed(1)}%</td>
-    <td class="mono" style="color:var(--purple);font-weight:500">${r.elena_rate?fmt(r.elena_rate)+'/hr':'—'}</td>
+    <td class="mono" style="color:var(--purple);font-weight:500">${r.ceo_rate?fmt(r.ceo_rate)+'/hr':'—'}</td>
   </tr>`;
 }).join('');
 
@@ -1317,27 +1321,9 @@ document.getElementById('ytdFoot').innerHTML=`
 </tr>
 <tr style="background:#EDE9FF;font-weight:600;border-top:1px solid #7B61FF">
   <td colspan="2" style="text-align:left;padding-left:12px;color:var(--navy)">Total YTD revenue</td>
-  <td class="mono" style="color:#5A3FD9">$56,064</td>
+  <td class="mono" style="color:#5A3FD9">$63,264</td>
   <td colspan="7"></td>
 </tr>`;
-  try{if(cfChart)cfChart.destroy();}catch(e){}
-  const canvas=document.getElementById('cfChart');
-  if(!canvas)return;
-  cfChart=new Chart(canvas,{
-    type:'bar',
-    data:{labels:MOS,datasets:[
-      {label:'Cash balance',data:bals,type:'line',borderColor:'#7B61FF',backgroundColor:'rgba(123,97,255,.08)',borderWidth:2.5,tension:.3,pointRadius:4,pointBackgroundColor:'#7B61FF',fill:true,yAxisID:'y1'},
-      {label:'Monthly net',data:nets,backgroundColor:nets.map(v=>v>=0?'rgba(29,158,117,.75)':'rgba(196,74,74,.75)'),borderRadius:5,barThickness:22,yAxisID:'y2'},
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{...CP.plugins,tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: $${(ctx.parsed.y||0).toLocaleString(undefined,{maximumFractionDigits:0})}`}}},
-      scales:{
-        x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#6B7188'}},
-        y1:{position:'left',beginAtZero:false,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(0)+'k',padding:6}},
-        y2:{position:'right',grid:{display:false},border:{display:false},ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(1)+'k',padding:6}},
-      }
-    }
-  });
 } // end initTab3
 
 let cfInit=false,cfChart=null,scChart=null;
@@ -1346,13 +1332,13 @@ function buildCF(){
   const dist = +document.getElementById('distrib').value;
   const other= +document.getElementById('cleanupSlider').value;
   const MOS=['May','Jun','Jul','Aug','Sep','Oct'];
-  const ROWENA=950,KELLI=2000,PAYROLL=2240,OPEX=1751;
-  let cash=29847.70, mrr=11585;
+  const BOOKKEEPER=1100,ACCOUNT_MANAGER=1530,PAYROLL=2234,OPEX=1524;
+  let cash=29195.48, mrr=11585;
   const rows=[],bals=[],nets=[];
   MOS.forEach(m=>{
     mrr+=grow;
     const inflow=mrr+other;
-    const outflow=ROWENA+KELLI+PAYROLL+OPEX+dist;
+    const outflow=BOOKKEEPER+ACCOUNT_MANAGER+PAYROLL+OPEX+dist;
     const net=inflow-outflow;
     cash+=net;
     rows.push({m,mrr,other,inflow,outflow,net,cash:Math.round(cash)});
@@ -1367,7 +1353,7 @@ function buildCF(){
       <td class="mono">${fmt2(r.mrr)}</td>
       <td class="mono">${fmt2(r.other)}</td>
       <td class="mono" style="font-weight:500;color:var(--navy)">${fmt2(r.inflow)}</td>
-      <td class="mono">${fmt2(ROWENA+KELLI)}</td>
+      <td class="mono">${fmt2(BOOKKEEPER+ACCOUNT_MANAGER)}</td>
       <td class="mono">${fmt2(PAYROLL)}</td>
       <td class="mono">${fmt2(OPEX)}</td>
       <td class="mono">${fmt2(dist)}</td>
@@ -1406,10 +1392,10 @@ function initCF(){
     });
   });
   const endCash=[
-    Math.round(29848+6*(-313)),
-    Math.round(29848+(2594+3644+3494+4544+4394+5444)),
-    Math.round(29848+(3044+4694+4644+5794+5644+6694)),
-    Math.round(29848+6*7637),
+    Math.round(29195+6*2197),
+    Math.round(29195+(3147+3597+4047+4497+4947+5397)),
+    Math.round(29195+(3597+4497+5397+6297+7197+8097)),
+    Math.round(29195+(6147+6597+7047+7497+7947+8397)),
   ];
   scChart=new Chart(document.getElementById('scenarioChart'),{
     type:'bar',
