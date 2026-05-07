@@ -11,24 +11,25 @@
 #kb-app .mono{font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 
 /* ─── TOPBAR ─── */
-#kb-app .topbar{background:var(--card);border-bottom:1px solid var(--ln);padding:13px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-#kb-app .brand{display:flex;align-items:center;gap:10px}
-#kb-app .brand-mark{width:28px;height:28px;background:#7B61FF33;border-radius:6px;display:grid;place-items:center}
-#kb-app .brand-mark svg{width:18px;height:18px}
-#kb-app .brand-text{font-weight:700;font-size:15px;letter-spacing:-.01em}
-#kb-app .brand-text .bp{color:#A68BFF}
-#kb-app .brand-sub{font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.12em;margin-top:1px}
-#kb-app .status-pills{display:flex;gap:12px;align-items:center;font-size:12px}
-#kb-app .status-pill{display:flex;align-items:center;gap:5px}
-#kb-app .sdot{width:7px;height:7px;border-radius:50%;display:inline-block}
+#kb-app .topbar{background:#2F1E68;color:#fff;border-bottom:none;padding:34px 42px;min-height:122px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+#kb-app .brand{display:flex;align-items:center;gap:0;min-width:80px}
+#kb-app .brand-mark{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;overflow:hidden;flex:0 0 auto;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+#kb-app .brand-mark img{width:100%;height:100%;object-fit:cover;display:block}
+#kb-app .dash-title{border-left:1px solid rgba(255,255,255,.22);padding-left:22px;min-width:210px}
+#kb-app .dash-eyebrow{font-size:10px;letter-spacing:.26em;color:#C8BEFF;text-transform:uppercase;font-weight:600;margin-bottom:4px}
+#kb-app .dash-name{font-size:20px;font-weight:600;color:#fff;line-height:1.1;letter-spacing:-.02em}
+#kb-app .status-pills{display:flex;gap:24px;align-items:center;font-size:13px;color:#F5F2FF;flex:1;justify-content:center;min-width:260px}
+#kb-app .status-pill{display:flex;align-items:center;gap:8px;white-space:nowrap}
+#kb-app .sdot{width:9px;height:9px;border-radius:50%;display:inline-block;box-shadow:0 0 0 5px rgba(255,255,255,.1)}
 #kb-app .sdot.green{background:#6EE7A0}
-#kb-app .sdot.amber{background:#F4C842}
-#kb-app .top-btns{display:flex;gap:8px}
+#kb-app .sdot.amber{background:#F4B43F}
+#kb-app .top-btns{display:flex;gap:10px;align-items:center}
 #kb-app .top-btns a.tbtn{text-decoration:none;display:inline-flex;align-items:center}
-#kb-app .tbtn{padding:7px 14px;border-radius:7px;font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;border:none;transition:opacity .15s}
-#kb-app .tbtn.primary{background:var(--purple);color:#fff}
-#kb-app .tbtn.ghost{background:transparent;color:var(--mu);border:1px solid var(--ln)}
+#kb-app .tbtn{padding:12px 18px;border-radius:999px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:none;transition:opacity .15s;white-space:nowrap}
+#kb-app .tbtn.primary{background:#9069E8;color:#fff;box-shadow:0 8px 18px rgba(0,0,0,.12)}
+#kb-app .tbtn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.32)}
 #kb-app .tbtn:hover{opacity:.85}
+@media(max-width:760px){#kb-app .topbar{padding:24px 22px}#kb-app .dash-title{border-left:none;padding-left:0}#kb-app .status-pills{justify-content:flex-start}#kb-app .brand{min-width:0}}
 
 /* ─── SOURCE BAR ─── */
 #kb-app .srcbar{background:var(--card);border-bottom:1px solid var(--ln);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -105,6 +106,14 @@
 #kb-app .insight.good{border-left-color:var(--gr);background:var(--grs)}
 #kb-app .insight.watch{border-left-color:var(--am);background:var(--ams)}
 #kb-app .insight strong{font-weight:600;color:var(--navy)}
+#kb-app .brief-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+#kb-app .brief{background:#FAFAF9;border:1px solid var(--ln);border-radius:8px;padding:11px 12px;min-height:118px}
+#kb-app .brief-title{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:7px}
+#kb-app .brief ul{margin:0;padding-left:16px;color:var(--ink);font-size:12px;line-height:1.45}
+#kb-app .brief li{margin-bottom:5px}
+#kb-app .brief li:last-child{margin-bottom:0}
+@media(max-width:1100px){#kb-app .brief-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){#kb-app .brief-grid{grid-template-columns:1fr}}
 
 /* ─── CLIENT LIST ─── */
 #kb-app .clist-row{display:grid;grid-template-columns:18px 1fr auto;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--ln);font-size:12.5px}
@@ -223,18 +232,32 @@
 #kb-app .cl-pill.green{background:var(--grs);color:var(--gr)}
 #kb-app .cw.h200{height:200px}
 @media(max-width:960px){#kb-app .kpi-row{grid-template-columns:repeat(2,1fr)}#kb-app .grid2,#kb-app .grid22,#kb-app .grid3{grid-template-columns:1fr}#kb-app .pl-cards{grid-template-columns:repeat(2,1fr)}#kb-app .kpi-score-grid{grid-template-columns:repeat(2,1fr)}}
+
+
+/* --- KeepBookers source strip polish only --- */
+#kb-app .srcbar{background:#fff;border-bottom:1px solid var(--ln);padding:16px 30px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+#kb-app .src-chips{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+#kb-app .src-chip{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:14px;border:1px solid var(--ln);background:#fff;box-shadow:0 6px 18px rgba(26,31,54,.04);font-size:13px;min-width:260px}
+#kb-app .src-chip .ci{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff;flex:0 0 auto}
+#kb-app .src-chip .ci.qbo{background:#2DA771}
+#kb-app .src-chip .ci.td{background:#F4C842;color:#10152A}
+#kb-app .src-chip span[style*="font-weight:600"]{font-size:14px;color:var(--navy)!important;font-weight:700!important}
+#kb-app .src-chip span[style*="color:var(--gr)"]{color:#16825A!important}
+#kb-app .src-date{color:#5F6680;font-size:12px;line-height:1.35;margin-top:2px}
+#kb-app .src-warn{color:#B7791F;font-size:12px;line-height:1.35;margin-top:2px;cursor:default}
+#kb-app .month-pills{display:inline-flex;background:#fff;border:1px solid var(--ln);border-radius:14px;padding:5px;box-shadow:0 6px 18px rgba(26,31,54,.04)}
+#kb-app .mpill{padding:9px 18px;border-radius:10px;font-size:13px;font-weight:700;color:#6B7188;cursor:pointer;border:none;background:transparent;font-family:inherit;transition:all .12s;min-width:58px}
+#kb-app .mpill.active{background:#130C2E;color:#fff}
+@media(max-width:760px){#kb-app .srcbar{padding:14px 22px}#kb-app .src-chip{min-width:100%;flex:1}#kb-app .month-pills{width:100%;justify-content:space-between}#kb-app .mpill{min-width:0;flex:1;padding-left:10px;padding-right:10px}}
+
 </style>
 
 <!-- ═══ TOPBAR ═══ -->
 <div class="topbar">
   <div class="brand">
-    <div class="brand-mark">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#A68BFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 4L12 16"/><path d="M12 10 Q7 8 5 4 Q5 12 12 16"/><path d="M12 10 Q17 8 19 4 Q19 12 12 16"/><path d="M7 18 Q12 20 17 18"/>
-      </svg>
-    </div>
-    <div><div class="brand-text"><span class="bp">K</span>B</div><div class="brand-sub">CFO Dashboard</div></div>
+    <div class="brand-mark"><img src="assets/kb-circle-logo.png" alt="KB logo"></div>
   </div>
+  <div class="dash-title"><div class="dash-eyebrow">Internal</div><div class="dash-name">CFO Dashboard</div></div>
   <div class="status-pills">
     <div class="status-pill"><span class="sdot green"></span>QBO connected</div>
     <div class="status-pill"><span class="sdot amber"></span>Hours: updated</div>
@@ -283,8 +306,8 @@
   <!-- Urgent actions banner -->
   <div class="banner" id="urgentBanner">
     <div class="banner-txt">
-      <strong>⚠ 2 urgent actions this month</strong><br>
-      RV + palapa not listed on Airbnb — ~$1,050/mo sitting idle. Solo 401(k) still not opened — costing ~$312/mo in avoidable taxes (~$3,750/yr).
+      <strong>⚠ 3 CFO focus items this month</strong><br>
+      Raise underpriced clients, collect the $7.2K A/R balance, and move recurring delivery hours from CEO to Account Manager.
     </div>
     <div class="banner-actions">
       <a onclick="document.getElementById('urgentBanner').style.display='none'">Dismiss</a>
@@ -303,10 +326,19 @@
     <div class="panel">
       <div class="ph"><div class="pt"><span class="dot"></span>CFO insights</div><div class="pn">from the data</div></div>
       <div class="insights">
-        <div class="insight good"><strong>+54% YoY revenue growth.</strong> Jan–Apr 2026 ($63,264) vs Jan–Apr 2025 ($41,047), up 54%. March and April cleanup work materially lifted the run rate.</div>
-        <div class="insight good"><strong>Delegation working.</strong> CEO client hours are now 62.1 in April, up from the partial-month view as cleanup work expanded. Delegation is helping, but the under-30 target still needs more handoff.</div>
-        <div class="insight watch"><strong>10 clients below $400/mo</strong> vs target of 5. Raising each by $50 adds ~$500/mo MRR. One email, no new clients needed.</div>
+        <div class="insight good"><strong>Growth is real, but not yet recurring enough.</strong> Jan-Apr revenue is $63,264, up 54% YoY, but $17,940 came from cleanup work. Convert cleanup wins into monthly bookkeeping or the $200K target stays dependent on project spikes.</div>
+        <div class="insight watch"><strong>CEO delivery is the constraint.</strong> CEO client hours are 62.1 in April versus a target under 30. AM hours are only 28.6, so the next operational win is shifting recurring client work out of the CEO seat.</div>
+        <div class="insight watch"><strong>Pricing is the fastest lever.</strong> 10 clients are still under $400/mo and average MRR is $429 versus a $556 target at 30 clients. Raising those accounts to a floor adds about $500/mo without adding workload.</div>
       </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="ph"><div class="pt"><span class="dot"></span>Advisory summary</div><div class="pn">most important items</div></div>
+    <div class="brief-grid concise">
+      <div class="brief"><div class="brief-title">What is working</div><ul><li>Revenue is up 54% YoY for Jan-Apr.</li><li>Gross margin is strong at 86.7%.</li><li>Cash is healthy at $29.2K.</li></ul></div>
+      <div class="brief"><div class="brief-title">What needs attention</div><ul><li>Cleanup work is driving growth more than recurring MRR.</li><li>CEO client hours are 62.1 in April, above the under-30 target.</li><li>A/R is $7.2K and should be collected or explained.</li></ul></div>
+      <div class="brief"><div class="brief-title">Recommended focus</div><ul><li>Raise the 10 clients under $400 to the minimum.</li><li>Move recurring client work from CEO to Account Manager.</li><li>Convert cleanup wins into monthly plans.</li></ul></div>
     </div>
   </div>
 
@@ -317,7 +349,7 @@
       <div id="clientList"></div>
     </div>
     <div class="panel">
-      <div class="ph"><div class="pt"><span class="dot"></span>Priority actions</div><div class="pn">9 open</div></div>
+      <div class="ph"><div class="pt"><span class="dot"></span>Priority actions</div><div class="pn">5 open</div></div>
       <div class="pris" id="priList"></div>
     </div>
   </div>
@@ -403,24 +435,22 @@
     </div>
   </div>
 
-  <!-- Charts row -->
-  <div class="grid22" style="margin-bottom:14px">
-    <div class="panel">
-      <div class="ph"><div class="pt"><span class="dot"></span>Gross &amp; Net margin trend</div><div class="pn">12 months</div></div>
-      <div class="cw h240"><canvas id="marginChart"></canvas></div>
-    </div>
-    <div class="panel">
-      <div class="ph"><div class="pt"><span class="dot"></span>Cost breakdown</div><div class="pn">YTD 2026</div></div>
-      <div class="cw h240"><canvas id="pieChart"></canvas></div>
-    </div>
-  </div>
-
-  <!-- % of Revenue + Expense Review -->
-  <div class="grid22" style="margin-bottom:14px">
-    <div class="panel">
-      <div class="ph"><div class="pt"><span class="dot"></span>% of revenue report</div><div class="pn">YTD 2026</div></div>
-      <table class="pct-tbl"><thead><tr><th>Expense category</th><th>YTD $</th><th>% of Rev</th><th style="text-align:right;padding-right:0">bar</th></tr></thead>
-      <tbody id="pctBody"></tbody></table>
+  <!-- Margin / Cost / % of Revenue + Expense Review -->
+  <div class="grid22" style="margin-bottom:14px;align-items:start">
+    <div>
+      <div class="panel" style="margin-bottom:14px">
+        <div class="ph"><div class="pt"><span class="dot"></span>Gross &amp; Net margin trend</div><div class="pn">12 months</div></div>
+        <div class="cw h240"><canvas id="marginChart"></canvas></div>
+      </div>
+      <div class="panel" style="margin-bottom:14px">
+        <div class="ph"><div class="pt"><span class="dot"></span>Cost breakdown</div><div class="pn">YTD 2026</div></div>
+        <div class="cw h240"><canvas id="pieChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt"><span class="dot"></span>% of revenue report</div><div class="pn">YTD 2026</div></div>
+        <table class="pct-tbl"><thead><tr><th>Expense category</th><th>YTD $</th><th>% of Rev</th><th style="text-align:right;padding-right:0">bar</th></tr></thead>
+        <tbody id="pctBody"></tbody></table>
+      </div>
     </div>
     <div class="panel">
       <div class="ph"><div class="pt"><span class="dot"></span>Expense review</div><div class="pn">keep · review</div></div>
@@ -725,14 +755,11 @@ document.getElementById('clientList').innerHTML=clients.slice(0,5).map(([n,a],i)
   </div>`).join('');
 
 const pris=[
-  ['red','Open Solo 401(k) at Fidelity. Free, saves ~$3,750/yr in taxes. Do it today.'],
-  ['red','List RV + palapa on Airbnb now. $0 cost, ~$1,050/mo sitting idle.'],
-  ['red','Finish Nicaragua casita ($5K) then list. Recurring Airbnb income.'],
-  ['amber','Set up $3,000/mo S-Corp distribution. Stop ad-hoc Zelle pattern in the GL.'],
-  ['amber','Move Audible, Amazon Prime, Apple TV off business card. IRS audit risk.'],
-  ['amber','Add $583/mo Roth IRA auto-contribution. Hits $7K annual max on autopilot.'],
-  ['green','Raise 10 clients under $400 to $400 min. +$500/mo MRR, one pricing email.'],
-  ['green','Fund Nicaragua casitas from distributions ($50K each, no debt).'],
+  ['red','Client: raise 10 clients under $400 to a $400 minimum. +$500/mo MRR; send notices within 2 weeks.'],
+  ['red','Account Manager: take 30 recurring client hours from CEO this month. Target is AM hours above CEO hours.'],
+  ['red','Bookkeeper: collect or explain the $7.2K A/R balance. Run weekly A/R review until current.'],
+  ['amber','Client: convert cleanup-heavy accounts into recurring plans. Target 3 more recurring clients to reach 30.'],
+  ['amber','Client + bookkeeper: review owner distributions and business-card personal spend monthly for clean cash reporting.'],
 ];
 document.getElementById('priList').innerHTML=pris.map(([lvl,txt])=>`
   <div class="pri">
@@ -1296,8 +1323,8 @@ function buildCF(){
       plugins:{...CP.plugins,tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: $${(ctx.parsed.y||0).toLocaleString(undefined,{maximumFractionDigits:0})}`}}},
       scales:{
         x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#6B7188'}},
-        y1:{position:'left',beginAtZero:false,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(0)+'k',padding:6}},
-        y2:{position:'right',grid:{display:false},border:{display:false},ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(1)+'k',padding:6}},
+        y1:{position:'left',min:20000,max:100000,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},ticks:{stepSize:5000,font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(0)+'k',padding:6}},
+        y2:{position:'right',min:0,max:20000,grid:{display:false},border:{display:false},ticks:{stepSize:2000,font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(0)+'k',padding:6}},
       }
     }
   });
@@ -1307,8 +1334,9 @@ function initCF(){
   if(cfInit)return; cfInit=true;
   ['mrrGrowth','distrib','cleanupSlider'].forEach(id=>{
     document.getElementById(id).addEventListener('input',function(){
-      const disp=id==='mrrGrowth'?'+$'+this.value:'$'+this.value;
-      document.getElementById(id+'Val').textContent=disp;
+      const disp=id==='mrrGrowth'?'+$'+Number(this.value).toLocaleString():'$'+Number(this.value).toLocaleString();
+      const valId=id==='cleanupSlider'?'cleanupVal':id+'Val';
+      document.getElementById(valId).textContent=disp;
       buildCF();
     });
   });
@@ -1326,19 +1354,19 @@ function initCF(){
     options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
       plugins:{...CP.plugins,legend:{display:false},tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`$${ctx.parsed.x.toLocaleString(undefined,{maximumFractionDigits:0})}`}}},
       scales:{
-        x:{grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},ticks:{font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(0)+'k',padding:6}},
+        x:{min:20000,max:100000,grid:{color:'#F0EEEB',drawTicks:false},border:{display:false},ticks:{stepSize:5000,font:{family:'DM Mono',size:10},color:'#6B7188',callback:v=>'$'+(v/1000).toFixed(0)+'k',padding:6}},
         y:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11},color:'#6B7188'}},
       }
     }
   });
   document.getElementById('levers').innerHTML=[
-    {l:'Raise 10 under-$400 clients by $50',i:'+$500/mo recurring MRR',c:'var(--gr)'},
-    {l:'Add 1 new client/mo at $450 avg',i:'+$450/mo compounding',c:'var(--gr)'},
-    {l:'Open Solo 401(k) at Fidelity',i:'~$3,750/yr tax savings',c:'var(--gr)'},
-    {l:'Start Airbnb (RV + palapa)',i:'~$1,050/mo personal income',c:'var(--gr)'},
-    {l:'Set up $3K/mo S-Corp distribution',i:'Personal cash flow clarity',c:'var(--purple)'},
-    {l:'Move personal subs off biz card',i:'−$33/mo IRS risk removed',c:'var(--am)'},
-    {l:'Review Workflow Queen $695/mo',i:'Up to −$695/mo if not renewing',c:'var(--am)'},
+    {l:'Raise 10 under-$400 clients to the $400 minimum',i:'+$500/mo recurring MRR',c:'var(--gr)'},
+    {l:'Add 3 recurring clients to reach the 30-client target',i:'+$1.4K-$1.7K/mo',c:'var(--gr)'},
+    {l:'Collect or resolve current A/R balance',i:'+$7.2K cash unlock',c:'var(--gr)'},
+    {l:'Move 30 client hours from CEO to Account Manager',i:'CEO under 30h/mo path',c:'var(--purple)'},
+    {l:'Convert cleanup clients into monthly plans',i:'Less project-spike risk',c:'var(--purple)'},
+    {l:'Review business-card personal spend monthly',i:'Cleaner cash reporting',c:'var(--am)'},
+    {l:'Review Workflow Queen $695/mo',i:'Up to -$695/mo if not renewing',c:'var(--am)'},
   ].map(x=>`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--lns);gap:12px"><span style="color:var(--ink);font-size:12.5px">${x.l}</span><span style="font-size:11px;font-weight:500;color:${x.c};white-space:nowrap">${x.i}</span></div>`).join('');
   buildCF();
 }
