@@ -748,7 +748,7 @@ function renderKpiCards(mon){
     const cur=isYtd&&k==='clients'?27:isYtd?d.ytdVal():d.vals[idx];
     const prev=idx>0?d.vals[idx-1]:null;
     const p25=d.prior25?.[idx];
-    const fmt=v=>v==null?'—':d.isPercent?v.toFixed(1)+'%':k==='clients'?String(Math.round(v)):'$'+Math.round(v).toLocaleString();
+    const fmt=v=>v==null?'—':d.isPercent?v.toFixed(1)+'%':k==='clients'?String(Math.round(v)):k==='ceoHrs'?Number(v).toFixed(1)+'h':'$'+Math.round(v).toLocaleString();
     const delta=(a,b,inv)=>{
       if(a==null||b==null)return '';
       const d=a-b,cls=inv?(d<0?'up':d>0?'dn':'flat'):(d>0?'up':d<0?'dn':'flat');
@@ -1152,7 +1152,7 @@ new Chart(document.getElementById('kpiRevChart'),{
 
 
 document.getElementById('teamKpis').innerHTML =
-  scoreCard('CEO Client Hrs (Apr)','56.9','Under 30/mo','','','hit',
+  scoreCard('CEO Client Hrs (Apr)','56.9','Under 30/mo','','','miss',
     'Jan 141 → Feb 54 → Mar 69 → Apr 56.9','April rose with cleanup workload') +
   scoreCard('AM vs CEO Hrs (Apr)','50.4%','AM hrs > CEO hrs','','','miss',
     'Account Manager: 28.6h vs CEO: 56.9h','Needs +28.3 AM hrs to exceed CEO client hours') +
