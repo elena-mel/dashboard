@@ -203,7 +203,14 @@
 #kb-app .exp-pill{font-size:10px;font-weight:600;padding:3px 9px;border-radius:8px;text-transform:uppercase;letter-spacing:.05em}
 #kb-app .exp-pill.keep{background:var(--grs);color:var(--gr)}
 #kb-app .exp-pill.review{background:var(--rds);color:var(--rd)}
-#kb-app .exp-savings{background:var(--ams);border-radius:10px;padding:12px 16px;margin-top:14px;font-size:13px}
+#kb-app .exp-savings{background:var(--ams);border:1px solid rgba(201,138,26,.18);border-radius:12px;padding:14px 16px;margin-top:16px;font-size:13px;color:var(--ink)}
+#kb-app .exp-save-head{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--navy);font-size:14px;margin-bottom:10px}
+#kb-app .exp-save-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+#kb-app .exp-save-item{background:rgba(255,255,255,.65);border:1px solid rgba(201,138,26,.16);border-radius:9px;padding:10px 11px;min-width:0}
+#kb-app .exp-save-label{font-size:10px;font-weight:700;color:var(--am);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+#kb-app .exp-save-value{font-size:18px;font-weight:700;color:var(--navy);line-height:1.1;margin-bottom:5px}
+#kb-app .exp-save-note{font-size:12px;color:var(--mu);line-height:1.35}
+@media(max-width:760px){#kb-app .exp-save-grid{grid-template-columns:1fr}}
 
 /* ─── TAB PANELS ─── */
 #kb-app .tab-panel{display:none}
@@ -987,9 +994,24 @@ document.getElementById('expReview').innerHTML=
     </div>
   </div>`).join('')+
   `<div class="exp-savings">
-    <strong>💡 Savings opportunity:</strong> Items marked "review" total <strong>$${reviewTotal}/mo</strong> (~$${(reviewTotal*12).toLocaleString()}/yr).
-    Even just moving the <strong>3 personal items</strong> (Audible + Prime + Apple TV = $${personalRisk}/mo) off the business card removes IRS audit exposure.
-    Reviewing Workflow Queen ($695/mo) + Online Jobs PH ($99/mo) could free up <strong>$794/mo</strong> if either is no longer delivering clear ROI.
+    <div class="exp-save-head">💡 Savings opportunity</div>
+    <div class="exp-save-grid">
+      <div class="exp-save-item">
+        <div class="exp-save-label">Review total</div>
+        <div class="exp-save-value mono">$${reviewTotal}/mo</div>
+        <div class="exp-save-note">~$${(reviewTotal*12).toLocaleString()}/yr marked for review.</div>
+      </div>
+      <div class="exp-save-item">
+        <div class="exp-save-label">Clean up card</div>
+        <div class="exp-save-value mono">$${personalRisk}/mo</div>
+        <div class="exp-save-note">Move Audible, Prime, and Apple TV off the business card to reduce IRS risk.</div>
+      </div>
+      <div class="exp-save-item">
+        <div class="exp-save-label">ROI check</div>
+        <div class="exp-save-value mono">$794/mo</div>
+        <div class="exp-save-note">Review Workflow Queen and Online Jobs PH if either is not producing clear ROI.</div>
+      </div>
+    </div>
   </div>`;
 
 let tab3Initialized = false;
