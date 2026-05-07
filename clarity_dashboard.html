@@ -683,7 +683,7 @@ const kpiData = {
   mrr: {label:'Monthly Revenue',vals:mRev,prior25:[8136,10455,12007,10449],ytdVal:()=>ytdRev,target:'$16,667+/mo',hitFn:v=>v>=16666.67},
   net: {label:'Net Income',vals:mNet,prior25:[6299,9058,6645,6257],ytdVal:()=>ytdNet,target:'$6,000+/mo',hitFn:v=>v>=6000},
   gm:  {label:'Gross Margin',vals:mRev.map((r,i)=>r?mGP[i]/r*100:null),prior25:[89.5,96.8,67.7,77.2],ytdVal:()=>ytdGP/ytdRev*100,isPercent:true,target:'85%+',hitFn:v=>v>=85},
-  clients:{label:'Active Recurring',vals:[24,25,26,27],prior25:[18,18,18,19],ytdVal:()=>27,target:'27 active',hitFn:v=>v>=27},
+  clients:{label:'Active Recurring',vals:[24,25,26,27],prior25:[18,18,18,19],ytdVal:()=>27,target:'30 active',hitFn:v=>v>=30},
   ceoHrs:{label:'CEO Client Hrs',vals:[140.97,53.53,69.18,56.93],prior25:[null,null,null,null],ytdVal:()=>null,target:'<30/mo',hitFn:v=>v<30},
 };
 
@@ -1074,8 +1074,8 @@ document.getElementById('finKpis').innerHTML =
 document.getElementById('salesKpis').innerHTML =
   scoreCard('MRR (Bookkeeping)','$11,585','$16,667+/mo','','','miss',
     '+$3,735 vs Apr 2025 (+48%)','10 clients below $400 — pricing opportunity') +
-  scoreCard('Active Clients','27 / 27','27 active recurring','','','hit',
-    'Target reached after April updates','Churn: 1 lost YTD') +
+  scoreCard('Active Clients','27 / 30','30 active recurring','','','miss',
+    '3 clients below target','Churn: 1 lost YTD') +
   scoreCard('Monthly Churn','1.14%','Under 3%/mo','','','hit',
     '1 client lost (CYD)','Well within 3% ceiling') +
   scoreCard('Advertising ROI','9.3×','Maximize cleanup leads','','','hit',
@@ -1104,8 +1104,8 @@ new Chart(document.getElementById('kpiRevChart'),{
 document.getElementById('teamKpis').innerHTML =
   scoreCard('CEO Client Hrs (Apr)','56.9','Under 30/mo','','','hit',
     'Jan 141 → Feb 54 → Mar 69 → Apr 56.9','April rose with cleanup workload') +
-  scoreCard('AM Delegation (Apr)','15.3%','60%+ of client hrs','','','miss',
-    'Account Manager: 28.6h of 187.7h client total','April AM cost uses $35/hr for current AM and $10/hr for support AM') +
+  scoreCard('AM vs CEO Hrs (Apr)','50.4%','AM hrs > CEO hrs','','','miss',
+    'Account Manager: 28.6h vs CEO: 56.9h','Needs +28.3 AM hrs to exceed CEO client hours') +
   scoreCard('Bookkeeper','102.1h (Apr)','Steady state','','','hit',
     'Jan 135 · Feb 71 · Mar 96 · Apr 102','Bookkeeper cost calculated at $10/hr');
 
@@ -1149,13 +1149,13 @@ new Chart(document.getElementById('hoursStackChart'),{
 });
 
 document.getElementById('clientKpis').innerHTML =
-  scoreCard('Active Recurring','27','27 active recurring','','','hit',
-    'At current target','Recurring client target reached') +
+  scoreCard('Active Recurring','27','30 active recurring','','','miss',
+    '3 clients below target','Recurring client target is 30') +
   scoreCard('Clients below $400','10','Under 5','','','miss',
     'Chicago SMA $385 · JHW $370 · PF $350...','Raise each $50 = +$500/mo MRR') +
   scoreCard('Monthly Churn','1.14%','Under 3%','','','hit',
     '1 lost YTD: CYD (Feb→Mar)','Well within target ceiling') +
-  scoreCard('Avg MRR per Client','$429','$617+ (for $200K annual target at 27 clients)','','','amber',
+  scoreCard('Avg MRR per Client','$429','$556+ (for $200K annual target at 30 clients)','','','amber',
     'Current: $11,585 ÷ 27 clients','Pricing the 10 under-$400 clients gets you closer');
 
 const clients = [
