@@ -3,7 +3,7 @@
      Tab 1: CFO Summary | Tab 2: Monthly P&L
 -->
 <div id="kb-app">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
 #kb-app{--bg:#F7F6F5;--card:#fff;--purple:#7B61FF;--ps:#EDE9FF;--pd:#5A3FD9;--navy:#1A1F36;--ink:#2A2F45;--mu:#6B7188;--ln:#E8E6E3;--lns:#F0EEEB;--gr:#2F9E6B;--grs:#E3F5EC;--am:#C98A1A;--ams:#FBF1DC;--rd:#C94A4A;--rds:#FBE5E5;--dk:#10152A;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--bg);margin:0;padding:0;-webkit-font-smoothing:antialiased}
@@ -255,71 +255,6 @@
 #kb-app .mpill.active{background:#130C2E;color:#fff}
 @media(max-width:760px){#kb-app .srcbar{padding:14px 22px}#kb-app .src-chip{min-width:100%;flex:1}#kb-app .month-pills{width:100%;justify-content:space-between}#kb-app .mpill{min-width:0;flex:1;padding-left:10px;padding-right:10px}}
 
-
-/* --- KeepBookers editorial style override --- */
-#kb-app{--bg:#fcfbfe;--card:#fff;--purple:#6c3fc5;--ps:#f6f2fd;--pd:#4a2fa3;--navy:#1a0a3d;--ink:#1a0a3d;--mu:#6a6485;--ln:#e7e2f1;--lns:#f1edf7;--gr:#1f9d6b;--grs:#e6f6ee;--am:#b97500;--ams:#fbf1dc;--rd:#c2363f;--rds:#fbe5e7;--dk:#2d1b6b;font-family:'Outfit',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
-#kb-app .mono{font-family:'Fraunces',Georgia,serif;font-variant-numeric:tabular-nums;letter-spacing:0}
-#kb-app .topbar{height:64px;min-height:64px;background:#2d1b6b;padding:0 32px;border-bottom:1px solid rgba(255,255,255,.08);gap:18px;flex-wrap:nowrap;box-shadow:none}
-#kb-app .brand{min-width:auto;gap:14px}
-#kb-app .brand-mark{width:38px;height:38px;box-shadow:none;border:0}
-#kb-app .dash-title{border-left:1px solid rgba(255,255,255,.18);padding-left:18px;min-width:180px}
-#kb-app .dash-eyebrow{font-size:9.5px;letter-spacing:2.3px;color:#b39bef;margin-bottom:1px;font-weight:600}
-#kb-app .dash-name{font-family:'Fraunces',Georgia,serif;font-size:17px;font-weight:500;color:rgba(255,255,255,.94);letter-spacing:.1px}
-#kb-app .status-pills{justify-content:flex-start;gap:18px;font-size:12.5px;color:rgba(255,255,255,.72);min-width:0;flex:1}
-#kb-app .sdot{width:8px;height:8px;box-shadow:0 0 0 4px rgba(255,255,255,.08)}
-#kb-app .top-btns{gap:8px;flex-shrink:0}
-#kb-app .tbtn{border-radius:999px;padding:8px 13px;font-size:12.5px;font-weight:600;box-shadow:none}
-#kb-app .tbtn.primary{background:#fff;color:#2d1b6b;box-shadow:none}
-#kb-app .tbtn.ghost{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.86)}
-#kb-app .srcbar{background:#fcfbfe;border-bottom:1px solid var(--ln);padding:14px 32px;box-shadow:none}
-#kb-app .src-chip{border-radius:6px;border:1px solid var(--ln);box-shadow:0 1px 2px rgba(26,10,61,.04);padding:10px 13px;min-width:250px;background:#fff}
-#kb-app .src-chip .ci{border-radius:4px;width:30px;height:30px;font-size:11px}
-#kb-app .month-pills{border-radius:999px;padding:3px;background:#f6f4fb;border:1px solid var(--ln);box-shadow:none}
-#kb-app .mpill{border-radius:999px;padding:6px 14px;min-width:54px;font-size:12.5px;font-weight:500;color:var(--mu)}
-#kb-app .mpill.active{background:#2d1b6b;color:#fff}
-#kb-app .tabnav{background:#fff;border-bottom:1px solid var(--ln);padding:0 32px;gap:6px}
-#kb-app .tnav{padding:14px 14px 13px;font-size:13px;font-weight:500;color:var(--mu);border-bottom:2px solid transparent}
-#kb-app .tnav.active{color:var(--ink);border-bottom-color:var(--purple)}
-#kb-app .alert-badge{background:#c2363f;border-radius:999px;font-size:10px;padding:1px 6px}
-#kb-app .page{background:var(--bg);padding:28px 32px 72px}
-#kb-app .page-head{align-items:flex-end;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--ln)}
-#kb-app h1{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:38px;line-height:1.05;letter-spacing:-.5px;color:var(--ink)}
-#kb-app .period{font-size:12.5px;color:var(--mu)}
-#kb-app .src-badge{background:#fff;border:1px solid var(--ln);border-radius:999px;color:var(--mu);padding:4px 10px}
-#kb-app .banner{background:#fff8e7;border:1px solid #eed8a9;border-left:4px solid var(--am);border-radius:6px;padding:14px 16px;margin-bottom:22px}
-#kb-app .banner-txt{font-size:13.5px;color:var(--ink)}
-#kb-app .banner-txt strong{color:var(--ink);font-weight:700}
-#kb-app .kpi-row{gap:14px;margin-bottom:20px}
-#kb-app .kpi,#kb-app .panel,#kb-app .pl-card,#kb-app .score-card{background:#fff;border:1px solid var(--ln);border-radius:6px;box-shadow:0 1px 2px rgba(26,10,61,.04),0 1px 0 rgba(26,10,61,.02)}
-#kb-app .kpi{padding:15px 16px 16px}
-#kb-app .kpi-label,#kb-app .sc-label,#kb-app .brief-title,#kb-app .proj-lbl,#kb-app .kpi-section-label{font-size:10.5px;letter-spacing:1.5px;font-weight:600;color:var(--muted,#6a6485)}
-#kb-app .kpi-val,#kb-app .sc-val,#kb-app .prog-val,#kb-app .proj-val{font-family:'Fraunces',Georgia,serif;color:var(--ink);font-weight:500;letter-spacing:-.2px}
-#kb-app .kpi-val{font-size:27px}
-#kb-app .panel{padding:20px 22px}
-#kb-app .ph{margin-bottom:14px;align-items:baseline}
-#kb-app .pt{font-family:'Fraunces',Georgia,serif;font-size:18px;font-weight:500;color:var(--ink);letter-spacing:-.1px}
-#kb-app .pt .dot{background:var(--purple);width:7px;height:7px;margin-right:8px}
-#kb-app .pn{font-size:12px;color:var(--mu)}
-#kb-app .insight{background:#fff;border:1px solid var(--ln);border-left:3px solid var(--ln);border-radius:6px;padding:13px 14px;font-size:13px;line-height:1.55}
-#kb-app .insight.good{border-left-color:var(--gr);background:#fff}
-#kb-app .insight.watch{border-left-color:var(--am);background:#fff}
-#kb-app .brief{background:#fff;border:1px solid var(--ln);border-radius:6px;padding:14px 15px}
-#kb-app .brief ul{font-size:13px;line-height:1.5}
-#kb-app .pri{background:#fff;border:1px solid var(--ln);border-radius:6px;padding:10px 12px}
-#kb-app .pill,.exp-pill,.sc-badge{border-radius:3px!important;letter-spacing:.08em}
-#kb-app .prog-bar{height:10px;background:#f6f4fb;border-color:var(--ln);border-radius:999px}
-#kb-app .prog-fill{background:#6c3fc5;border-radius:999px}
-#kb-app .ask-in{background:#fff;border-radius:6px;border-color:var(--ln)}
-#kb-app .ask-send{background:#6c3fc5;border-radius:6px}
-#kb-app .chip{background:#f6f2fd;color:#4a2fa3;border-radius:999px}
-#kb-app .pl-tbl,.pct-tbl{font-size:13px}
-#kb-app .pl-tbl thead th,#kb-app .pct-tbl th{background:#f6f2fd;color:#322557;font-weight:600;letter-spacing:1px}
-#kb-app .pl-tbl tr.tot td{background:#2d1b6b;color:#fff}
-#kb-app .pl-tbl tr.tot td:last-child{background:#6c3fc5}
-#kb-app .exp-savings{background:#fff8e7;border-color:#eed8a9;border-radius:6px}
-#kb-app .cw.h200{height:220px}
-@media(max-width:900px){#kb-app .topbar{height:auto;min-height:64px;flex-wrap:wrap;padding:14px 22px}.status-pills{order:3;flex-basis:100%}#kb-app .page,#kb-app .srcbar,#kb-app .tabnav{padding-left:20px;padding-right:20px}#kb-app h1{font-size:32px}#kb-app .page-head{display:block}#kb-app .period{margin-top:8px}#kb-app .kpi-row{grid-template-columns:repeat(2,1fr)}}
-
 </style>
 
 <!-- ═══ TOPBAR ═══ -->
@@ -410,11 +345,6 @@
       <div class="brief"><div class="brief-title">What needs attention</div><ul><li>Cleanup work is driving growth more than recurring MRR.</li><li>CEO client hours are 62.1 in April, above the under-30 target.</li><li>A/R is $7.2K and should be collected or explained.</li></ul></div>
       <div class="brief"><div class="brief-title">Recommended focus</div><ul><li>Raise the 10 clients under $400 to the minimum.</li><li>Move recurring client work from CEO to Account Manager.</li><li>Convert cleanup wins into monthly plans.</li></ul></div>
     </div>
-  </div>
-
-  <div class="panel" style="margin-bottom:14px">
-    <div class="ph"><div class="pt"><span class="dot"></span>CFO client hours trend</div><div class="pn">goal under 30 hrs/month</div></div>
-    <div class="cw h220"><canvas id="summaryCfoHrsChart"></canvas></div>
   </div>
 
   <!-- Row 2: Top clients + priorities -->
@@ -825,27 +755,6 @@ function renderKpiCards(mon){
   }).join('');
 }
 renderKpiCards(3);
-
-new Chart(document.getElementById('summaryCfoHrsChart'),{
-  type:'line',
-  data:{
-    labels:['Jan','Feb','Mar','Apr'],
-    datasets:[
-      {label:'CFO client hrs',data:[140.97,53.53,69.18,62.13],borderColor:'#6c3fc5',backgroundColor:'rgba(108,63,197,.10)',borderWidth:2.5,tension:.28,pointRadius:4.5,pointBackgroundColor:'#6c3fc5',pointBorderColor:'#fff',pointBorderWidth:1.5,fill:true},
-      {label:'30 hr goal',data:[30,30,30,30],borderColor:'#c2363f',borderWidth:1.5,borderDash:[4,4],pointRadius:0,fill:false,tension:0},
-    ]
-  },
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{...CP.plugins,tooltip:{...CP.plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}h`}}},
-    scales:{
-      x:{grid:{display:false},ticks:{font:{family:'Outfit',size:11},color:'#6a6485'}},
-      y:{beginAtZero:true,suggestedMax:155,grid:{color:'#f1edf7',drawTicks:false},border:{display:false},
-         ticks:{font:{family:'Fraunces',size:10},color:'#6a6485',callback:v=>v+'h',padding:6}}
-    }
-  }
-});
-
-
 
 document.getElementById('monthPills').addEventListener('click',e=>{
   const btn=e.target.closest('.mpill');
