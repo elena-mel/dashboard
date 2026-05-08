@@ -259,10 +259,7 @@
 
 <!-- ═══ TOPBAR ═══ -->
 <div class="topbar">
-  <div class="brand">
-    <div class="brand-mark"><img src="assets/kb-circle-logo.png" alt="KB logo"></div>
-  </div>
-  <div class="dash-title"><div class="dash-eyebrow">Internal</div><div class="dash-name">Clarity Dashboard</div></div>
+  <div class="dash-title no-logo"><div class="dash-eyebrow">Internal</div><div class="dash-name">Clarity Dashboard</div></div>
   <div class="status-pills">
     <div class="status-pill"><span class="sdot green"></span>QBO connected</div>
     <div class="status-pill"><span class="sdot amber"></span>Hours: updated</div>
@@ -767,7 +764,7 @@ document.getElementById('monthPills').addEventListener('click',e=>{
 
 const clients=[
   ['TFG',1200],['SEC',1000],
-  ['DP Products',950],['LJS',900],
+  ['DP',950],['LJS',900],
   ['FF',800],['SGN',650],['AB',650],
 ];
 document.getElementById('clientList').innerHTML=clients.slice(0,5).map(([n,a],i)=>`
