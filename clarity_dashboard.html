@@ -330,9 +330,9 @@
     <div class="panel">
       <div class="ph"><div class="pt"><span class="dot"></span>CFO insights</div><div class="pn">from the data</div></div>
       <div class="insights">
-        <div class="insight good"><strong>Growth is real, but not yet recurring enough.</strong> Jan-Apr revenue is $63,264, up 54% YoY, but $17,940 came from cleanup work. Convert cleanup wins into monthly bookkeeping or the $200K target stays dependent on project spikes.</div>
+        <div class="insight good"><strong>Growth is real, but not yet recurring enough.</strong> Jan-Apr revenue is $63,264, up 54% YoY, but $16,740 came from cleanup work after moving $1,200 of April cleanup into recurring revenue. Convert cleanup wins into monthly bookkeeping or the $200K target stays dependent on project spikes.</div>
         <div class="insight watch"><strong>CEO delivery is the constraint.</strong> CEO client hours are 62.1 in April versus a target under 30. AM hours are only 28.6, so the next operational win is shifting recurring client work out of the CEO seat.</div>
-        <div class="insight watch"><strong>Pricing is the fastest lever.</strong> 10 clients are still under $400/mo and average MRR is $429 versus a $556 target at 30 clients. Raising those accounts to a floor adds about $500/mo without adding workload.</div>
+        <div class="insight watch"><strong>Pricing is the fastest lever.</strong> 10 clients are still under $400/mo and average MRR is $474 versus a $556 target at 30 clients. Raising those accounts to a floor adds about $500/mo without adding workload.</div>
       </div>
     </div>
   </div>
@@ -525,7 +525,7 @@
     <div class="kpi"><div class="kpi-label">Cash on hand</div><div class="kpi-val mono">$29,195</div><div class="kpi-target hit">Bank + undeposited cash, Apr 30</div></div>
     <div class="kpi"><div class="kpi-label">Monthly burn rate</div><div class="kpi-val mono">$6,385</div><div class="kpi-target">Payroll + contractors + OpEx</div></div>
     <div class="kpi"><div class="kpi-label">Months runway</div><div class="kpi-val mono">4.6 mo</div><div class="kpi-target hit">At zero revenue (safety check)</div></div>
-    <div class="kpi"><div class="kpi-label">Net cash/mo (base)</div><div class="kpi-val mono">+$5,200</div><div class="kpi-target hit">MRR only, no extras</div></div>
+    <div class="kpi"><div class="kpi-label">Net cash/mo (base)</div><div class="kpi-val mono">+$6,400</div><div class="kpi-target hit">MRR only, no extras</div></div>
   </div>
   <div class="panel" style="margin-bottom:16px">
     <div class="ph"><div class="pt"><span class="dot"></span>Projection assumptions</div><div class="pn">drag sliders to model scenarios — chart updates live</div></div>
@@ -626,8 +626,8 @@ const D25 = {
 };
 
 const FALLBACK_PL = {
-  'Bookkeeping Services':          [10085,10785,11585,11585],
-  'Cleanup Services':              [ 7165,  775, 2400, 7600],
+  'Bookkeeping Services':          [10085,10785,11585,12785],
+  'Cleanup Services':              [ 7165,  775, 2400, 6400],
   'Commission Income':             [    0,  536,    0,  587],
   'Gusto Income':                  [42.60,40.80,38.40,39.60],
   'Client Subscriptions':          [273.35,323.88,245,270],
@@ -852,7 +852,7 @@ new Chart(document.getElementById('histChart'),{
 
 const r12Labels=['May \'25','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan \'26','Feb','Mar','Apr'];
 const r12Rev =[7990,11460,9290,8692,10192,9293,10257,15843,17293,12137,14023,19812];
-const r12MRR =[7850,7850,7850,7850,8000,8250,8050,9200,10085,10785,11585,11585];
+const r12MRR =[7850,7850,7850,7850,8000,8250,8050,9200,10085,10785,11585,12785];
 const r12Net =[4608,7705,5843,5236,7247,7037,5454,12103,10026,7172,7207,13156];
 new Chart(document.getElementById('rolling12Chart'),{
   type:'line',
@@ -1106,14 +1106,14 @@ document.getElementById('finKpis').innerHTML =
     'Comfortably above target','April cleanup revenue lifted margin');
 
 document.getElementById('salesKpis').innerHTML =
-  scoreCard('MRR (Bookkeeping)','$11,585','$16,667+/mo','','','miss',
-    '+$3,735 vs Apr 2025 (+48%)','10 clients below $400 — pricing opportunity') +
+  scoreCard('MRR (Bookkeeping)','$12,785','$16,667+/mo','','','miss',
+    '+$4,935 vs Apr 2025 (+63%)','10 clients below $400 — pricing opportunity') +
   scoreCard('Active Clients','27 / 30','30 active recurring','','','miss',
     '3 clients below target','Churn: 1 lost YTD') +
   scoreCard('Monthly Churn','1.14%','Under 3%/mo','','','hit',
     '1 client lost (CYD)','Well within 3% ceiling') +
-  scoreCard('Advertising ROI','9.3×','Maximize cleanup leads','','','hit',
-    '$9,140 cleanup rev ÷ $982 ad spend','Jan 21.6× · Feb 3.0× · Mar 0× · Apr 48×');
+  scoreCard('Advertising ROI','8.1×','Maximize cleanup leads','','','hit',
+    '$7,940 cleanup rev ÷ $982 ad spend','Jan 21.6× · Feb 3.0× · Mar 0× · Apr 40×');
 
 new Chart(document.getElementById('kpiRevChart'),{
   type:'bar',
@@ -1189,8 +1189,8 @@ document.getElementById('clientKpis').innerHTML =
     'Chicago SMA $385 · JHW $370 · PF $350...','Raise each $50 = +$500/mo MRR') +
   scoreCard('Monthly Churn','1.14%','Under 3%','','','hit',
     '1 lost YTD: CYD (Feb→Mar)','Well within target ceiling') +
-  scoreCard('Avg MRR per Client','$429','$556+ (for $200K annual target at 30 clients)','','','amber',
-    'Current: $11,585 ÷ 27 clients','Pricing the 10 under-$400 clients gets you closer');
+  scoreCard('Avg MRR per Client','$474','$556+ (for $200K annual target at 30 clients)','','','amber',
+    'Current: $12,785 ÷ 27 clients','Pricing the 10 under-$400 clients gets you closer');
 
 const clients = [
   {code:'ABFA',n:'AB LLC', mrr:650,  ar:1.9, ak:1.6, ae:8.2,  yr:1300, yr_r:1.88, yr_k:1.58, yr_e:10.06},
@@ -1235,7 +1235,7 @@ function buildCF(){
   const other= +document.getElementById('cleanupSlider').value;
   const MOS=['May','Jun','Jul','Aug','Sep','Oct'];
   const BOOKKEEPER=1100,ACCOUNT_MANAGER=1530,PAYROLL=2234,OPEX=1524;
-  let cash=29195.48, mrr=11585;
+  let cash=29195.48, mrr=12785;
   const rows=[],bals=[],nets=[];
   MOS.forEach(m=>{
     mrr+=grow;
